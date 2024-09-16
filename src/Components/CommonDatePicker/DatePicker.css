@@ -1,0 +1,25 @@
+.common-datepicker-wrapper .form-label {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color: #1e2125;
+  margin: 0;
+}
+
+.common-datepicker-wrapper .react-datepicker-wrapper {
+  width: 100%;
+}
+.common-datepicker-wrapper .form-control {
+  background: #fff;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: none;
+}
+.common-datepicker-wrapper .required-field.form-control {
+  border: 1px solid #bf202f;
+}
+.common-datepicker-wrapper div.react-datepicker-popper {
+  z-index: 4;
+}

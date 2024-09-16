@@ -1,0 +1,31 @@
+.common-textfield-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.common-textfield-wrapper .form-control {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: none;
+}
+.common-textfield-wrapper .form-control:focus {
+  border: 1px solid #be202f !important;
+}
+
+.common-textfield-wrapper .form-control.login {
+  box-shadow: 0px 0px 120px 11px rgba(0, 0, 0, 0.05);
+}
+.common-textfield-wrapper .form-control.required-field {
+  border: 1px solid #bf202f;
+}
+
+.common-textfield-wrapper .form-label {
+  /* ; */
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 24px;
+  color: #1e2125;
+  margin: 0;
+}

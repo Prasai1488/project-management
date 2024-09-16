@@ -1,0 +1,20 @@
+# Use the official Node.js 21 image as base
+FROM node:21
+
+# Set working directory
+WORKDIR /repair_and_maintenance/client
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN yarn
+
+# Copy remaining application files
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Command to run your application
+CMD ["yarn", "start:local"]

@@ -1,0 +1,131 @@
+.lead-tab-wrapper .buttons-container {
+  gap: 20px;
+}
+
+.lead-tab-wrapper #lead-tab {
+  padding: 10px;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid #dee1e6;
+  border-radius: 10px;
+  width: fit-content;
+}
+.lead-tab-wrapper #lead-tab .nav-item .nav-link {
+  background: transparent;
+  padding: 5px 10px;
+  border: 0px;
+  color: #424143;
+  font-weight: 400;
+  box-shadow: none;
+}
+.lead-tab-wrapper #lead-tab .nav-item .nav-link:focus {
+  border: none;
+  outline: 0;
+}
+
+.lead-tab-wrapper #lead-tab .nav-item .nav-link.active {
+  background: var(--blue-primary);
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 400;
+  box-shadow: none;
+  outline: 0;
+}
+
+.lead-tab-wrapper #lead-tab .nav-item .nav-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.lead-tab-wrapper .buttons-container .buttons-only {
+  gap: 5px;
+  background: #fff;
+  border: 1px solid #dee1e6;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.lead-tab-wrapper .buttons-container .buttons-only .btn {
+  background: transparent;
+  padding: 5px 10px;
+  border: 0px;
+  font-weight: 400;
+  box-shadow: none;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.32px;
+}
+
+.lead-tab-wrapper .buttons-container .buttons-only .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.lead-tab-wrapper .buttons-container .buttons-only .btn.approve-button {
+  color: #198754;
+}
+.lead-tab-wrapper .buttons-container .buttons-only .btn.cancel-button {
+  color: #bf202f;
+}
+
+#lead-tab .nav-item .number {
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  width: 25px;
+  height: 25px !important;
+  border-radius: 50%;
+}
+#lead-tab .nav-item.filled .number {
+  background: #be202f;
+}
+
+#lead-tab {
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+}
+
+#lead-tab li .number {
+  font-size: 12px;
+}
+
+#lead-tab li {
+  font-size: 12px;
+}
+
+#lead-tab .joiner {
+  width: 50px;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.details-wrapper {
+  height: auto;
+  border-radius: 10px;
+}
+
+.modal-create-header h4 {
+  color: var(--blue-primary);
+}
+
+.modal-create-header .create-btn {
+  border-radius: 12px;
+  background: var(--blue-primary);
+  box-shadow: 0px 4px 24px 0px rgba(42, 102, 255, 0.3);
+  display: flex;
+  /* height: 48px; */
+  padding: 8px 24px 8px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  border: none;
+  font-size: 16px;
+  position: relative;
+  right: 0;
+  top: 0;
+  line-height: 18px;
+  height: min-content;
+  width: min-content;
+}

@@ -1,0 +1,23 @@
+.common-async-select-wrapper .form-label {
+  /* ; */
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color: #1e2125;
+  margin: 0;
+}
+
+.common-async-select-wrapper .async-select-field > div {
+  border-radius: 8px;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 120px 11px rgba(0, 0, 0, 0.05);
+}
+.common-async-select-wrapper .async-select-field {
+  border-radius: 8px;
+}
+
+.common-async-select-wrapper .async-select-field.required-field {
+  border: 1px solid #bf202f;
+}

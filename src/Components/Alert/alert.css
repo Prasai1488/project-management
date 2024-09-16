@@ -1,0 +1,126 @@
+.container {
+  margin-top: 30vh;
+  align-items: center;
+  /* display: flex;
+  justify-content: center; */
+}
+
+.alertContent {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  border-radius: 20px;
+  padding: 30px 30px 30px;
+
+  p {
+    margin-bottom: 60px;
+    font-size: 18px;
+  }
+  button.accept {
+    background-color: #05762e;
+    border: none;
+    border-radius: 5px;
+    width: 100px;
+    padding: 10px;
+    font-size: 12px;
+    color: white;
+    box-shadow: 0px 6px 18px -5px rgba(237, 103, 85, 1);
+  }
+  button.reject {
+    background-color: #bf202f;
+    border: none;
+    border-radius: 5px;
+    width: 100px;
+    padding: 10px;
+    font-size: 12px;
+    color: white;
+    box-shadow: 0px 6px 18px -5px rgba(237, 103, 85, 1);
+  }
+}
+
+.alert {
+  display: flex;
+  justify-content: space-evenly;
+  div {
+    display: flex;
+  }
+}
+
+.modal.create-alert-modal {
+  display: flex;
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  box-shadow: 10px 14px 134px 10px rgba(221, 227, 248, 0.6);
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal.create-alert-modal.display-block {
+  display: block;
+}
+.modal.create-alert-modal.display-none {
+  display: none;
+}
+
+.modal.create-alert-modal .modal-content {
+  display: flex;
+  background-color: #f0f2f5;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 2px 14px 134px 10px rgba(5, 18, 66, 0.3);
+}
+
+.modal.create-alert-modal .modal-content .modal-body {
+  border-radius: 8px;
+  padding: 16px 8px;
+}
+.modal.create-alert-modal .modal-content .modal-body .create-close-button {
+  border: 0px;
+  position: absolute;
+  right: 0;
+  top: 0px;
+  margin: 0;
+  padding: 0;
+  color: #bf202f;
+}
+
+.modal.create-alert-modal .modal-content .modal-body .create-close-button:focus {
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.modal.create-alert-modal .modal-content .modal-body h2 {
+  font-size: 1.2rem;
+  color: #000;
+  text-align: center;
+  font-family: "Poppins";
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.modal.create-alert-modal .modal-content .modal-body .buttons {
+  gap: 20px;
+}
+.modal.create-alert-modal .modal-content .modal-body .buttons button.yes-button {
+  background-color: #bf202f;
+  color: #fff;
+}
+.modal.create-alert-modal .modal-content .modal-body .buttons button.no-button {
+  background-color: #444;
+  color: #fff;
+}
+
+.modal.create-alert-modal .modal-content .modal-body .buttons button:hover {
+  opacity: 0.8;
+}
+.modal.create-alert-modal .modal-content .modal-body .buttons button:focus {
+  outline: 0;
+  box-shadow: none;
+}

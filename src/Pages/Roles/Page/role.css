@@ -1,0 +1,102 @@
+.create-department-wrapper {
+  border-radius: 10px;
+  padding: 20px;
+  background: var(--background-color);
+}
+/* permission css */
+.permission-container {
+  margin: 10px auto;
+}
+.permission-container .title-container {
+  padding: 0;
+}
+.permission-container .title-container h5 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.32px;
+  color: #1e2125;
+}
+
+.permission-container .title-container .sub-title-container label {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color: #1e2125;
+}
+
+.permission-container .col-sm-5 {
+  background: #ffffff;
+  border-radius: 5px;
+  min-height: 80px;
+  max-height: 100%;
+}
+
+.permission-container
+  .col-sm-5
+  .card-permission
+  .header-content
+  .row
+  .col-11
+  h4 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.2px;
+  color: #000000;
+}
+
+.permission-container
+  .col-sm-5
+  .card-permission
+  .header-content
+  .row
+  .col-11
+  p {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.2px;
+  color: #555555;
+}
+
+.permission-container .col-sm-2 .align-middle button {
+  background: #555555;
+  border-radius: 5px;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+.permission-container .col-sm-2 .align-middle button svg {
+  fill: #fff;
+}
+
+.permission-container
+  .col-sm-5
+  .card-permission
+  .card-body
+  .permission-list
+  .list-permission
+  .col-11 {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.2px;
+  color: #555555;
+}
+
+.permission-list {
+  margin: 0;
+  max-height: 250px;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.permission-list .list-permission {
+  margin: 0;
+
+}

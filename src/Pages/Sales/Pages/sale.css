@@ -1,0 +1,10 @@
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.sales-table .table-scrollable {
+  display: block;
+  height: 300px;
+  overflow: auto;
+}

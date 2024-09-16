@@ -1,0 +1,16 @@
+.common-textfield-wrapper {
+  .form-control.login:focus {
+    border: 1px solid var(--blue-primary);
+    box-shadow: none;
+  }
+}
+
+.error-message {
+  color: rgb(185, 30, 30);
+  font-size: 0.75rem;
+  text-align: start;
+}
+
+.common-textfield-wrapper p {
+  margin: 0;
+}
