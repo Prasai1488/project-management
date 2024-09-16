@@ -1,0 +1,217 @@
+.filter-btn {
+  position: absolute;
+  right: 0;
+}
+.filter-btn button {
+  background: white;
+  /* color: var(--blue-primary); */
+  padding: 8px 10px;
+  /* text-transform: uppercase; */
+  border: 0;
+  outline: 0;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.filter-btn button:hover {
+  background: var(--blue-primary);
+  color: white;
+}
+
+/*  */
+.create-button {
+  background: var(--blue-primary);
+  border-radius: 4px;
+  color: #fff;
+  /* width: 97px; */
+  height: 42px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.32px;
+}
+.next-button {
+  background: none;
+  border-radius: 4px;
+  color: var(--blue-primary);
+  /* width: 97px; */
+  height: 42px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.32px;
+  border: 2px solid var(--blue-primary);
+}
+.next-button:hover {
+  color: var(--blue-primary) !important;
+}
+/* .create-button:hover {
+  background: var(--blue-primary);
+  color: #fff;
+} */
+/* .create-button:disabled {
+  background: var(--blue-primary) 88;
+  color: #fff;
+} */
+.create-button svg {
+  margin-right: 6px;
+}
+.print-button {
+  background: var(--blue-primary) !important;
+  border-radius: 4px;
+  color: #fff;
+  height: 30px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.32px;
+}
+.print-button:hover {
+  background: var(--blue-primary) !important;
+  color: #fff;
+}
+.print-button:disabled {
+  background: var(--blue-primary) 88 !important;
+  color: #fff;
+}
+.print-button svg {
+  margin-right: 6px;
+}
+
+.create-button:focus,
+.filter-button:focus,
+.print-button:focus {
+  box-shadow: none;
+  outline: 0;
+}
+.filter-button {
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #dee1e6;
+  text-transform: uppercase;
+  color: var(--blue-primary);
+
+  height: 38px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* align-items: center; */
+  transition: all 0.25s ease-in-out;
+}
+.filter-button:hover {
+  background: var(--blue-primary);
+  color: #fff;
+}
+.filter-button.active-button {
+  background: var(--blue-primary);
+  color: #fff;
+}
+
+.filter-button svg {
+  margin-right: 6px;
+  color: var(--blue-primary);
+  transition: all 0.25s ease-in-out;
+}
+
+.filter-button.active-button svg {
+  color: #fff;
+}
+.filter-button:hover svg {
+  color: #fff;
+}
+
+/* common action button */
+.common-action-button {
+  color: #1e2125;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  cursor: pointer;
+  transition: all 0.25s;
+  padding: 0.6rem 1rem 0.6rem 0.6rem;
+  width: 100%;
+  background: #fff;
+  border: 0px;
+  text-align: left;
+}
+
+.common-action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.common-action-button svg {
+  fill: #000;
+  transition: all 0.25s;
+}
+.form-control.form-daterangepicker {
+  font-size: 1rem;
+  color: rgb(128 128 128);
+  padding: 2px 8px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.form-control.form-daterangepicker:focus {
+  border: 1px solid rgb(191 32 47);
+  box-shadow: 0 0 0 1px rgb(191 32 47);
+}
+.form-control.form-daterangepicker,
+.btn-filter {
+  width: 200px !important;
+}
+@media (max-width: 1450px) {
+  .form-control.form-daterangepicker,
+  .btn-filter {
+    width: 150px !important;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-field {
+  opacity: 0;
+  margin-right: 10px;
+  display: none;
+  animation: none;
+}
+.animate-field.show {
+  display: block;
+  animation: fade-in 0.5s;
+}
+
+.animate-field.show:first-child {
+  animation-delay: 0.3s;
+}
+.animate-field.show:nth-child(2) {
+  animation-delay: 0.25s;
+}
+.animate-field.show:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.animate-field.show:nth-child(4) {
+  animation-delay: 0.15s;
+}
+.animate-field.show:nth-child(5) {
+  animation-delay: 0.1s;
+}
+.animate-field.show:nth-child(6) {
+  animation-delay: 0.05s;
+}

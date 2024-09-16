@@ -1,0 +1,22 @@
+.detail-action-button {
+  background: #fff;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  padding: 4px 6px;
+  border-radius: 6px !important;
+}
+.edit-icon {
+  height: 15px;
+  width: 15px;
+  color: rgb(61, 57, 57);
+}
+.delete-icon {
+  height: 15px;
+  width: 15px;
+  color: rgb(184, 7, 7);
+}
+.detail-action-button:focus {
+  outline: 0;
+  box-shadow: none;
+}

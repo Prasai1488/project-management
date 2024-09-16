@@ -1,0 +1,130 @@
+.common-page-header {
+  align-items: center;
+  /* background: var(--background-color); */
+  border-radius: 10px;
+
+  padding: 10px 0;
+}
+.common-page-header .title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--blue-primary);
+  height: min-content;
+  line-height: 21px;
+}
+.common-page-header .create-btn {
+  border-radius: 12px;
+  background: var(--blue-primary);
+  box-shadow: 0px 4px 24px 0px rgba(42, 102, 255, 0.3);
+  display: flex;
+  /* height: 48px; */
+  padding: 8px 24px 8px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  border: none;
+  font-size: 16px;
+}
+.common-page-header .filter {
+  border-radius: 12px;
+  background: var(--blue-primary);
+  box-shadow: 0px 4px 24px 0px rgba(42, 102, 255, 0.3);
+  display: flex;
+  /* height: 48px; */
+  padding: 8px 24px 8px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  border: none;
+  font-size: 16px;
+
+  /* position: absolute; */
+}
+
+.showing-entries-filter {
+  height: min-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  position: relative;
+}
+
+.showing-entries-filter p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.filter-section {
+  z-index: 100;
+  position: absolute;
+  right: 0;
+  background: white;
+  top: 5px;
+  border-radius: 5px;
+  min-height: 200px;
+  min-width: 300px;
+  padding: 20px;
+}
+
+.active-filter-btn {
+  background-color: var(--blue-primary) !important;
+  color: white;
+}
+
+/* display-entry-and-filter-content start */
+.showing-entries-filter .fetching-data .period {
+  position: relative;
+  top: 0px;
+  opacity: 1;
+  font-size: 1rem;
+  font-style: normal;
+}
+
+@keyframes slideIn {
+  0% {
+    top: 0px;
+  }
+  25% {
+    top: -1px;
+  }
+  50% {
+    top: -2px;
+  }
+  75% {
+    top: -1px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+/* Apply animation to each period element */
+.period:nth-child(1) {
+  animation: slideIn ease-in-out 0.8s infinite;
+}
+
+.period:nth-child(2) {
+  animation: slideIn ease-in-out 0.9s infinite;
+}
+
+.period:nth-child(3) {
+  animation: slideIn ease-in-out 1s infinite;
+}
+.input-filter {
+  border-radius: 8px;
+  padding: 5px;
+  width: 100px;
+  height: 40px;
+  border-color: #dee2e6;
+  border-width: 1px;
+  border-style: solid;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.input-filter:focus {
+  border-color: #007bff;
+}

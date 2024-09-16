@@ -1,0 +1,100 @@
+.create-customer-wrapper {
+  border-radius: 10px;
+  padding: 20px;
+  background: var(--background-color);
+}
+
+.form-label {
+  /* ; */
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 24px;
+  color: #1e2125;
+  margin: 0;
+}
+
+.reply-btn {
+  width: 100%;
+  background: rgba(190, 32, 47, 0.09);
+  border: none;
+  color: var(--blue-primary);
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.reply-btn:hover {
+  color: var(--blue-primary);
+}
+
+.issuer-btn {
+  background: #e0e7fa;
+  border: none;
+  color: #2964fa;
+  font-size: 14px;
+  padding: 5px 40px;
+
+  border-radius: 20px;
+}
+
+.issuer-btn:hover {
+  color: #2964fa;
+}
+
+.operator-btn {
+  background-color: #ddede4;
+  border: none;
+  color: #11ac64;
+  font-size: 14px;
+  padding: 5px 40px;
+
+  border-radius: 20px;
+}
+
+.operator-btn:hover {
+  color: #11ac64;
+}
+
+.user-desc {
+  background-color: white;
+  margin: 19px;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.username {
+  margin-bottom: 0;
+}
+
+.name-email {
+  line-height: 1;
+}
+
+.description-box {
+  border-radius: 10px;
+  padding: 20px;
+  background: var(--background-color);
+}
+
+.attachments {
+  display: flex;
+  gap: 10px;
+  justify-content: start;
+  margin-top: 20px;
+}
+
+.attachment-btn {
+  max-width: fit-content;
+  background: rgba(190, 32, 47, 0.09);
+  border: none;
+  color: var(--blue-primary);
+  font-size: 14px;
+  padding: 5px 20px;
+  border-radius: 60px;
+}
+
+.attachment-btn:hover {
+  color: var(--blue-primary);
+}

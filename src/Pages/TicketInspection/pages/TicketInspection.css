@@ -1,0 +1,112 @@
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  /* font-weight: bold; */
+  margin-bottom: 5px;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-check-inline {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.form-check-input {
+  margin-right: 10px;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+}
+
+.text-field-wrapper {
+  margin-top: 10px;
+}
+
+.image-upload-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.image-upload-section label {
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+}
+
+.image-upload-section input[type="file"] {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.image-upload-section input[type="file"].is-invalid {
+  border-color: #dc3545;
+}
+
+/* Signature  */
+.signature-upload-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.signature-upload-section label {
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+}
+
+.signature-upload-section input[type="file"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.signature-upload-section .is-invalid {
+  border-color: #dc3545;
+}
+
+.signature-upload-section .invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+#collapseQA.show .card.card-body {
+  border: 1px solid #ced4da;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.clear-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #9b7276;
+  border: 1px solid #f5c6cb;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.clear-button:hover {
+  background-color: #fff;
+  color: #491217;
+}

@@ -1,0 +1,44 @@
+{
+  "coreSetup": [
+    "update_palika",
+    "view_palika",
+    "add_palika",
+    "update_district",
+    "view_district",
+    "add_district",
+    "update_province",
+    "view_province",
+    "add_province",
+    "update_currency",
+    "view_currency",
+    "add_currency",
+    "update_country",
+    "view_country",
+    "add_country",
+    "add_system_setup"
+  ],
+
+  "userSetup": ["change_user_password", "update_user", "view_user", "add_user"],
+  "loanSetup": ["change_user_password", "update_user", "view_user", "add_user"],
+  "userRole": ["update_role", "view_role", "add_role"],
+  "hierarchy": ["add_hierarchy", "view_hierarchy", "update_hierarchy"],
+  "department": ["add_department", "view_department", "update_department"],
+  "changePassword": ["change_user_password"],
+  "lead": [
+    "add_loan_product_type",
+    "view_loan_product_type",
+    "update_loan_product_type",
+    "add_loan_lead",
+    "view_loan_lead",
+    "update_loan_lead",
+    "add_loan_info",
+    "view_loan_info",
+    "update_loan_info",
+    "change_lead_status"
+  ],
+  "loan": ["add_loan_lead", "view_loan_lead", "update_loan_lead", "add_loan_info", "view_loan_info", "update_loan_info"],
+  "inspection": ["view_inspection", "add_inspection", "update_inspection", "delete_inspection", "approve_inspection"],
+  "collectionAndRecovery": ["view_recovery", "add_recovery", "update_recovery", "delete_recovery"],
+  "report": ["view_report", "add_report", "update_report", "delete_report"],
+  "collateralType": ["can_view_collateral", "can_update_collateral", "can_delete_collateral"]
+}

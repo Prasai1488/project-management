@@ -1,0 +1,218 @@
+:root {
+  --blue-primary: #bf202f;
+  --background-color: rgba(255, 255, 255, 0.5);
+  --background-color-dark: rgba(255, 255, 255, 0.999999);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Poppins, sans-serif;
+}
+
+.table-scrollable {
+  overflow: auto;
+  height: calc(100vh - 60px);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.listing-table {
+  width: 100%;
+  border-collapse: separate;
+  text-align: center;
+  border-spacing: 0px 5px;
+  background: none;
+}
+.listing-table thead {
+  position: sticky;
+  top: 0px;
+
+  background: var(--background-color-dark);
+}
+.listing-table td,
+.listing-table th {
+  padding: 10px 10px;
+}
+.listing-table tr {
+  background: var(--background-color);
+  border-radius: 0.25rem;
+}
+/* .listing-table tr :first-child { */
+/* border-radius: 5px 0 0 5px;
+}
+.listing-table tr :last-child {
+  border-radius: 0 5px 5px 0;
+} */
+.listing-table th {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #a49e9e;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+.listing-table tbody {
+  margin-top: 10px;
+}
+.listing-table tbody tr th,
+.listing-table tbody tr td {
+  background: var(--background-color);
+}
+.listing-table tbody tr td {
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  /* text-transform: capitalize; */
+  vertical-align: middle;
+}
+.listing-table tbody tr > :first-child {
+  border-radius: 5px 0 0 5px;
+}
+.listing-table tbody tr > :last-child {
+  border-radius: 0 5px 5px 0;
+}
+.listing-table .column_resizer_body {
+  border: none;
+}
+.listing-table .columnResizer {
+  padding: 0 0 0 0;
+  position: relative;
+  border-right: none;
+}
+.listing-table .columnResizer:not(.disabled_column_resize):after {
+  position: absolute;
+  left: 5px;
+  top: calc(50% - 6px);
+  width: 13px;
+}
+.listing-table .columnResizer:not(.disabled_column_resize):hover::after {
+  content: "|";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  opacity: 1;
+  font-size: 1.2rem;
+  width: 0px;
+}
+.listing-table .columnResizer:not(.disabled_column_resize)::before {
+  content: "|";
+  opacity: 0.5;
+  position: absolute;
+  left: 0px;
+  top: 3px;
+  font-size: 1.2rem;
+  width: 0px;
+}
+
+.listing-table .column_resizer_body {
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+}
+
+/* password field eye icon */
+.password-field .fa-eye-button {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+}
+.password-field-inside {
+  position: relative;
+}
+.password-field-inside .fa-eye-button {
+  position: absolute;
+  top: 35px;
+  right: 30px;
+}
+
+/* for input field */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.toast-close-btn:focus {
+  border: none;
+  outline: none;
+}
+
+.toast-sonner {
+  padding: 12px 10px;
+  .toast-close-btn {
+    left: 99%;
+    border-radius: 50%;
+  }
+}
+
+.create-btn {
+  border-radius: 50%;
+  background: var(--blue-primary);
+  box-shadow: 0px 4px 24px 0px rgba(42, 102, 255, 0.3);
+  height: 60px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  border: none;
+  outline: none;
+  position: absolute;
+  bottom: 40px;
+  outline-color: var(--blue-primary);
+  border-color: var(--blue-primary);
+  right: 40px;
+  transition: transform 0.3s ease-out;
+}
+.create-btn:hover {
+  transform: scale(1.2);
+  border-color: var(--blue-primary);
+  outline-color: var(--blue-primary);
+  outline: none;
+  transition: transform 0.3s ease-in;
+}
+
+.createobtn:focus {
+  outline: none;
+  outline-color: var(--blue-primary);
+  border-color: var(--blue-primary);
+}
+
+.badge {
+  padding: 5px 10px;
+  /* font-size: 12px; */
+  border-radius: 25px !important;
+  font-weight: 600;
+  min-width: 100px;
+}
+.badge-warning {
+  background-color: #e7ca75;
+}
+
+.badge-danger {
+  background-color: #ed5463;
+}
+
+.listing-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

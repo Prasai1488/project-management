@@ -1,0 +1,23 @@
+.common-textarea-wrapper .form-label {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color: #1e2125;
+  margin: 0;
+}
+
+.common-textarea-wrapper textarea {
+  background: #ffffff;
+  border-radius: 8px;
+  height: 38px;
+  overflow-y: scroll;
+  border: 1px solid #eaeaea;
+  padding: 6px 12px;
+}
+
+.common-textarea-wrapper textarea:focus {
+  outline: 0;
+  box-shadow: none;
+  border: 1px solid #eaeaea;
+}

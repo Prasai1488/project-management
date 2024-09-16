@@ -1,0 +1,46 @@
+.header-section-tab-wrapper .nav-tabs {
+  border-radius: 0px;
+  border-width: 0px 0px 1px 0px;
+  border-color: #dee1e6;
+  border-style: solid;
+}
+
+.header-section-tab-wrapper .nav-tabs .nav-item:first-child .nav-link {
+  border-radius: 4px 0 0 0;
+}
+.header-section-tab-wrapper .nav-tabs .nav-item:last-child .nav-link {
+  border-radius: 0 4px 0 0;
+}
+.header-section-tab-wrapper .nav-tabs .nav-link {
+  background: transparent;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 19px;
+  letter-spacing: -0.32px;
+  color: #1e2125;
+  width: auto;
+  padding: 10px 14px;
+  border: none;
+  outline: none;
+  border-radius: 0;
+}
+.header-section-tab-wrapper .nav-tabs .nav-link.active {
+  font-weight: 600;
+  color: var(--blue-primary);
+  border-width: 0px 0px 2px 0px;
+  border-color: var(--blue-primary);
+  border-style: solid;
+}
+
+.header-section-tab-wrapper .tab-content .tab-pane {
+  display: none;
+}
+.header-section-tab-wrapper .tab-content .tab-pane.active.show {
+  display: block;
+}
+
+.page-content .container-fluid .header-section-tab-wrapper > div.row {
+  height: 47px;
+  align-items: center;
+}
