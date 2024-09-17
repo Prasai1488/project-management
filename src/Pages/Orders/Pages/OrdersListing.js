@@ -7,7 +7,14 @@ import { getNext, getSpecificOrders } from "../Redux/thunk";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 import { ordersEditSuccess } from "../Redux/ordersSlice";
 
-const OrdersListing = ({ setShowOrdersModal, setPostsPerPage, setPage, page, postsPerPage }) => {
+const OrdersListing = ({
+  setShowOrderDetailsModal,
+  showOrderDetailsModal,
+  setPostsPerPage,
+  setPage,
+  page,
+  postsPerPage,
+}) => {
   const dispatch = useDispatch();
   useState(false);
   const listRef = useRef(null);
@@ -23,6 +30,24 @@ const OrdersListing = ({ setShowOrdersModal, setPostsPerPage, setPage, page, pos
     setPage,
   });
 
+
+ const ordersData =[
+  {
+    sn: "1000",
+    order:"order1",
+    customer: "Heamant",
+    orderno: "OR-001",
+
+    packedon:"2024-09-01",
+    approvedno:"AP-001",
+    dispatchno:"DP-001",
+    status:"Approved"
+
+    
+    
+  }
+ ]
+
   const handleEdit = async (order) => {
     dispatch(ordersEditSuccess(order));
     setShowProductModal(true);
@@ -30,8 +55,12 @@ const OrdersListing = ({ setShowOrdersModal, setPostsPerPage, setPage, page, pos
 
   const handleInspection = async () => {
     await dispatch(getSpecificOrders());
-    setShowOrdersModal(true);
+    setShowOrderDetailsModal(true);
   };
+
+
+
+
   return (
     <>
       {orders && orders?.length > 0 ? (
@@ -42,27 +71,29 @@ const OrdersListing = ({ setShowOrdersModal, setPostsPerPage, setPage, page, pos
                 <tr>
                   <th>#</th>
 
-                  <th>PRODUCT NAME</th>
+                  <th>ORDER</th>
 
-                  <th>HS CODE</th>
+                  <th>CUSTOMER</th>
 
-                  <th>CATERGORY</th>
-
+                  <th>ORDERED NO</th>
+                  <th>PACKED NO</th>
+                  <th>APPROVED NO</th>
+                  <th>DISPATCHED NO</th>
                   <th>STATUS</th>
 
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {orders?.map((order, i) => {
+                {ordersData?.map((order, i) => {
                   const { status } = order;
                   return (
                     <tr key={Math.random} onDoubleClick={() => handleInspection(order)} style={{ cursor: "pointer" }}>
                       <td>{i + 1}</td>
 
-                      <td>{order ? order.title : "N/A"}</td>
-                      <td>{order ? order.price : "N/A"}</td>
-                      <td>{order ? order.category : "N/A"}</td>
+                      <td>{order ? order.order.name : "N/A"}</td>
+                      <td>{order ? order.customer : "N/A"}</td>
+                      <td>{order ? order.order : "N/A"}</td>
                       <td>{status ? status : "N/A"}</td>
                       <td>
                         <DetailActionButton type={"edit"} onClick={() => handleEdit(order)} />
@@ -83,6 +114,16 @@ const OrdersListing = ({ setShowOrdersModal, setPostsPerPage, setPage, page, pos
         </div>
       ) : (
         <NoData />
+      )}
+      {showOrderDetailsModal && (
+        <Modal
+          showModal={showOrderDetailsModal}
+          setShowModal={setShowOrderDetailsModal}
+          header={"Order Details"}
+          size={"modal-xl"}
+        >
+          <OrderDetails dispatch={dispatch} setShowModal={setShowOrderDetailsModal} onScroll={handleScroll} />
+        </Modal>
       )}
     </>
   );

@@ -27,6 +27,7 @@ import unitReducer from "../Pages/Unit/Redux/unitSlice";
 import newTicketInspectionReducer from "../Pages/TicketInspection/Redux/newTicketInspectionSlice";
 import salesReducer from "../Pages/Sales/Redux/salesSlice";
 import saledetailReducer from "../Pages/SaleDetails/Redux/salesDetailsSlice.js";
+import orderReducer from "../Pages/Orders/Redux/ordersSlice.js";
 const rootReducer = combineReducers({
   auth: authReducer,
   alert: alertReducer,
@@ -54,6 +55,7 @@ const rootReducer = combineReducers({
   ticketInspection: ticketInspectionReducer,
   newTicketInspection: newTicketInspectionReducer,
   item: itemReducer,
+  order: orderReducer,
   questionnaire: questionnaireReducer,
   issue: issueReducer,
   contactPerson: contactPersonReducer,
