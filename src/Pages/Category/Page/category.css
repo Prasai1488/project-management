@@ -1,0 +1,35 @@
+ .create-category-wrapper {
+    padding: 20px;
+    background-color: #f7f7f7; 
+    border-radius: 8px;
+  }
+  
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group.d-flex.align-items-center {
+    justify-content: center; 
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 8px; 
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+   
+
+
+  
