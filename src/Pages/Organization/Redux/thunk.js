@@ -1,62 +1,80 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as API from "./api";
 
-// get organization
-export const getOrganization = createAsyncThunk(
-  "organization/getOrganization",
+// get organizations
+export const getOrganizations = createAsyncThunk(
+  "organization/getOrganizations",
   async (postsPerPage, { rejectWithValue }) => {
     try {
-      const { data } = await API.getOrganization(postsPerPage);
+      const { data } = await API.getOrganizations(postsPerPage);
       return data;
     } catch (error) {
-      return rejectWithValue("Failed to get organization.");
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
     }
   }
 );
 
-// get all organization
-export const getAllOrganization = createAsyncThunk(
-  "organization/getAllOrganization",
-  async (_, { rejectWithValue }) => {
+// get specific organization
+export const getSpecificOrganization = createAsyncThunk(
+  "organization/getSpecificOrganization",
+  async (id, { rejectWithValue }) => {
     try {
-      const { data } = await API.getAllOrganization();
+      const { data } = await API.getSpecificOrganization(id);
       return data;
     } catch (error) {
-      return rejectWithValue("Failed to get organization.");
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
     }
   }
 );
 
-// get previous
-export const getPrevious = createAsyncThunk("organization/getPrevious", async (previous, { rejectWithValue }) => {
-  try {
-    const { data } = await API.getPrevious(previous);
-    return data;
-  } catch (error) {
-    return rejectWithValue("Failed to get organization.");
-  }
-});
-// get next
-export const getNext = createAsyncThunk("organization/getNext", async (next, { rejectWithValue }) => {
-  try {
-    const { data } = await API.getNext(next);
-
-    return data;
-  } catch (error) {
-    return rejectWithValue("Failed to get organization.");
-  }
-});
-
-// get particular page
-export const getPageOrganization = createAsyncThunk(
-  "organization/getPageOrganization",
-  async (data, { rejectWithValue }) => {
-    const { number, postsPerPage } = data;
+// get all organizations
+export const getAllOrganizations = createAsyncThunk(
+  "organization/getAllOrganizations",
+  async ({ postsPerPage, page, status, priority, level }, { rejectWithValue }) => {
     try {
-      const { data } = await API.getPageOrganization(number, postsPerPage);
+      const { data } = await API.getAllOrganizations(postsPerPage, page, status, priority, level);
       return data;
     } catch (error) {
-      rejectWithValue("Failed to get organization.");
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    }
+  }
+);
+
+// get previous organization
+export const getPreviousOrganization = createAsyncThunk(
+  "organization/getPreviousOrganization",
+  async (previous, { rejectWithValue }) => {
+    try {
+      const { data } = await API.getPreviousOrganization(previous);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    }
+  }
+);
+
+// get next organization
+export const getNextOrganization = createAsyncThunk(
+  "organization/getNextOrganization",
+  async (next, { rejectWithValue }) => {
+    try {
+      const { data } = await API.getNextOrganization(next);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    }
+  }
+);
+
+// get particular page of organizations
+export const getPageOrganizations = createAsyncThunk(
+  "organization/getPageOrganizations",
+  async ({ number, postsPerPage }, { rejectWithValue }) => {
+    try {
+      const { data } = await API.getPageOrganizations(number, postsPerPage);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
     }
   }
 );
@@ -64,78 +82,39 @@ export const getPageOrganization = createAsyncThunk(
 // create organization
 export const createOrganization = createAsyncThunk(
   "organization/createOrganization",
-  async (data, { rejectWithValue, dispatch }) => {
-    const { name, address, phoneNo1, phoneNo2, panVatNo, email, websiteUrl, favicon, logo, stamp, signature } = data;
+  async (data, { rejectWithValue }) => {
+    const body = JSON.stringify({ ...data });
     try {
-      const body = new FormData();
-      body.append("name", name);
-      body.append("phoneNo1 ", phoneNo1);
-      body.append("email", email);
-      body.append("phoneNo2", phoneNo2);
-      body.append("panVatNo", panVatNo);
-      body.append("address", address);
-      body.append("websiteUrl", websiteUrl);
-
-      if (favicon) {
-        body.append("favicon", favicon);
-      }
-      if (logo) {
-        body.append("logo", logo);
-      }
-      if (stamp) {
-        body.append("stamp", stamp);
-      }
-      if (signature) {
-        body.append("signature", signature);
-      }
       const { data } = await API.createOrganization(body);
       return data;
     } catch (error) {
-      return rejectWithValue("Failed to create organization.");
-    }
-  }
-);
-export const updateOrganization = createAsyncThunk(
-  "organization/updateOrganization",
-  async (data, { rejectWithValue, dispatch }) => {
-    const { id, values } = data;
-    const { name, phoneNo1, email, phoneNo2, panVatNo, address, websiteUrl, logo, stamp, favicon, signature } = values;
-    try {
-      const body = new FormData();
-      body.append("name", name);
-      body.append("phoneNo1 ", phoneNo1);
-      body.append("email", email);
-      body.append("phoneNo2", phoneNo2);
-      body.append("panVatNo", panVatNo);
-      body.append("address", address);
-      body.append("websiteUrl", websiteUrl);
-      if (favicon) {
-        body.append("favicon", favicon);
-      }
-      if (logo) {
-        body.append("logo", logo);
-      }
-      if (stamp) {
-        body.append("stamp", stamp);
-      }
-      if (signature) {
-        body.append("signature", signature);
-      }
-      const { data } = await API.updateOrganization(id, body);
-      return data;
-    } catch (error) {
-      return rejectWithValue("Failed to update organization.");
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
     }
   }
 );
 
-// handle search
-export const handleSearch = createAsyncThunk("organization/handleSearch", async (data, { rejectWithValue }) => {
-  const { search, postsPerPage } = data;
-  try {
-    const { data } = await API.handleSearch(search, postsPerPage);
-    return data;
-  } catch (error) {
-    rejectWithValue("Failed to get organization");
+// update organization
+export const updateOrganization = createAsyncThunk(
+  "organization/updateOrganization",
+  async ({ id, values }, { rejectWithValue }) => {
+    try {
+      const { data } = await API.updateOrganization(id, values);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    }
   }
-});
+);
+
+// handle search for organizations
+export const handleOrganizationSearch = createAsyncThunk(
+  "organization/handleOrganizationSearch",
+  async ({ search, postsPerPage }, { rejectWithValue }) => {
+    try {
+      const { data } = await API.handleOrganizationSearch(search, postsPerPage);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    }
+  }
+);

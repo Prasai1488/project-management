@@ -1,111 +1,134 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import {
-  getOrganization,
-  getAllOrganization,
-  getNext,
-  getPrevious,
-  getPageOrganization,
-  createOrganization,
-  updateOrganization,
-  handleSearch,
+  createOrganization as apiCreateOrganization,
+  updateOrganization as apiUpdateOrganization, // Renamed to avoid conflict
+  getAllOrganizations,
+  getOrganizations,
+  getNextOrganization,
+  handleOrganizationSearch,
+  getSpecificOrganization,
 } from "./thunk";
 
 const initialState = {
   organizations: [],
-  edit: false,
   organization: null,
+  edit: false,
   count: null,
   next: null,
   previous: null,
   loading: false,
   loadingUpdated: false,
   loadingOrganization: false,
+  loadingNext: false,
 };
 
-export const organizationSlice = createSlice({
+export const organizations = createSlice({
   name: "organization",
   initialState,
   reducers: {
     organizationEditSuccess: (state, action) => {
       state.edit = true;
-      state.organization = state.organizations.find(
-        (org) => org.id === action.payload
+      state.organization = action.payload;
+    },
+    clearAllOrganization: (state) => {
+      state.edit = false;
+      state.loading = false;
+      state.loadingUpdated = false;
+      state.loadingOrganization = false;
+      state.organization = null;
+      state.organizations = [];
+    },
+    clearEditOrganization: (state) => {
+      state.edit = false;
+    },
+    addOrganization: (state, action) => {
+      state.organizations = [...state.organizations, action.payload];
+    },
+    updateOrganization: (state, action) => { // Avoiding conflict with thunk imports
+      const index = state.organizations.findIndex(
+        (organization) => organization.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.organizations[index] = action.payload.updatedOrganization;
+      }
+    },
+    deleteOrganization: (state, action) => {
+      state.organizations = state.organizations.filter(
+        (organization) => organization.id !== action.payload
       );
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getOrganization.pending, (state) => {
-      state.loadingOrganization = true;
+    builder.addCase(getNextOrganization.pending, (state) => {
+      state.loadingNext = true;
     });
-    builder.addCase(getOrganization.fulfilled, (state, action) => {
-      state.loadingOrganization = false;
-      state.edit = false;
-      state.organizations = action.payload.results;
-      state.count = action.payload.count;
-      state.previous = action.payload.previous;
-      state.next = action.payload.next;
+    builder.addCase(getNextOrganization.fulfilled, (state, action) => {
+      state.loadingNext = false;
+      state.organizations = [
+        ...state.organizations,
+        ...action.payload?.organizations,
+      ];
+      state.next = action.payload;
     });
-    builder.addCase(getOrganization.rejected, (state) => {
-      state.loadingOrganization = false;
-      state.edit = false;
+    builder.addCase(getNextOrganization.rejected, (state) => {
+      state.loadingNext = false;
     });
-    builder.addCase(createOrganization.pending, (state) => {
+    builder.addCase(apiCreateOrganization.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(createOrganization.fulfilled, (state, action) => {
+    builder.addCase(apiCreateOrganization.fulfilled, (state, action) => {
       state.loading = false;
       state.edit = false;
     });
-    builder.addCase(createOrganization.rejected, (state) => {
+    builder.addCase(apiCreateOrganization.rejected, (state) => {
       state.loading = false;
       state.edit = false;
     });
-    builder.addCase(updateOrganization.pending, (state) => {
+    builder.addCase(getSpecificOrganization.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getSpecificOrganization.fulfilled, (state, action) => {
+      state.loading = false;
+      state.organization = action.payload;
+    });
+    builder.addCase(getSpecificOrganization.rejected, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(apiUpdateOrganization.pending, (state) => {
       state.loadingUpdated = true;
     });
-    builder.addCase(updateOrganization.fulfilled, (state, action) => {
+    builder.addCase(apiUpdateOrganization.fulfilled, (state, action) => {
       state.loadingUpdated = false;
       state.edit = false;
     });
-    builder.addCase(updateOrganization.rejected, (state) => {
+    builder.addCase(apiUpdateOrganization.rejected, (state) => {
       state.loadingUpdated = false;
-      state.edit = false;
     });
     builder.addMatcher(
-      isAnyOf(
-        getAllOrganization.pending,
-        getPrevious.pending,
-        getNext.pending,
-        getPageOrganization.pending,
-        handleSearch.pending
-      ),
+      isAnyOf(getOrganizations.pending, handleOrganizationSearch.pending),
       (state) => {
         state.loadingOrganization = true;
       }
     );
     builder.addMatcher(
       isAnyOf(
-        getAllOrganization.fulfilled,
-        getPrevious.fulfilled,
-        getNext.fulfilled,
-        getPageOrganization.fulfilled,
-        handleSearch.fulfilled
+        getOrganizations.fulfilled,
+        getAllOrganizations.fulfilled,
+        handleOrganizationSearch.fulfilled
       ),
       (state, action) => {
         state.loadingOrganization = false;
-        state.organizations = action.payload.results;
-        state.count = action.payload.count;
-        state.previous = action.payload.previous;
-        state.next = action.payload.next;
+        state.organizations = action.payload?.organizations;
+        state.count = action.payload.totalCount;
+        state.previous = action.payload?.previous;
+        state.next = action.payload;
       }
     );
     builder.addMatcher(
       isAnyOf(
-        getAllOrganization.rejected,
-        getPrevious.rejected,
-        getNext.rejected,
-        getPageOrganization.rejected,
-        handleSearch.rejected
+        getOrganizations.rejected,
+        getAllOrganizations.rejected,
+        handleOrganizationSearch.rejected
       ),
       (state) => {
         state.loadingOrganization = false;
@@ -113,5 +136,14 @@ export const organizationSlice = createSlice({
     );
   },
 });
-export const { organizationEditSuccess } = organizationSlice.actions;
-export default organizationSlice.reducer;
+
+export const {
+  organizationEditSuccess,
+  clearAllOrganization,
+  clearEditOrganization,
+  addOrganization,
+  updateOrganization, // Correctly defined without conflict
+  deleteOrganization,
+} = organizations.actions;
+
+export default organizations.reducer;

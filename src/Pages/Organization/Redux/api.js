@@ -1,42 +1,49 @@
 import axiosInstance from "../../../Utils/axios";
 
-//obtaining the paginated data
-export const getOrganization = (postsPerPage) =>
+const BASE_URL = "api/v1/organization-app/organization"; // Adjusted base URL for Organization
+
+// Fetch all organizations with filters (pagination, status, priority, level)
+export const getAllOrganizations = (postsPerPage, page, status, priority, level) =>
   axiosInstance.get(
-    `api/v1/organization/organization-setup?offset=0&limit=${postsPerPage}&ordering=-id`
+    `${BASE_URL}?limit=${postsPerPage}&page=${page}&status=${
+      status !== undefined ? status : ""
+    }&priority=${priority !== undefined ? priority : ""}&level=${
+      level !== undefined ? level : ""
+    }`
   );
 
-//obtaining all fiscal sessions
-export const getAllOrganization = () =>
-  axiosInstance.get(`api/v1/organization/organization-setup?ordering=-id`);
+// Fetch a limited number of organizations for listing
+export const getOrganizations = (postsPerPage) =>
+  axiosInstance.get(`${BASE_URL}?offset=0&limit=${postsPerPage}&ordering=-id`);
 
-//obtaining the previous page data from paginated data
-export const getPrevious = (previous) => axiosInstance.get(previous);
-
-//obtaining the next page data from paginated data
-export const getNext = (next) => axiosInstance.get(next);
-
-//obtaining the particular page data from paginated data
-export const getPageOrganization = (number, postsPerPage) =>
-  axiosInstance.get(
-    `api/v1/organization/organization-setup?offset=${
-      (number - 1) * postsPerPage
-    }&limit=${postsPerPage}&ordering=-id`
-  );
-
-//creating function
+// Create a new organization
 export const createOrganization = (body) =>
-  axiosInstance.post(`api/v1/organization/organization-setup`, body, {
-    "Content-Type": "multipart/form-data",
-  });
-//updating function
-export const updateOrganization = (id, body) =>
-  axiosInstance.patch(`api/v1/organization/organization-setup/${id}`, body, {
-    "Content-Type": "multipart/form-data",
-  });
+  axiosInstance.post(`${BASE_URL}`, body);
 
-//searching function
-export const handleSearch = (search, postsPerPage) =>
+// Update an existing organization by ID
+export const updateOrganization = (id, body) =>
+  axiosInstance.patch(`${BASE_URL}/${id}`, body);
+
+// Fetch the previous page of organizations
+export const getPreviousOrganization = (previous) =>
+  axiosInstance.get(previous);
+
+// Fetch the next page of organizations
+export const getNextOrganization = (next) =>
+  axiosInstance.get(next);
+
+// Fetch a specific page of organizations
+export const getPageOrganizations = (number, postsPerPage) =>
   axiosInstance.get(
-    `api/v1/organization/organization-setup?offset=0&limit=${postsPerPage}&search=${search}`
+    `${BASE_URL}?offset=${(number - 1) * postsPerPage}&limit=${postsPerPage}&ordering=-id`
   );
+
+// Handle search for organizations
+export const handleOrganizationSearch = (search, postsPerPage) =>
+  axiosInstance.get(
+    `${BASE_URL}?offset=0&limit=${postsPerPage}&search=${search}`
+  );
+
+// Fetch a specific organization by ID
+export const getSpecificOrganization = (id) =>
+  axiosInstance.get(`${BASE_URL}/${id}`);
