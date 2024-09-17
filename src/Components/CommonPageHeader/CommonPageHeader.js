@@ -49,8 +49,10 @@ const CommonPageHeader = ({
 }) => {
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state?.notification?.notifications);
+
   const unreadNotifications = notifications?.filter((notification) => notification?.read === false);
   const unreadNotificationsCount = unreadNotifications?.length;
+
   const [showParentAnimation] = useState(false);
   const [socket, setSocket] = useState(null);
 
@@ -487,7 +489,7 @@ const CommonPageHeader = ({
                   minWidth: "min-content",
                 }}
               >
-                {unreadNotificationsCount}
+                {/* {unreadNotificationsCount} */}
               </div>
             </div>
           </div>

@@ -27,7 +27,12 @@ import unitReducer from "../Pages/Unit/Redux/unitSlice";
 import newTicketInspectionReducer from "../Pages/TicketInspection/Redux/newTicketInspectionSlice";
 import salesReducer from "../Pages/Sales/Redux/salesSlice";
 import saledetailReducer from "../Pages/SaleDetails/Redux/salesDetailsSlice.js";
+
+import categoryReducer from "../Pages/Category/Redux/categorySlice";
+
+
 import orderReducer from "../Pages/Orders/Redux/ordersSlice.js";
+
 const rootReducer = combineReducers({
   auth: authReducer,
   alert: alertReducer,
@@ -65,6 +70,7 @@ const rootReducer = combineReducers({
   unit: unitReducer,
   sale: salesReducer,
   saledetail: saledetailReducer,
+  category: categoryReducer,
 });
 
 export default rootReducer;
