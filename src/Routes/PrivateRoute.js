@@ -18,6 +18,7 @@ import Customers from "../Pages/Customer/Page";
 import Manufacturers from "../Pages/Manufacturer/Page";
 import Units from "../Pages/Unit/Page";
 import Sales from "../Pages/Sales/Pages";
+import Orders from "../Pages/Orders/Pages";
 const lazyWithReload = (componentImport) =>
   lazy(async () => {
     const pageHasAlreadyBeenForceRefreshed = JSON.parse(
@@ -109,7 +110,7 @@ const PrivateRoute = () => {
             <ProtectedRoute exact path="/client" component={Clients} permission={""} />
             <ProtectedRoute exact path="/customer" component={Customers} permission={""} />
             <ProtectedRoute exact path="/unit" component={Units} permission={""} />
-
+            <ProtectedRoute exact path="/orders" component={Orders} permission={""} />
             <Route path="*" component={PageNotFound} />
           </Switch>
         ) : (
