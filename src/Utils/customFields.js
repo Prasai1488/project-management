@@ -11,7 +11,7 @@ const togglePassword = (type, setType) => {
     setType("password");
   }
 };
-export const renderTextField = (formik, colWidth, name, type, label, required) => {
+export const renderTextField = (formik, colWidth, name, type, label, placeholder, required) => {
   return (
     <div className={`col-${colWidth}`} key={name}>
       <div className="my-1">
@@ -21,7 +21,7 @@ export const renderTextField = (formik, colWidth, name, type, label, required) =
           label={label}
           required={required ? required : false}
           formikRequired={formik?.errors?.name && formik?.touched?.name}
-          placeholder={label}
+          placeholder={placeholder}
           onChange={(e) => formik.setFieldValue(name, e.target.value)}
         />
       </div>
@@ -62,7 +62,7 @@ export const renderSelectField = (formik, colWidth, name, label, loadOptions, re
         getOptionLabel={(option) => `${option?.name}`}
         getOptionValue={(option) => `${option?.id}`}
         onChange={(selected) => {
-          formik.setFieldValue(name, selected);
+          formik.setFieldValue(name, selected ? selected : null);
         }}
         options={loadOptions}
       />

@@ -5,7 +5,8 @@
 .common-textfield-wrapper .form-control {
   background: #fff;
   border: 1px solid #dee2e6;
-  border-radius: 8px;
+  border-radius: 5px;
+  height: 44px;
   box-sizing: border-box;
   box-shadow: none;
 }
