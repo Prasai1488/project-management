@@ -37,7 +37,7 @@ export const sidebarData = [
     menu: "Role",
     icon: <FaUsers size={20} />,
     key: "role",
-    link: "/role",
+    link: "/roles",
     permissions: [""],
   },
 ];
@@ -118,11 +118,11 @@ export const admin = [
             link: "/user",
             permissions: ["update_user", "change_user_password", "view_staff", "add_user"],
           },
-          {
-            name: "Roles",
-            link: "/roles",
-            permissions: ["add_role", "view_role", "update_role"],
-          },
+          // {
+          //   name: "Roles",
+          //   link: "/roles",
+          //   permissions: ["add_role", "view_role", "update_role"],
+          // },
           {
             name: "Permissions",
             link: "/permissions",

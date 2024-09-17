@@ -3,7 +3,6 @@ import storage from "redux-persist/lib/storage";
 import deleteCookie from "../../Utils/Cookies/deleteCookie";
 import setCookie from "../../Utils/Cookies/setCookie";
 
-
 const initialState = {
   isAuthenticated: true,
   loadingLogin: false,
