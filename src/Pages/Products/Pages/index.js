@@ -7,6 +7,7 @@ import useDebounce from "../../../Utils/Hooks/useDebounce";
 // import { clearAllTicket, clearEditTicket } from "../Redux/ticketSlice";
 // import { getAllTickets, handleSearch } from "../Redux/thunk";
 import ProductListing from "./ProductListing";
+import CreateProduct from "./CreateProduct";
 import "./product.css";
 
 const Modal = lazy(() => import("../../../Components/Modal/Modal"));
@@ -20,7 +21,7 @@ const Products = () => {
   // const loadingTicket = useSelector((state) => state.ticket.loadingTicket);
   // const tickets = useSelector((state) => state.ticket.tickets);
   // const count = useSelector((state) => state.ticket.count);
-  // const edit = useSelector((state) => state.ticket.edit);
+  const edit = useSelector((state) => state.ticket.edit);
   const [showProductModal, setShowProductModal] = useState(false);
 
   const [status, setStatus] = useState([]);
@@ -55,19 +56,19 @@ const Products = () => {
           search={search}
           setSearch={setSearch}
           // loading={loadingProduct}
-          data={tickets}
-          count={count}
-          types={types}
-          setStatus={setStatus}
-          status={status}
-          setPriroity={setPriroity}
-          priroity={priority}
-          setLevel={setLevel}
-          level={level}
+          data={Products}
+          // count={count}
+          // types={types}
+          // setStatus={setStatus}
+          // status={status}
+          // setPriroity={setPriroity}
+          // priroity={priority}
+          // setLevel={setLevel}
+          // level={level}
         />
 
-        {loadingTicket && <ListingSkeleton />}
-        {!loadingTicket && (
+        {/* {loadingProduct && <ListingSkeleton />}
+        {!loadingProduct && ( */}
           <ProductListing
             dispatch={dispatch}
             setShowTicketModal={setShowProductModal}
@@ -76,7 +77,7 @@ const Products = () => {
             postsPerPage={postsPerPage}
             page={page}
           />
-        )}
+        {/* )} */}
       </div>
       <CommonCreateButton
         types={types}
@@ -85,21 +86,23 @@ const Products = () => {
         setShowModal={setShowProductModal}
         createPermission={createPermission}
       />
-      {showTicketModal && (
+      {/* {showTicketModal && */}
+       (
         <Suspense fallback={<div></div>}>
           <Modal
-            showModal={showTicketModal}
-            setShowModal={setShowTicketModal}
+            showModal={showProductModal}
+            setShowModal={setShowProductModal}
             header={edit ? "Update Product" : "Add Product"}
             types={types}
             edit={edit}
-            size={"modal-xl"}
-            clearAction={clearEditTicket}
+            size={"modal-lg"}
+            // clearAction={clearEditTicket}
           >
-            <CreateTicket dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowProductModal} />
+            <CreateProduct dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowProductModal} />
           </Modal>
         </Suspense>
-      )}
+      )
+      {/* } */}
     </>
   );
 };

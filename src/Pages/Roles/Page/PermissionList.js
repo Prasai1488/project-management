@@ -27,7 +27,7 @@ const PermissionList = ({ permissions, title, checkedPermissions, setCheckedPerm
               <input
                 type="checkbox"
                 name={title}
-                checked={checkedPermissions.length === permissions.length && permissions.length !== 0}
+                checked={checkedPermissions?.length === permissions.length && permissions.length !== 0}
                 onChange={() => handleToggleAll(permissions)}
                 disabled={permissions.length === 0}
               />

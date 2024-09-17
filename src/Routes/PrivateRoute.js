@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Route, Switch, withRouter } from "react-router-dom";
 import PageNotFound from "../Components/PageNotFound";
 import Products from "../Pages/Products/Pages";
+
 import ContactPersons from "../Pages/ContactPerson/Page";
 import Issues from "../Pages/Issue/Page";
 import Items from "../Pages/Item/Page";
@@ -99,7 +100,7 @@ const PrivateRoute = () => {
 
             {/* <ProtectedRoute exact path="/tickets" component={Issues} permission={""} /> */}
 
-            <ProtectedRoute exact path="/product" component={Products} permission={""} />
+            <ProtectedRoute exact path="/products" component={Products} permission={""} />
             <ProtectedRoute exact path="/ticket" component={Tickets} permission={""} />
             <ProtectedRoute exact path="/sales" component={Sales} permission={""} />
             <ProtectedRoute exact path="/items" component={Items} permission={""} />

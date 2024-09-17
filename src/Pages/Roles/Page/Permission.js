@@ -27,18 +27,18 @@ const Permission = ({ selectedPermissions, setSelectedPermissions, holdPermissio
     if (edit) {
       if (role?.permissions.length > 0 && selectedPermissions.length === 0) {
         // used while edit the permission
-        if (holdPermissions.length > 0) {
+        if (holdPermissions?.length > 0) {
           const idOfHoldPermission = holdPermissions.map((permi) => permi.id);
-          const filteredPermission = role.permissions.filter((permi) => !idOfHoldPermission.includes(permi));
-          const filteredData = permissions.filter((permi) => !filteredPermission.includes(permi._id));
-          const commonData = permissions.filter((permi) => filteredPermission.includes(permi._id));
+          const filteredPermission = role?.permissions?.filter((permi) => !idOfHoldPermission.includes(permi));
+          const filteredData = permissions.filter((permi) => !filteredPermission?.includes(permi._id));
+          const commonData = permissions.filter((permi) => filteredPermission?.includes(permi._id));
 
           setUnSelectedPermissions(filteredData);
           setSelectedPermissions(commonData);
         } else {
           const filteredData = permissions?.filter((permi) => !role?.permissions.includes(permi._id));
 
-          const commonData = permissions.filter((permi) => role?.permissions.includes(permi._id));
+          const commonData = permissions?.filter((permi) => role?.permissions.includes(permi._id));
 
           setUnSelectedPermissions(filteredData);
           setSelectedPermissions(commonData);
@@ -57,7 +57,7 @@ const Permission = ({ selectedPermissions, setSelectedPermissions, holdPermissio
         }
       }
     } else {
-      if (permissions.length > 0) {
+      if (permissions?.length > 0) {
         if (selectedPermissions.length > 0) {
           const filteredData = permissions.filter((permi) => !selectedPermissions.find(({ id }) => permi._id === id));
           setUnSelectedPermissions(filteredData);
@@ -182,7 +182,7 @@ const Permission = ({ selectedPermissions, setSelectedPermissions, holdPermissio
               type="button"
               className=" btn btn-sm mt-2"
               onClick={handleUnSelectPermission}
-              disabled={selectedPermissions.length === 0}
+              disabled={selectedPermissions?.length === 0}
             >
               <FaArrowLeft />
             </button>
