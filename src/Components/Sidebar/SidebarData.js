@@ -64,6 +64,12 @@ export const admin = [
             link: "/manufacturer",
             permissions: ["export_report", "view_report"],
           },
+
+          {
+            name: "Products",
+            link: "/products",
+            permissions: ["export_report", "view_report"],
+          },
           {
             name: "Items",
             link: "/items",

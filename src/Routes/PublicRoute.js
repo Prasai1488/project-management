@@ -2,6 +2,7 @@ import React, { lazy } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { Suspense } from "react";
 
+
 const Login = lazy(() => import("../Pages/Login"));
 const ForgetPassword = lazy(() => import("../Pages/ForgetPassword"));
 const ResetPassword = lazy(() =>

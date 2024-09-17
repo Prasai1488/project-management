@@ -16,75 +16,72 @@ import Products from ".";
 
 const ProductListing = ({ setShowProductModal, setPostsPerPage, setPage, page, postsPerPage }) => {
   const dispatch = useDispatch();
-  //   const [showTicketInspectionModal, setShowTicketInspectionModal] = useState(false);
+    const [showTicketInspectionModal, setShowTicketInspectionModal] = useState(false);
   //   const [selectItemId, setSelectedItemId] = useState("");
   //   const [selectedTicketId, setSelectedTicketId] = useState("");
-  //   const [ticketInspectionModal, setTicketIspectionModal] = useState(false);
+    const [ticketInspectionModal, setTicketIspectionModal] = useState(false);
 
   const listRef = useRef(null);
 
   //   const next = useSelector((state) => state.ticket.next);
-  //   const loadingNext = useSelector((state) => state.ticket?.loadingNext);
+    const loadingNext = useSelector((state) => state.ticket?.loadingNext);
   //   const tickets = useSelector((state) => state?.ticket?.tickets);
 
-  const { handleScroll } = useInfinteScroll({
-    loadingNext: loadingNext,
-    next,
-    getNext,
-    setPostsPerPage,
-    setPage,
-  });
+  // const { handleScroll } = useInfinteScroll({
+  //   loadingNext: loadingNext,
+  //   next,
+  //   getNext,
+  //   setPostsPerPage,
+  //   setPage,
+  // });
 
-
-const Products=[
+  const Products = [
     {
-        "serial": "123456789",
-        "itemCode": "ABC123",
-        "productName": "SuperWidget",
-        "category": "Electronics",
-        "capacity": "500GB",
-        "image": "https://example.com/images/superwidget.jpg",
-        "imageName": "superwidget.jpg"
-      },
-      {
-        "serial": "987654321",
-        "itemCode": "XYZ987",
-        "productName": "MegaGadget",
-        "category": "Gadgets",
-        "capacity": "1TB",
-        "image": "https://example.com/images/megagadget.jpg",
-        "imageName": "megagadget.jpg"
-      },
-      {
-        "serial": "456123789",
-        "itemCode": "LMN456",
-        "productName": "UltraDevice",
-        "category": "Devices",
-        "capacity": "256GB",
-        "image": "https://example.com/images/ultradevice.jpg",
-        "imageName": "ultradevice.jpg"
-      },
-      {
-        "serial": "321654987",
-        "itemCode": "PQR321",
-        "productName": "HyperTool",
-        "category": "Tools",
-        "capacity": "128GB",
-        "image": "https://example.com/images/hypertool.jpg",
-        "imageName": "hypertool.jpg"
-      },
-      {
-        "serial": "654987321",
-        "itemCode": "STU654",
-        "productName": "NanoGizmo",
-        "category": "Gizmos",
-        "capacity": "64GB",
-        "image": "https://example.com/images/nanogizmo.jpg",
-        "imageName": "nanogizmo.jpg"
-      }  
-]
-        
-      
+      serial: "123456789",
+      itemCode: "ABC123",
+      productName: "SuperWidget",
+      category: "Electronics",
+      capacity: "500GB",
+      image: "https://example.com/images/superwidget.jpg",
+      imageName: "superwidget.jpg",
+    },
+    {
+      serial: "987654321",
+      itemCode: "XYZ987",
+      productName: "MegaGadget",
+      category: "Gadgets",
+      capacity: "1TB",
+      image: "https://example.com/images/megagadget.jpg",
+      imageName: "megagadget.jpg",
+    },
+    {
+      serial: "456123789",
+      itemCode: "LMN456",
+      productName: "UltraDevice",
+      category: "Devices",
+      capacity: "256GB",
+      image: "https://example.com/images/ultradevice.jpg",
+      imageName: "ultradevice.jpg",
+    },
+    {
+      serial: "321654987",
+      itemCode: "PQR321",
+      productName: "HyperTool",
+      category: "Tools",
+      capacity: "128GB",
+      image: "https://example.com/images/hypertool.jpg",
+      imageName: "hypertool.jpg",
+    },
+    {
+      serial: "654987321",
+      itemCode: "STU654",
+      productName: "NanoGizmo",
+      category: "Gizmos",
+      capacity: "64GB",
+      image: "https://example.com/images/nanogizmo.jpg",
+      imageName: "nanogizmo.jpg",
+    },
+  ];
 
   //   const handleEdit = async (ticket) => {
   //     dispatch(ticketsEditSuccess(ticket));
@@ -95,10 +92,10 @@ const Products=[
     <>
       {Products && Products?.length > 0 ? (
         <div className="row">
-          <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}>
+          <div className="col-12 table-scrollable"  ref={listRef}>
             <table className="listing-table">
               <thead>
-                <tr>
+                {/* <tr>
                   <th>SN</th>
                   <ColumnResize id={1} className="columnResizer" />
                   <th>Customer</th>
@@ -120,38 +117,33 @@ const Products=[
                   <th>Status</th>
                   <ColumnResize id={3} className="columnResizer" />
                   <th>Action</th>
-                </tr>
+                </tr> */}
               </thead>
               <tbody>
                 {Products.map((product, i) => {
-                  const { _id, customer, reportedBy, description, priority, item, level, medium, assignedTo, status } =
-                    product;
+                  const { serial, itemCode, productName, category, capacity, image, imageName } = product;
                   return (
-                    <tr key={_id} onDoubleClick={() => handleInspection(ticket)} style={{ cursor: "pointer" }}>
-                      <td>{i + 1}</td>
-                      <td className="column_resizer_body" />
-                      <td>{customer ? customer.name : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{reportedBy ? reportedBy : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{description ? description : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{priority ? priority : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{item ? item.name : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{level ? level : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{medium ? medium : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{assignedTo ? assignedTo.name : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{status ? status : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>
-                        <DetailActionButton type={"edit"} onClick={() => handleEdit(ticket)} />
-                      </td>
-                    </tr>
+                    <></>
+                    // <tr key={_id} onDoubleClick={() => handleInspection(ticket)} style={{ cursor: "pointer" }}>
+                    //   <td>{i + 1}</td>
+                    //   <td className="column_resizer_body" />
+                    //   <td>{serial ? customer.name : "N/A"}</td>
+                    //   <td className="column_resizer_body" />
+                    //   <td>{itemCode ? reportedBy : "N/A"}</td>
+                    //   <td className="column_resizer_body" />
+                    //   <td>{productName ? description : "N/A"}</td>
+                    //   <td className="column_resizer_body" />
+                    //   <td>{category ? priority : "N/A"}</td>
+                    //   <td className="column_resizer_body" />
+                    //   <td>{capacity ? item.name : "N/A"}</td>
+                    //   <td className="column_resizer_body" />
+                    //   <td>{image ? level : "N/A"}</td>
+                    //   <td className="column_resizer_body" />
+                    //   <td>{imageName ? medium : "N/A"}</td>
+                    //   <td>
+                    //     <DetailActionButton type={"edit"} onClick={() => handleEdit(ticket)} />
+                    //   </td>
+                    // </tr>
                   );
                 })}
               </tbody>
@@ -169,7 +161,7 @@ const Products=[
               showModal={showTicketInspectionModal}
               setShowModal={setShowTicketInspectionModal}
               header={"Ticket Inspection"}
-              size={"modal-xl"}
+              size={"modal-sm"}
             >
               <NewTicketInspection
                 selectedTicketId={selectedTicketId}

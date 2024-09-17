@@ -135,7 +135,7 @@ const CreateRole = ({ dispatch, setShowModal, postsPerPage }) => {
                   </div>
                   <div className="col-12">
                     <Permission
-                      selectedPermissions={selectedPermissions}
+                      // selectedPermissions={selectedPermissions}
                       setSelectedPermissions={setSelectedPermissions}
                       holdPermissions={holdPermissions}
                       setHoldPermissions={setHoldPermissions}
