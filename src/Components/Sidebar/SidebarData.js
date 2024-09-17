@@ -9,7 +9,7 @@ export const sidebarData = [
     icon: <BiPurchaseTag size={20} />,
     key: "Products",
     link: "/products",
-    permissions: [""],
+    permissions: ["view_products"],
   },
   {
     menu: "Orders",
