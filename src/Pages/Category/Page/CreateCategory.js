@@ -103,6 +103,7 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
                   Active
                 </label>
               </div>
+              </div>
               <div className="row">
                 <div className="col-12 p-10 text-right">
                   <div className="mt-3 d-flex justify-content-end align-items-center">
@@ -117,7 +118,7 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            
           </Form>
         )}
       </Formik>
