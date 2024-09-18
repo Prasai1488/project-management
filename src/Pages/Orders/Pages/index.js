@@ -4,7 +4,7 @@ import CommonCreateButton from "../../../Components/CommonCreateButton/CommonCre
 import CommonPageHeader from "../../../Components/CommonPageHeader/CommonPageHeader";
 import ListingSkeleton from "../../../Components/Skeleton/ListingSkeleton";
 import useDebounce from "../../../Utils/Hooks/useDebounce";
-
+import "./order.css";
 import { getAllOrders, handleSearch } from "../Redux/thunk";
 import OrdersListing from "./OrdersListing";
 

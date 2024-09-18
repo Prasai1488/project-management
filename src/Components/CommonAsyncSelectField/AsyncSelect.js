@@ -38,15 +38,15 @@ const AsyncSelect = ({
   onMenuOpen,
   cacheUniqs,
   shouldRender,
+  placeholder,
   blurInput,
-
   readOnly,
 }) => {
   return (
     <div className="common-async-select-wrapper">
       {label ? (
         <label htmlFor={name} className="form-label" style={{ fontSize: "12px" }}>
-          {label} {required && <strong className="text-danger">*</strong>}
+          {label} {required && <strong className="text-danger"></strong>}
         </label>
       ) : (
         ""
@@ -56,6 +56,7 @@ const AsyncSelect = ({
         blurInputOnSelect={blurInput}
         key={parent ? parent : ""}
         value={value}
+        placeholder={placeholder ? placeholder : ""}
         styles={customStyles}
         isClearable="true"
         isSearchable="true"

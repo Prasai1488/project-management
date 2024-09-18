@@ -6,6 +6,8 @@ import NoData from "../../../Components/NoData/NoData";
 import { getNext, getSpecificOrders } from "../Redux/thunk";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 import { ordersEditSuccess } from "../Redux/ordersSlice";
+import Modal from "../../../Components/Modal/Modal";
+import OrderDetails from "./OrderDetails";
 
 const OrdersListing = ({
   setShowOrderDetailsModal,
@@ -30,27 +32,21 @@ const OrdersListing = ({
     setPage,
   });
 
-
- const ordersData =[
-  {
-    sn: "1000",
-    order:"order1",
-    customer: "Heamant",
-    orderno: "OR-001",
-
-    packedon:"2024-09-01",
-    approvedno:"AP-001",
-    dispatchno:"DP-001",
-    status:"Approved"
-
-    
-    
-  }
- ]
+  const ordersData = [
+    {
+      order: "order1",
+      customer: "Hemant",
+      orderno: "OR-001",
+      packedon: "2024-09-01",
+      approvedno: "AP-001",
+      dispatchno: "DP-001",
+      status: "Resolved",
+    },
+  ];
 
   const handleEdit = async (order) => {
     dispatch(ordersEditSuccess(order));
-    setShowProductModal(true);
+    setShowOrderDetailsModal(true);
   };
 
   const handleInspection = async () => {
@@ -58,43 +54,37 @@ const OrdersListing = ({
     setShowOrderDetailsModal(true);
   };
 
-
-
-
   return (
     <>
-      {orders && orders?.length > 0 ? (
+      {ordersData && ordersData?.length > 0 ? (
         <div className="row">
           <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}>
             <table className="listing-table">
               <thead>
                 <tr>
-                  <th>#</th>
-
+                  <th>S.N</th>
                   <th>ORDER</th>
-
                   <th>CUSTOMER</th>
-
-                  <th>ORDERED NO</th>
-                  <th>PACKED NO</th>
-                  <th>APPROVED NO</th>
-                  <th>DISPATCHED NO</th>
+                  <th>ORDERED ON</th>
+                  <th>PACKED ON</th>
+                  <th>APPROVED ON</th>
+                  <th>DISPATCHED ON</th>
                   <th>STATUS</th>
-
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {ordersData?.map((order, i) => {
-                  const { status } = order;
+                {ordersData.map((order, index) => {
                   return (
-                    <tr key={Math.random} onDoubleClick={() => handleInspection(order)} style={{ cursor: "pointer" }}>
-                      <td>{i + 1}</td>
-
-                      <td>{order ? order.order.name : "N/A"}</td>
-                      <td>{order ? order.customer : "N/A"}</td>
-                      <td>{order ? order.order : "N/A"}</td>
-                      <td>{status ? status : "N/A"}</td>
+                    <tr key={index} onDoubleClick={() => handleInspection(order)} style={{ cursor: "pointer" }}>
+                      <td>{index + 1}</td>
+                      <td>{order.order}</td>
+                      <td>{order.customer}</td>
+                      <td>{order.orderno}</td>
+                      <td>{order.approvedno}</td>
+                      <td>{order.packedon}</td>
+                      <td>{order.dispatchno}</td>
+                      <td>{order.status}</td>
                       <td>
                         <DetailActionButton type={"edit"} onClick={() => handleEdit(order)} />
                       </td>
@@ -119,8 +109,8 @@ const OrdersListing = ({
         <Modal
           showModal={showOrderDetailsModal}
           setShowModal={setShowOrderDetailsModal}
-          header={"Order Details"}
-          size={"modal-xl"}
+          header={"Orders"}
+          size={"modal-lg"}
         >
           <OrderDetails dispatch={dispatch} setShowModal={setShowOrderDetailsModal} onScroll={handleScroll} />
         </Modal>

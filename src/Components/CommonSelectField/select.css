@@ -3,36 +3,42 @@
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
+
   line-height: 24px;
   color: #1e2125;
   margin: 0;
 }
 
 .select-field-wrapper .async-select-field > div {
-  border-radius: 8px;
+  border-radius: 5px;
+
   border: 1px solid #dee2e6 !important;
   box-sizing: border-box;
   /* box-shadow: 0px 0px 120px 11px rgba(0, 0, 0, 0.05); */
 }
 .select-field-wrapper .async-select-field {
-  border-radius: 8px;
+  border-radius: 5px;
+  height: 41px;
 }
 
 .select-field-wrapper .select-field.login > div {
   box-shadow: 0px 0px 120px 11px rgba(0, 0, 0, 0.05);
+  height: 41px;
 }
 
 .select-field-wrapper .select-field.required-field > div.css-1pahdxg-control {
+  height: 41px;
   border: 1px solid #bf202f;
 }
 .select-field-wrapper .select-field {
   border: 1px solid #dee2e6 !important;
-  border-radius: 8px;
+  border-radius: 5px;
 }
 .select-field-wrapper .select-field.required-field > div.css-yk16xz-control {
   border: 1px solid #bf202f;
 }
 .css-u868id-control {
+  min-height: 41px;
   border: none !important;
-  border-radius: 8px !important;
+  border-radius: 5px !important;
 }

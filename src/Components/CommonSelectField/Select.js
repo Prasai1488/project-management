@@ -28,8 +28,8 @@ const SelectField = ({
   isDisabled,
   getOptionLabel,
   getOptionValue,
-  isMulti,
   placeholder,
+  isMulti,
   onBlur,
 }) => {
   const isScrollable = value && value.length > 2;
@@ -37,14 +37,14 @@ const SelectField = ({
   return (
     <div className="select-field-wrapper">
       <label htmlFor={label} className="form-label">
-        {label} {required && <strong className="text-danger">*</strong>}
+        {label} {required && <strong className="text-danger"></strong>}
       </label>
       <Select
         value={value}
         styles={customStyles(value?.length)}
         isClearable="true"
         isSearchable="true"
-        placeholder={placeholder ? placeholder : "Select..."}
+        placeholder={placeholder ? placeholder : ""}
         isMulti={isMulti}
         name={name}
         className={formikRequired ? "required-field  select-field  " + className : "select-field  " + className}
