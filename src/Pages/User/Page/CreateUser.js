@@ -28,8 +28,6 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
   const [img, setImg] = useState(null);
   const [submit, setSubmit] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [password, setPassword] = useState("password");
-  const [confirmPassword, setConfirmPassword] = useState("password");
 
   const organizationType = [
     { id: 1, name: "ORG 1" },
@@ -75,7 +73,6 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
       const capitalFirstName = firstName?.charAt(0).toUpperCase() + firstName?.slice(1);
       const capitalMiddleName = middleName?.charAt(0).toUpperCase() + middleName?.slice(1);
       const capitalLastName = lastName?.charAt(0).toUpperCase() + lastName?.slice(1);
-      const capitalAddress = address?.charAt(0).toUpperCase() + address?.slice(1);
 
       if (edit) {
         const id = user?._id;
@@ -131,17 +128,17 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
     dispatch(deletePhoto(user.id));
   };
 
-  const loadOptionsGroups = async (search, loadOptions, { limit, offset }) => {
-    const { data } = await axiosInstance(`/api/v1/role-app/role?search=${search}&page=${offset}&limit=${limit}`);
-    return {
-      options: data.roles,
-      hasMore: data.next ? true : false,
-      additional: {
-        offset: data.count > offset ? offset + 10 : offset,
-        limit: 10,
-      },
-    };
-  };
+  // const loadOptionsGroups = async (search, loadOptions, { limit, offset }) => {
+  //   const { data } = await axiosInstance(`/api/v1/role-app/role?search=${search}&page=${offset}&limit=${limit}`);
+  //   return {
+  //     options: data.roles,
+  //     hasMore: data.next ? true : false,
+  //     additional: {
+  //       offset: data.count > offset ? offset + 10 : offset,
+  //       limit: 10,
+  //     },
+  //   };
+  // };
 
   useEffect(() => {
     if (submit && formRef.current) {

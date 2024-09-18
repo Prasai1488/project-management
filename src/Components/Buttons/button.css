@@ -89,7 +89,7 @@
   color: var(--blue-primary) !important;
 }
 .create-button:hover {
-  background: var(--blue-primary);
+  background: #c00c0c;
   color: #fff;
 }
 .create-button:disabled {
