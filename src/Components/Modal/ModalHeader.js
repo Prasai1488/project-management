@@ -37,7 +37,7 @@ const ModalHeader = ({ header, dispatch, setShowModal, clearAction }) => {
           onClick={handleClose}
           type="button"
           className="btn-close d-flex justify-content-center align-items-center"
-          style={{ color: "#D93F21" }}
+          style={{ color: "#E62526" }}
         >
           <FaTimes />
         </button>

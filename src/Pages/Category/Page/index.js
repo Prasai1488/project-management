@@ -27,7 +27,7 @@ const Category = () => {
   const [search, setSearch] = useState("");
   const [postsPerPage, setPostsPerPage] = useState(20);
   const [page, setPage] = useState(1);
-  
+
   const debouncedSearch = useDebounce(search, 500);
 
   useEffect(() => {
@@ -86,14 +86,10 @@ const Category = () => {
             header={edit ? "Update Category" : "Category"}
             types={types}
             edit={edit}
-            size={"modal-lg"}
+            size={"modal-lx"}
             clearAction={clearEditCategory}
           >
-            <CreateCategory
-              dispatch={dispatch}
-              postsPerPage={postsPerPage}
-              setShowModal={setShowCategoryModal}
-            />
+            <CreateCategory dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowCategoryModal} />
           </Modal>
         </Suspense>
       )}
@@ -102,6 +98,3 @@ const Category = () => {
 };
 
 export default Category;
-
-
-

@@ -7,10 +7,11 @@ import { logout } from "../../Redux/Auth/thunk";
 import { setCollapsed } from "../../Redux/Layout/layoutSlice";
 import { setSystemSelected } from "../../Redux/SystemSelection/systemSelectionSlice";
 import getCookie from "../../Utils/Cookies/getCookie";
-import logo from "../../assets/sidebar-icon.svg";
+import logo from "../../assets/logo.png";
 import { errorFunction, successFunction } from "../Alert/Alert";
-import { admin, sidebarData, orders } from "./SidebarData";
+import { products, sidebarData, orders } from "./SidebarData";
 import "./sidebar.css";
+import Button from "../Buttons/Button";
 
 const CrmSidebar = () => {
   const history = useHistory();
@@ -168,41 +169,83 @@ const CrmSidebar = () => {
             <div className="d-flex flex-column h-100 justify-content-between ">
               <div>
                 <div className={`sidebar-section-title ${collapsed ? "text-center" : "text-left"}`}>Main</div>
-                <Menu menuItemStyles={menuItemStyles} transitionDuration={750}>
-                  {sidebarData?.map((side) => {
-                    const { menu, sub_menu, icon, link, permissions, key } = side;
-                    const showMenu = permissions?.some((element) => permissionApi?.indexOf(element) !== -1);
-
-                    return sub_menu ? (
-                      <SubMenu
-                        key={menu}
-                        label={menu}
-                        icon={icon}
-                        onClick={() => handleOpenSubMenu(key)}
-                        open={open === key}
-                      >
-                        {sub_menu.map((sub) => {
-                          const { link, name, permissions } = sub;
-                          const showMenu = permissions?.some((element) => permissionApi?.indexOf(element) !== -1);
-                          return showMenu || isSuperuser ? (
-                            <MenuItem active={location?.pathname === link} component={<Link to={link} />} key={name}>
-                              {name}
+                <Menu menuItemStyles={menuItemStyles} onClick={handleMenuClick} transitionDuration={750}>
+                  {products?.map((side, i) => {
+                    const { menu, sub_menu, icon, link, permission } = side;
+                    const showMenu = permission?.some((element) => permissionApi?.indexOf(element) !== -1);
+                    return (
+                      <div key={i}>
+                        <>
+                          {sub_menu || isSuperuser ? (
+                            <>
+                              {
+                                <SubMenu
+                                  onClick={() => handleOpenSubMenu("products")}
+                                  open={open === "products"}
+                                  key={i + 1}
+                                  label={menu}
+                                  icon={icon}
+                                >
+                                  {sub_menu.map((sub, j) => {
+                                    const { link, name, permissions, child_menu, key } = sub;
+                                    const showSubMenu = permissions?.some(
+                                      (element) => permissionApi?.indexOf(element) !== -1
+                                    );
+                                    const productsPermission = showSubMenu || isSuperuser;
+                                    return child_menu
+                                      ? productsPermission && (
+                                          <SubMenu
+                                            onClick={() => handleChildMenuOpen(key)}
+                                            open={childMenuOpen === key}
+                                            label={name}
+                                            key={j + 1}
+                                          >
+                                            {child_menu.map((child, k) => {
+                                              const { link, name, permissions } = child;
+                                              const showChildMenu = permissions?.some(
+                                                (element) => permissionApi?.indexOf(element) !== -1
+                                              );
+                                              return showChildMenu || isSuperuser ? (
+                                                <MenuItem
+                                                  active={location?.pathname === link}
+                                                  component={<Link to={link} />}
+                                                  key={k}
+                                                >
+                                                  {name}
+                                                </MenuItem>
+                                              ) : null;
+                                            })}
+                                          </SubMenu>
+                                        )
+                                      : productsPermission && (
+                                          <MenuItem
+                                            active={location?.pathname === link}
+                                            component={<Link to={link} />}
+                                            key={j + 1}
+                                          >
+                                            {name}
+                                          </MenuItem>
+                                        );
+                                  })}
+                                </SubMenu>
+                              }
+                            </>
+                          ) : showMenu || isSuperuser ? (
+                            <MenuItem
+                              active={location?.pathname === link}
+                              component={<Link to={link} />}
+                              key={menu}
+                              icon={icon}
+                            >
+                              {menu}
                             </MenuItem>
-                          ) : null;
-                        })}
-                      </SubMenu>
-                    ) : showMenu || isSuperuser ? (
-                      <MenuItem
-                        active={location?.pathname === link}
-                        component={<Link to={link} />}
-                        key={menu}
-                        icon={icon}
-                      >
-                        {menu}
-                      </MenuItem>
-                    ) : null;
+                          ) : null}
+                        </>
+                      </div>
+                    );
                   })}
                 </Menu>
+
                 <Menu menuItemStyles={menuItemStyles} onClick={handleMenuClick} transitionDuration={750}>
                   {orders?.map((side, i) => {
                     const { menu, sub_menu, icon, link, permission } = side;
@@ -279,138 +322,81 @@ const CrmSidebar = () => {
                     );
                   })}
                 </Menu>
+                 <Menu menuItemStyles={menuItemStyles} transitionDuration={750}>
+                  {sidebarData?.map((side) => {
+                    const { menu, sub_menu, icon, link, permissions, key } = side;
+                    const showMenu = permissions?.some((element) => permissionApi?.indexOf(element) !== -1);
+
+                    return sub_menu ? (
+                      <SubMenu
+                        key={menu}
+                        label={menu}
+                        icon={icon}
+                        onClick={() => handleOpenSubMenu(key)}
+                        open={open === key}
+                      >
+                        {sub_menu.map((sub) => {
+                          const { link, name, permissions } = sub;
+                          const showMenu = permissions?.some((element) => permissionApi?.indexOf(element) !== -1);
+                          return showMenu || isSuperuser ? (
+                            <MenuItem active={location?.pathname === link} component={<Link to={link} />} key={name}>
+                              {name}
+                            </MenuItem>
+                          ) : null;
+                        })}
+                      </SubMenu>
+                    ) : showMenu || isSuperuser ? (
+                      <MenuItem
+                        active={location?.pathname === link}
+                        component={<Link to={link} />}
+                        key={menu}
+                        icon={icon}
+                      >
+                        {menu}
+                      </MenuItem>
+                    ) : null;
+                  })}
+                </Menu>
               </div>
 
               <div>
-                <div className={`sidebar-section-title ${collapsed ? "text-center" : "text-left"}`}>Setup</div>
-
-                <Menu menuItemStyles={menuItemStyles} onClick={handleMenuClick} transitionDuration={750}>
-                  {admin?.map((side, i) => {
-                    const { menu, sub_menu, icon, link, permission } = side;
-                    const showMenu = permission?.some((element) => permissionApi?.indexOf(element) !== -1);
-                    return (
-                      <div key={i}>
-                        <>
-                          {sub_menu || isSuperuser ? (
-                            <>
-                              {
-                                <SubMenu
-                                  onClick={() => handleOpenSubMenu("setting")}
-                                  open={open === "setting"}
-                                  key={i + 1}
-                                  label={menu}
-                                  icon={icon}
-                                >
-                                  {sub_menu.map((sub, j) => {
-                                    const { link, name, permissions, child_menu, key } = sub;
-                                    const showSubMenu = permissions?.some(
-                                      (element) => permissionApi?.indexOf(element) !== -1
-                                    );
-                                    const settingPermission = showSubMenu || isSuperuser;
-                                    return child_menu
-                                      ? settingPermission && (
-                                          <SubMenu
-                                            onClick={() => handleChildMenuOpen(key)}
-                                            open={childMenuOpen === key}
-                                            label={name}
-                                            key={j + 1}
-                                          >
-                                            {child_menu.map((child, k) => {
-                                              const { link, name, permissions } = child;
-                                              const showChildMenu = permissions?.some(
-                                                (element) => permissionApi?.indexOf(element) !== -1
-                                              );
-                                              return showChildMenu || isSuperuser ? (
-                                                <MenuItem
-                                                  active={location?.pathname === link}
-                                                  component={<Link to={link} />}
-                                                  key={k}
-                                                >
-                                                  {name}
-                                                </MenuItem>
-                                              ) : null;
-                                            })}
-                                          </SubMenu>
-                                        )
-                                      : settingPermission && (
-                                          <MenuItem
-                                            active={location?.pathname === link}
-                                            component={<Link to={link} />}
-                                            key={j + 1}
-                                          >
-                                            {name}
-                                          </MenuItem>
-                                        );
-                                  })}
-                                </SubMenu>
-                              }
-                            </>
-                          ) : showMenu || isSuperuser ? (
-                            <MenuItem
-                              active={location?.pathname === link}
-                              component={<Link to={link} />}
-                              key={menu}
-                              icon={icon}
-                            >
-                              {menu}
-                            </MenuItem>
-                          ) : null}
-                        </>
-                      </div>
-                    );
-                  })}
-                </Menu>
-
-                <Menu menuItemStyles={menuItemStyles} onClick={handleMenuClick} transitionDuration={750}>
-                  <SubMenu
-                    onClick={() => handleOpenSubMenu("user")}
-                    open={open === "user"}
-                    label={isSuperuser ? "ADMIN" : capitalizedUserName}
-                    icon={
-                      photo ? (
-                        <img src={photo} height={20} alt="profile" />
-                      ) : (
-                        <img
-                          src="https://atlantabuilding.com.au/wp-content/uploads/2017/03/dummy-face.jpg"
-                          height={30}
-                          alt="profile"
-                          style={{ borderRadius: "50%" }}
-                        />
-                      )
-                    }
+                <div className="password-logout-container">
+                  <div
+                    style={{
+                      pointerEvents: disablePointerEvents ? "none" : "auto",
+                    }}
+                    active={location?.pathname === "/change-password"}
+                    onClick={() => history.push("/change-password")}
                   >
-                    <MenuItem
-                      style={{
-                        pointerEvents: disablePointerEvents ? "none" : "auto",
-                      }}
-                      active={location?.pathname === "/change-password"}
-                      onClick={() => history.push("/change-password")}
-                    >
-                      Change Password
-                    </MenuItem>
-                    <MenuItem
-                      style={{
-                        pointerEvents: disablePointerEvents ? "none" : "auto",
-                      }}
-                      onClick={() => {
-                        const token = getCookie("refreshToken");
-                        if (token) {
-                          dispatch(logout(token))
-                            .unwrap()
-                            .then(() => {
-                              successFunction("Logged out successfully.");
-                              dispatch(setSystemSelected(""));
+                    <Button
+                      btnType="submit"
+                      className="passwordchange-button"
+                      title={"Change Password"}
+                      content={"Save"}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      pointerEvents: disablePointerEvents ? "none" : "auto",
+                    }}
+                    onClick={() => {
+                      const token = getCookie("refreshToken");
+                      if (token) {
+                        dispatch(logout(token))
+                          .unwrap()
+                          .then(() => {
+                            successFunction("Logged out successfully.");
+                            dispatch(setSystemSelected(""));
 
-                              history.push("/");
-                            })
-                            .catch((error) => errorFunction("Failed to logout."));
-                        }
-                      }}
-                    >
-                      Logout
-                    </MenuItem>
-                  </SubMenu>
-                </Menu>
+                            history.push("/");
+                          })
+                          .catch((error) => errorFunction("Failed to logout."));
+                      }
+                    }}
+                  >
+                    <Button btnType="submit" className="logout-button" title={"Logout"} content={"Save"} />
+                  </div>
+                </div>
               </div>
             </div>
           </Sidebar>
