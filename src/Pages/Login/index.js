@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { errorFunction, successFunction } from "../../Components/Alert/Alert";
 import LoginTextField from "../../Components/TextField/LoginTextField";
+import Checkbox from "../../Components/CommonCheckbox/Checkbox";
 import "./login.css";
 import main from "../../assets/main.png";
 import mlogo from "../../assets/mlogo.png";
@@ -14,11 +15,15 @@ const Login = () => {
   const [type, setType] = useState("password");
   const remember = localStorage.getItem("rememberMe");
   const user = localStorage.getItem("username");
+
+  // Initial form values
   const initialValues = {
-    username: user ? user : "",
+    username: user || "",
     password: "",
-    rememberMe: remember === "true" ? true : false,
+    rememberMe: remember === "true",
   };
+
+  // Form validation schema
   const validationSchema = Yup.object().shape({
     username: Yup.string()
       .required("Required!")
@@ -27,17 +32,23 @@ const Login = () => {
     password: Yup.string().required("Required!").min(4, "Password should be at least 4 characters."),
     rememberMe: Yup.bool(),
   });
+
+  // Handle form submission
   const onSubmit = (values) => {
     const { rememberMe, username, password } = values;
     localStorage.setItem("rememberMe", rememberMe);
     localStorage.setItem("username", rememberMe ? username : "");
-    // Dispatch login action here
+
+    // Here you can dispatch login action or API call
     successFunction("Logged in successfully.");
   };
 
+  // Toggle password visibility
   const togglePassword = () => {
-    setType(type === "password" ? "text" : "password");
+    setType((prevType) => (prevType === "password" ? "text" : "password"));
   };
+
+  // Icon style for consistent look
   const iconStyle = { color: "red" };
 
   return (
@@ -73,10 +84,8 @@ const Login = () => {
                   </span>
                 </div>
                 <div className="form-options">
-                  <div className="remember-me">
-                    {/* ----checkbox--- */}
-                    <input type="checkbox" id="rememberMe" name="rememberMe" className="checkbox-custom" />
-                    <label>Remember me</label>
+                  <div className="d-flex justify-content-start align-items-center text-md-start">
+                    <Checkbox name="rememberMe" label={<span className="fs-4">Remember me</span>} />
                   </div>
                   <Link to="/forget-password" className="forget-password">
                     Forget Password?

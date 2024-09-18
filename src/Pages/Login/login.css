@@ -20,11 +20,10 @@
 
 .main-logo {
   position: absolute;
-  margin: 10px;
+  top: 10px;
+  left: 10px;
   width: 100%;
   max-width: 250px;
-  height: auto;
-  width: 268px;
   z-index: 1000;
 }
 
@@ -46,7 +45,7 @@ h2 {
 
 .password-field .toggle-password {
   position: absolute;
-  top: 60%;
+  top: 62%;
   right: 20px;
   transform: translateY(-50%);
   cursor: pointer;
@@ -59,62 +58,62 @@ h2 {
   margin-top: 15px;
 }
 
+.remember-me {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.remember-me label {
+  font-size: 20px;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.remember-me input {
+  margin-right: 8px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.remember-me label {
+  font-size: 20px;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.remember-me input {
+  margin-right: 8px;
+}
+
 .forget-password {
-  color: red;
+  color: darkred;
   text-decoration: none;
+  margin-left: auto;
 }
 
 .forget-password:hover {
-  color: darkred;
+  color: red;
 }
 
 .login-btn {
   background-color: #be202f;
   color: white;
-  padding: 10px;
+  padding: 16px;
   border: none;
   border-radius: 40px;
-  width: 90%;
-  margin-top: 20px;
+  width: 100%;
+  margin: 20px auto 0;
   font-size: 16px;
   cursor: pointer;
+  justify-content: center;
 }
 
 .login-btn:hover {
   background-color: #911925;
 }
 
-.remember-me {
-  display: flex;
-  align-items: center;
-}
-
-.remember-me label {
-  margin-left: 5px;
-  margin-bottom: 2px;
-}
-
-.checkbox-custom {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid red;
-  border-radius: 3px;
-  cursor: pointer;
-  position: relative;
-}
-.remember-me label {
-  margin-left: 8px;
-  cursor: pointer;
-}
-
-.forget-password {
-  color: darkred;
-}
-
-.forget-password:hover {
-  color: red;
-}
 .image-section {
   flex: 1;
   display: flex;

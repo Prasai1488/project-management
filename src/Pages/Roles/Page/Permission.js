@@ -139,7 +139,7 @@ const Permission = ({ selectedPermissions, setSelectedPermissions, holdPermissio
   return (
     <div className="row permission-container">
       <div className="col-12 title-container">
-        <h5>Add User Permission</h5>
+        {/* <h5>Add User Permission</h5> */}
         <div className="sub-title-container">
           <label htmlFor="permissionCategory">Select Permission Group </label>
           <AsyncSelect

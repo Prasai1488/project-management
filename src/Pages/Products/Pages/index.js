@@ -69,14 +69,14 @@ const Products = () => {
 
         {/* {loadingProduct && <ListingSkeleton />}
         {!loadingProduct && ( */}
-          <ProductListing
-            dispatch={dispatch}
-            setShowTicketModal={setShowProductModal}
-            setPostsPerPage={setPostsPerPage}
-            setPage={setPage}
-            postsPerPage={postsPerPage}
-            page={page}
-          />
+        <ProductListing
+          dispatch={dispatch}
+          setShowTicketModal={setShowProductModal}
+          setPostsPerPage={setPostsPerPage}
+          setPage={setPage}
+          postsPerPage={postsPerPage}
+          page={page}
+        />
         {/* )} */}
       </div>
       <CommonCreateButton
@@ -86,23 +86,21 @@ const Products = () => {
         setShowModal={setShowProductModal}
         createPermission={createPermission}
       />
-      {/* {showTicketModal && */}
-       (
-        <Suspense fallback={<div></div>}>
-          <Modal
-            showModal={showProductModal}
-            setShowModal={setShowProductModal}
-            header={edit ? "Update Product" : "Add Product"}
-            types={types}
-            edit={edit}
-            size={"modal-lg"}
-            // clearAction={clearEditTicket}
-          >
-            <CreateProduct dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowProductModal} />
-          </Modal>
-        </Suspense>
-      )
-      {/* } */}
+      {/* {showTicketModal && */}(
+      <Suspense fallback={<div></div>}>
+        <Modal
+          showModal={showProductModal}
+          setShowModal={setShowProductModal}
+          header={edit ? "Update Product" : "Add Product"}
+          types={types}
+          edit={edit}
+          size={"modal-md"}
+          // clearAction={clearEditTicket}
+        >
+          <CreateProduct dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowProductModal} />
+        </Modal>
+      </Suspense>
+      ){/* } */}
     </>
   );
 };
