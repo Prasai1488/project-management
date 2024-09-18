@@ -26,11 +26,7 @@ const CommonTextField = ({
         </label>
         <Field
           type={type}
-          className={
-            formikRequired
-              ? "required-field form-control " + className
-              : "form-control " + className
-          }
+          className={formikRequired ? "required-field form-control " + className : "form-control " + className}
           id={label}
           value={value && value}
           onChange={onChange}
@@ -41,15 +37,9 @@ const CommonTextField = ({
           disabled={!disabled ? (disabled ? true : false) : false}
           readOnly={readOnly ? true : false}
         />
-        {name === "notes" && (
-          <i className="text-danger">
-            *Note: Every note should be separated with period(.)
-          </i>
-        )}
+        {name === "notes" && <i className="text-danger">*Note: Every note should be separated with period(.)</i>}
 
-        {!isNotFormik && (
-          <ErrorMessage className="error-message" name={name} component={"p"} />
-        )}
+        {!isNotFormik && <ErrorMessage className="error-message" name={name} component={"p"} />}
       </div>
     </>
   );

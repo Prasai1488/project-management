@@ -1,22 +1,15 @@
 import { BiPurchaseTag } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
-import { FaMoneyBillWave, FaUsersGear } from "react-icons/fa6";
 import { RiSettings4Line } from "react-icons/ri";
-
+import { IoBookmarksOutline } from "react-icons/io5";
+import { BsGrid } from "react-icons/bs";
 export const sidebarData = [
   {
     menu: "Products",
-    icon: <BiPurchaseTag size={20} />,
+    icon: <BsGrid size={20} />,
     key: "Products",
     link: "/products",
     permissions: ["view_products"],
-  },
-  {
-    menu: "Orders",
-    icon: <FaUsers size={20} />,
-    key: "orders",
-    link: "/orders",
-    permissions: [""],
   },
 
   {
@@ -37,8 +30,21 @@ export const sidebarData = [
     menu: "Role",
     icon: <FaUsers size={20} />,
     key: "role",
-    link: "/role",
+    link: "/roles",
     permissions: [""],
+  },
+];
+export const orders = [
+  {
+    menu: "Orders",
+    icon: <IoBookmarksOutline size={20} />,
+    sub_menu: [
+      {
+        name: "Orders",
+        link: "/orders",
+        permissions: ["view_orders"],
+      },
+    ],
   },
 ];
 
@@ -118,11 +124,11 @@ export const admin = [
             link: "/user",
             permissions: ["update_user", "change_user_password", "view_staff", "add_user"],
           },
-          {
-            name: "Roles",
-            link: "/roles",
-            permissions: ["add_role", "view_role", "update_role"],
-          },
+          // {
+          //   name: "Roles",
+          //   link: "/roles",
+          //   permissions: ["add_role", "view_role", "update_role"],
+          // },
           {
             name: "Permissions",
             link: "/permissions",

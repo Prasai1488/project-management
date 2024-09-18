@@ -1,0 +1,5 @@
+.create-order-wrapper {
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+}

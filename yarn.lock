@@ -4789,13 +4789,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap@npm:4.5.3":
-  version: 4.5.3
-  resolution: "bootstrap@npm:4.5.3"
+"bootstrap@npm:^5.3.3":
+  version: 5.3.3
+  resolution: "bootstrap@npm:5.3.3"
   peerDependencies:
-    jquery: 1.9.1 - 3
-    popper.js: ^1.16.1
-  checksum: 10c0/3f5e4b05c5256b0983bb52a4effd87bb2383a5c3aea29d2520040f434d8add5328cddf531abec536be5205323d5bf743006ed9bf7d476fa863bb1d49ae780a77
+    "@popperjs/core": ^2.11.8
+  checksum: 10c0/bb68ca7b763977b9cce40cb5b8c676ae19a716d2f5d15009fa7bdbcec9dea426968e3cb748fbed7592fbf10edd7c749aea841c2920996a7c1aa5e0a6e2d4c2ad
   languageName: node
   linkType: hard
 
@@ -5106,7 +5105,7 @@ __metadata:
     abort-controller: "npm:^3.0.0"
     apexcharts: "npm:^3.49.1"
     axios: "npm:^1.3.3"
-    bootstrap: "npm:4.5.3"
+    bootstrap: "npm:^5.3.3"
     bootstrap-daterangepicker: "npm:^3.1.0"
     concurrently: "npm:^8.2.2"
     country-state-city: "npm:^3.1.4"

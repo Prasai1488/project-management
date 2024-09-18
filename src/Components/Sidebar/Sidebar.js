@@ -9,7 +9,7 @@ import { setSystemSelected } from "../../Redux/SystemSelection/systemSelectionSl
 import getCookie from "../../Utils/Cookies/getCookie";
 import logo from "../../assets/sidebar-icon.svg";
 import { errorFunction, successFunction } from "../Alert/Alert";
-import { admin, sidebarData } from "./SidebarData";
+import { admin, sidebarData, orders } from "./SidebarData";
 import "./sidebar.css";
 
 const CrmSidebar = () => {
@@ -201,6 +201,82 @@ const CrmSidebar = () => {
                         {menu}
                       </MenuItem>
                     ) : null;
+                  })}
+                </Menu>
+                <Menu menuItemStyles={menuItemStyles} onClick={handleMenuClick} transitionDuration={750}>
+                  {orders?.map((side, i) => {
+                    const { menu, sub_menu, icon, link, permission } = side;
+                    const showMenu = permission?.some((element) => permissionApi?.indexOf(element) !== -1);
+                    return (
+                      <div key={i}>
+                        <>
+                          {sub_menu || isSuperuser ? (
+                            <>
+                              {
+                                <SubMenu
+                                  onClick={() => handleOpenSubMenu("orders")}
+                                  open={open === "orders"}
+                                  key={i + 1}
+                                  label={menu}
+                                  icon={icon}
+                                >
+                                  {sub_menu.map((sub, j) => {
+                                    const { link, name, permissions, child_menu, key } = sub;
+                                    const showSubMenu = permissions?.some(
+                                      (element) => permissionApi?.indexOf(element) !== -1
+                                    );
+                                    const ordersPermission = showSubMenu || isSuperuser;
+                                    return child_menu
+                                      ? ordersPermission && (
+                                          <SubMenu
+                                            onClick={() => handleChildMenuOpen(key)}
+                                            open={childMenuOpen === key}
+                                            label={name}
+                                            key={j + 1}
+                                          >
+                                            {child_menu.map((child, k) => {
+                                              const { link, name, permissions } = child;
+                                              const showChildMenu = permissions?.some(
+                                                (element) => permissionApi?.indexOf(element) !== -1
+                                              );
+                                              return showChildMenu || isSuperuser ? (
+                                                <MenuItem
+                                                  active={location?.pathname === link}
+                                                  component={<Link to={link} />}
+                                                  key={k}
+                                                >
+                                                  {name}
+                                                </MenuItem>
+                                              ) : null;
+                                            })}
+                                          </SubMenu>
+                                        )
+                                      : ordersPermission && (
+                                          <MenuItem
+                                            active={location?.pathname === link}
+                                            component={<Link to={link} />}
+                                            key={j + 1}
+                                          >
+                                            {name}
+                                          </MenuItem>
+                                        );
+                                  })}
+                                </SubMenu>
+                              }
+                            </>
+                          ) : showMenu || isSuperuser ? (
+                            <MenuItem
+                              active={location?.pathname === link}
+                              component={<Link to={link} />}
+                              key={menu}
+                              icon={icon}
+                            >
+                              {menu}
+                            </MenuItem>
+                          ) : null}
+                        </>
+                      </div>
+                    );
                   })}
                 </Menu>
               </div>
