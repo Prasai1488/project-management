@@ -42,8 +42,7 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
       if (edit) {
         // await dispatch(updateProduct({ id: edit.id, ...values }));
       } else {
-        //   await dispatch(createProduct(values));
-        // }
+        // await dispatch(createProduct(values));
       }
       setShowModal(false);
     } catch (error) {
@@ -60,9 +59,10 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
         <Formik initialValues={initialValues} validationSchema={CreateProductSchema} onSubmit={handleSubmit}>
           {(formik) => (
             <Form autoComplete="off">
-              <div className="my-2 col-12 ">
+              <div className="my-2 col-12">
                 <div className="row">
-                  <div className="col-3 dropzone-container">
+                  {/* Dropzone Container */}
+                  <div className="col-3 dropzone-container mr-4 ml-2">
                     <Dropzone
                       name="photo"
                       label="Upload Image"
@@ -78,12 +78,14 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
                       }}
                       displayImage={img ? <Thumb thumb={img} /> : ""}
                       error={formik.errors.photo}
-                      text={"File must be less than 500kb"}
+                      // text={"File must be less than 500kb"}
                     />
                   </div>
+
+                  {/* Form Fields */}
                   <div className="col-8">
                     <div className="row">
-                      <div className="col-8 text-field-container">
+                      <div className="col-md-12 mb-2">
                         <TextField
                           type="text"
                           name="Name"
@@ -96,9 +98,7 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
                           autoFocus
                         />
                       </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-8 text-field-container">
+                      <div className="col-md-12 mb-3">
                         <TextField
                           type="text"
                           name="barcode"
@@ -111,8 +111,9 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
                         />
                       </div>
                     </div>
+
                     <div className="row">
-                      <div className="col-4 text-field-container">
+                      <div className="col-md-6 mb-3">
                         <TextField
                           type="text"
                           name="category"
@@ -124,7 +125,7 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
                           value={formik.values.category}
                         />
                       </div>
-                      <div className="col-4 text-field-container">
+                      <div className="col-md-6 mb-3">
                         <TextField
                           type="text"
                           name="capacity"
@@ -140,6 +141,8 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
                   </div>
                 </div>
               </div>
+
+              {/* Submit Button */}
               <div className="col-12 text-right">
                 <div className="my-4 d-flex justify-content-end align-items-center">
                   <Button
