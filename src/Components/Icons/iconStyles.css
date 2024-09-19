@@ -16,6 +16,11 @@
   width: 15px;
   color: rgb(184, 7, 7);
 }
+.spread-icon {
+  height: 15px;
+  width: 15px;
+  color: rgb(184, 7, 7);
+}
 .detail-action-button:focus {
   outline: 0;
   box-shadow: none;

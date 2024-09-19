@@ -2,7 +2,7 @@ import React from "react";
 import detailEyeIcon from "../../assets/detail-eye.svg";
 import { FiEdit } from "react-icons/fi";
 import "./iconStyles.css";
-import { MdDelete, MdHistory } from "react-icons/md";
+import { MdDelete, MdHistory, MdEllipsisH } from "react-icons/md";
 
 const DetailActionButton = ({ onClick, type }) => {
   return (

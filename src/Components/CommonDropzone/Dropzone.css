@@ -14,9 +14,9 @@
 }
 
 .common-dropzone-wrapper .custom-dropzone {
-  width: 140px;
-  height: 140px;
-  border: 1px dashed #000000;
+  width: 120px;
+  height: 120px;
+  border: 1px solid #4e4545;
   padding: 0px 5px;
   border-radius: 10px;
   font-style: normal;

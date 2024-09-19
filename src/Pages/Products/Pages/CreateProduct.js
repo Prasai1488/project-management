@@ -16,11 +16,7 @@ const CreateProductSchema = Yup.object().shape({
   capacity: Yup.string().required("Capacity is required"),
   photo: Yup.mixed()
     .required("A product image is required")
-    .test(
-      "fileSize",
-      "File size is too large",
-      (value) => value?.size <= 500 * 1024 // Ensure file is less than 500kb
-    ),
+    .test("fileSize", "File size is too large", (value) => value?.size <= 500 * 1024),
 });
 
 const CreateProduct = ({ dispatch, edit, setShowModal }) => {
@@ -57,28 +53,27 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
       {loading && <Loader />}
       <div className="create-product-wrapper">
         <Formik initialValues={initialValues} validationSchema={CreateProductSchema} onSubmit={handleSubmit}>
-          {(formik) => (
-            <Form autoComplete="off">
+          {({ handleChange, setFieldValue, values, errors, touched, handleSubmit }) => (
+            <Form onSubmit={handleSubmit} autoComplete="off">
               <div className="my-2 col-12">
                 <div className="row">
                   {/* Dropzone Container */}
                   <div className="col-3 dropzone-container mr-4 ml-2">
                     <Dropzone
                       name="photo"
-                      label="Upload Image"
+                      label="Photo"
                       removePhoto={() => {
-                        formik.setFieldValue("photo", "");
+                        setFieldValue("photo", null);
                         setImg(null);
                       }}
                       onChange={(event) => {
-                        formik.setFieldValue("photo", event.target.files[0]);
+                        setFieldValue("photo", event.target.files[0]);
                         let reader = new FileReader();
                         reader.readAsDataURL(event.target.files[0]);
                         reader.onloadend = () => setImg([reader.result]);
                       }}
                       displayImage={img ? <Thumb thumb={img} /> : ""}
-                      error={formik.errors.photo}
-                      // text={"File must be less than 500kb"}
+                      error={errors.photo && touched.photo ? errors.photo : null} // Display the error only when touched
                     />
                   </div>
 
@@ -91,10 +86,10 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
                           name="Name"
                           label="Name"
                           required
-                          formikRequired={formik.errors.Name && formik.touched.Name}
+                          error={errors.Name && touched.Name ? errors.Name : null}
                           placeholder="Product Name"
-                          onChange={formik.handleChange}
-                          value={formik.values.Name}
+                          onChange={handleChange}
+                          value={values.Name}
                           autoFocus
                         />
                       </div>
@@ -104,10 +99,10 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
                           name="barcode"
                           label="Barcode"
                           required
-                          formikRequired={formik.errors.barcode && formik.touched.barcode}
+                          error={errors.barcode && touched.barcode ? errors.barcode : null}
                           placeholder="Barcode"
-                          onChange={formik.handleChange}
-                          value={formik.values.barcode}
+                          onChange={handleChange}
+                          value={values.barcode}
                         />
                       </div>
                     </div>
@@ -119,10 +114,10 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
                           name="category"
                           label="Category"
                           required
-                          formikRequired={formik.errors.category && formik.touched.category}
+                          error={errors.category && touched.category ? errors.category : null}
                           placeholder="Category"
-                          onChange={formik.handleChange}
-                          value={formik.values.category}
+                          onChange={handleChange}
+                          value={values.category}
                         />
                       </div>
                       <div className="col-md-6 mb-3">
@@ -131,22 +126,21 @@ const CreateProduct = ({ dispatch, edit, setShowModal }) => {
                           name="capacity"
                           label="Capacity"
                           required
-                          formikRequired={formik.errors.capacity && formik.touched.capacity}
+                          error={errors.capacity && touched.capacity ? errors.capacity : null}
                           placeholder="Capacity"
-                          onChange={formik.handleChange}
-                          value={formik.values.capacity}
+                          onChange={handleChange}
+                          value={values.capacity}
                         />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              {/* Submit Button */}
+              {/* Submit button inside the Form component */}
               <div className="col-12 text-right">
-                <div className="my-4 d-flex justify-content-end align-items-center">
+                <div className="my-1 d-flex justify-content-end align-items-center">
                   <Button
-                    btnType="submit"
+                    type="submit"
                     className="btn create-button"
                     createButton={true}
                     title={edit ? "Update" : "Save"}
