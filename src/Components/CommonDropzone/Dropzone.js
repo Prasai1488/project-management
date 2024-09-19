@@ -29,7 +29,7 @@ const Dropzone = ({ name, label, onChange, removePhoto, displayImage, isNotFormi
 
   return (
     <div className="common-dropzone-wrapper">
-      <label className="form-label m-0">{label}</label>
+      <label className="form-label">{label}</label>
       <br />
       <label
         className="custom-dropzone"

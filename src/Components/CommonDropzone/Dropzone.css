@@ -10,13 +10,13 @@
   font-weight: 500;
   font-size: 12px;
   color: #1e2125;
+  margin: 0px;
 }
 
 .common-dropzone-wrapper .custom-dropzone {
   width: 120px;
   height: 120px;
   border: 1px solid #d9d9d9;
-
   padding: 0px 5px;
   border-radius: 10px;
   font-style: normal;
