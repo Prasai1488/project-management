@@ -60,7 +60,7 @@ h5.modal-title {
   padding: 0;
 }
 .btn-close {
-  background: transparent;
+  background: var(--blue-primary);
   border: none;
   outline: 0;
 }

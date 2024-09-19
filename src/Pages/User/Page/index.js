@@ -68,10 +68,10 @@ const UserListing = () => {
             dispatch={setShowModal}
             showModal={showUserModal}
             setShowModal={setShowUserModal}
-            header={edit ? "Update User" : "Add User"}
+            header={edit ? "Update User Details" : "User Details"}
             types={types}
             edit={edit}
-            size={"modal-xl"}
+            size={"modal-lg"}
             clearAction={clearEditUser}
           >
             <CreateUser dispatch={dispatch} setShowModal={setShowUserModal} postsPerPage={postsPerPage} />

@@ -7,13 +7,15 @@
 .sidebar ::-webkit-scrollbar {
   display: none;
 }
-
-.logout-btn {
+.password-logout-container {
+  margin: 10px;
+}
+/* .logout-btn {
   border: none;
   background: var(--blue-primary);
   color: white;
   border-radius: 10px;
-}
+} */
 
 .ps-submenu-expand-icon.css-viw5ch {
   display: none !important;
@@ -72,10 +74,10 @@
   height: 40px;
 }
 .sidebar-header .logo-container img {
-  width: 100%;
+  width: 150%;
   height: 100%;
 }
 
 .css-dip3t8 {
   z-index: 0 !important;
-}/*# sourceMappingURL=sidebar.css.map */
+} /*# sourceMappingURL=sidebar.css.map */

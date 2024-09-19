@@ -1,145 +1,59 @@
-import { BiPurchaseTag } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
-import { RiSettings4Line } from "react-icons/ri";
+import { VscOrganization } from "react-icons/vsc";
 import { IoBookmarksOutline } from "react-icons/io5";
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { BsGrid } from "react-icons/bs";
+import { TfiUser } from "react-icons/tfi";
 export const sidebarData = [
   {
-    menu: "Products",
-    icon: <BsGrid size={20} />,
-    key: "Products",
-    link: "/products",
-    permissions: ["view_products"],
-  },
-
-  {
     menu: "Organization",
-    icon: <FaUsers size={20} />,
+    icon: <VscOrganization size={20} />,
     key: "organization",
     link: "/organization",
     permissions: [""],
   },
   {
     menu: "User",
-    icon: <FaUsers size={20} />,
+    icon: <TfiUser size={20} />,
     key: "user",
     link: "/user",
     permissions: [""],
   },
   {
     menu: "Role",
-    icon: <FaUsers size={20} />,
+    icon: <IoBookmarksOutline size={20} />,
     key: "role",
     link: "/roles",
     permissions: [""],
   },
 ];
+export const products = [
+  {
+    menu: "Products",
+    icon: <BsGrid size={20} />,
+    sub_menu: [
+      {
+        name: "Products",
+        link: "/products",
+        permissions: ["view_products"],
+      },
+      {
+        name: "Category",
+        link: "/category",
+        permissions: ["view_category"],
+      },
+    ],
+  },
+];
 export const orders = [
   {
     menu: "Orders",
-    icon: <IoBookmarksOutline size={20} />,
+    icon: <HiOutlineClipboardDocumentList size={20} />,
     sub_menu: [
       {
         name: "Orders",
         link: "/orders",
         permissions: ["view_orders"],
-      },
-    ],
-  },
-];
-
-export const admin = [
-  {
-    menu: "Setting",
-    icon: <RiSettings4Line size={18} />,
-    sub_menu: [
-      {
-        name: "System Setup",
-        link: "/system-setup",
-        key: "coreSetup",
-        permissions: ["export_report", "view_report"],
-        child_menu: [
-          // {
-          //   name: "Organization",
-          //   link: "/organization-setup",
-          //   permissions: ["add_system_setup"],
-          // },
-
-          {
-            name: "Manufacturer",
-            link: "/manufacturer",
-            permissions: ["export_report", "view_report"],
-          },
-
-          {
-            name: "Products",
-            link: "/products",
-            permissions: ["export_report", "view_report"],
-          },
-          {
-            name: "Items",
-            link: "/items",
-            permissions: [""],
-          },
-          {
-            name: "Unit",
-            link: "/unit",
-            permissions: [""],
-          },
-          {
-            name: "Questionnaire",
-            link: "/questionnaire",
-            permissions: [""],
-          },
-          {
-            name: "Issues",
-            link: "/issues",
-            permissions: [""],
-          },
-          {
-            name: "Contact Persons",
-            link: "/contact-persons",
-            permissions: [""],
-          },
-          {
-            name: "Client",
-            link: "/client",
-            permissions: [""],
-          },
-          {
-            name: "Customer",
-            link: "/customer",
-            permissions: [""],
-          },
-        ],
-      },
-      {
-        name: "User Setup",
-        link: "/user-setup",
-        key: "userSetup",
-        permissions: ["export_report", "view_report"],
-        child_menu: [
-          {
-            name: "User",
-            link: "/user",
-            permissions: ["update_user", "change_user_password", "view_staff", "add_user"],
-          },
-          // {
-          //   name: "Roles",
-          //   link: "/roles",
-          //   permissions: ["add_role", "view_role", "update_role"],
-          // },
-          {
-            name: "Permissions",
-            link: "/permissions",
-            permissions: ["add_role", "view_role", "update_role"],
-          },
-          {
-            name: "Permission Categories",
-            link: "/permission-categories",
-            permissions: ["add_role", "view_role", "update_role"],
-          },
-        ],
       },
     ],
   },

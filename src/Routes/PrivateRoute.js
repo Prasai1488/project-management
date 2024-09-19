@@ -20,7 +20,6 @@ import Manufacturers from "../Pages/Manufacturer/Page";
 import Units from "../Pages/Unit/Page";
 import Sales from "../Pages/Sales/Pages";
 
-
 import Category from "../Pages/Category/Page";
 
 import Orders from "../Pages/Orders/Pages";
@@ -117,6 +116,7 @@ const PrivateRoute = () => {
             <ProtectedRoute exact path="/customer" component={Customers} permission={""} />
             <ProtectedRoute exact path="/unit" component={Units} permission={""} />
 
+            <ProtectedRoute exact path="/organization" component={Organization} permission={""} />
             <ProtectedRoute exact path="/category" component={Category} permission={""} />
 
             <ProtectedRoute exact path="/orders" component={Orders} permission={""} />
