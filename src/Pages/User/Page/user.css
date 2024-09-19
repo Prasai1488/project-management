@@ -3,3 +3,8 @@
   padding: 20px;
   background: var(--background-color);
 }
+.create-user-wrapper {
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+}

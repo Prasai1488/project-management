@@ -1,28 +1,19 @@
 .create-product-wrapper {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .dropzone-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 2px;
-  }
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-  
-  .error-message {
-    color: red;
-    font-size: 0.875em;
-    margin-top: 5px;
-  }
-  
-  button.create-button {
-    background-color: #ff4d4f;
-    color: white;
-    border-radius: 4px;
-    padding: 10px 20px;
-  }
-  
+.dropzone-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875em;
+  margin-top: 5px;
+}
