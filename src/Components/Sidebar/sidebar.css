@@ -11,6 +11,10 @@
   margin: 10px;
   margin-bottom: 20px;
 }
+.button-container {
+  display: flex;
+  margin-top: 10px;
+}
 
 /* .logout-btn {
   border: none;

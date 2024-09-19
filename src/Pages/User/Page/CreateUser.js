@@ -155,49 +155,48 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
             return (
               <Form autoComplete="off">
                 <div className="create-department-wrapper">
-                  <div className="my-4">
-                    <div className="row">
-                      <div className="col-2 ">
-                        <Dropzone
-                          name="photo"
-                          label="Photo"
-                          removePhoto={() => {
-                            if (edit) {
-                              handleDelete();
-                            } else {
-                              formik.setFieldValue("photo", "");
-                              setImg(null);
-                            }
-                          }}
-                          onChange={(event) => {
-                            formik.setFieldValue("photo", event.target.files[0]);
-                            let reader = new FileReader();
-                            reader.readAsDataURL(event.target.files[0]);
-                            reader.onloadend = () => setImg([reader.result]);
-                          }}
-                          displayImage={
-                            img ? <Thumb thumb={img} /> : user && user.photo && !img ? <Thumb thumb={user.photo} /> : ""
+                  <div className="row">
+                    <div className="col-2">
+                      <Dropzone
+                        name="photo"
+                        label="Photo"
+                        removePhoto={() => {
+                          if (edit) {
+                            handleDelete();
+                          } else {
+                            formik.setFieldValue("photo", "");
+                            setImg(null);
                           }
-                          error={formik.errors.photo}
-                        />
-                      </div>
-                      <div className="col-10">
-                        <div className="row">
-                          {renderTextField(formik, 4, "firstname", "text", "First Name", true)}
-                          {renderTextField(formik, 4, "middlename", "text", "Middle Name", true)}
-                          {renderTextField(formik, 4, "lastname", "text", "Last Name", true)}
-                          {renderTextField(formik, 4, "email", "text", "Email", true)}
-                          {renderTextField(formik, 4, "phone", "text", "Mobile Number", true)}
-                          {renderSelectField(
-                            formik,
-                            4,
-                            "organization",
-                            "Organization",
-                            organizationType,
-                            true,
-                            formik?.values?.organization
-                          )}
-                        </div>
+                        }}
+                        onChange={(event) => {
+                          formik.setFieldValue("photo", event.target.files[0]);
+                          let reader = new FileReader();
+                          reader.readAsDataURL(event.target.files[0]);
+
+                          reader.onloadend = () => setImg([reader.result]);
+                        }}
+                        displayImage={
+                          img ? <Thumb thumb={img} /> : user && user.photo && !img ? <Thumb thumb={user.photo} /> : ""
+                        }
+                        error={formik.errors.photo}
+                      />
+                    </div>
+                    <div className="col-10">
+                      <div className="row">
+                        {renderTextField(formik, 4, "firstName", "text", "First Name", true)}
+                        {renderTextField(formik, 4, "middleName", "text", "Middle Name", true)}
+                        {renderTextField(formik, 4, "lastName", "text", "Last Name", true)}
+                        {renderTextField(formik, 4, "email", "text", "Email", true)}
+                        {renderTextField(formik, 4, "phone", "text", "Mobile Number", true)}
+                        {renderSelectField(
+                          formik,
+                          4,
+                          "organization",
+                          "Organization",
+                          organizationType,
+                          true,
+                          formik?.values?.organization
+                        )}
                       </div>
                     </div>
                   </div>

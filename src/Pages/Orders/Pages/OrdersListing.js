@@ -36,10 +36,10 @@ const OrdersListing = ({
     {
       order: "order1",
       customer: "Hemant",
-      orderno: "OR-001",
+      orderno: "2024-09-01",
       packedon: "2024-09-01",
-      approvedno: "AP-001",
-      dispatchno: "DP-001",
+      approvedno: "2024-09-01",
+      dispatchno: "2024-09-01",
       status: "Resolved",
     },
   ];

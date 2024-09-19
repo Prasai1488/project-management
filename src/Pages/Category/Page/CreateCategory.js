@@ -90,7 +90,7 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
                   true
                 )}
               </div>
-              <div className="form-group d-flex align-items-center">
+              <div className="d-flex align-items-center">
                 <input
                   type="checkbox"
                   id="status"
@@ -98,25 +98,20 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
                   onChange={formik.handleChange}
                   checked={formik.values.status}
                 />
-
                 <label htmlFor="status" className="ml-2">
                   Active
                 </label>
               </div>
-              <div className="row">
-                <div className="col-12 p-10 text-right">
-                  <div className="mt-3 d-flex justify-content-end align-items-center">
-                    <Button
-                      btnType="submit"
-                      className="btn create-button"
-                      createButton={true}
-                      title={edit ? "Update" : "Save"}
-                      content={"Save"}
-                      onClick={() => setSubmit(true)}
-                    />
-                  </div>
-                </div>
-              </div>
+            </div>
+            <div className="d-flex justify-content-end align-items-center">
+              <Button
+                btnType="submit"
+                className="btn create-button"
+                createButton={true}
+                title={edit ? "Update" : "Save"}
+                content={"Save"}
+                onClick={() => setSubmit(true)}
+              />
             </div>
           </Form>
         )}

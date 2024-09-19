@@ -88,7 +88,7 @@ const OrderDetails = () => {
             <Form autoComplete="off">
               <div className="create-order-wrapper">
                 <div className="row">
-                  {renderTextField(formik, 3, "customer", "text", "Customer", true)}
+                  {renderTextField(formik, "col", "customer", "text", "Customer", true)}
                   {renderTextField(formik, "col", "orderOn", "text", "Order On", true)}
                   {renderTextField(formik, "col", "packedOn", "text", "Packed On", true)}
                   {renderTextField(formik, "col", "approvedOn", "text", "Approved On ", true)}
