@@ -16,8 +16,8 @@ const ChangePassword = () => {
   const userid = useSelector((state) => state.auth.userId);
 
   //   const token = localStorage.getItem("accessToken");
-  const token = getCookie("accessToken");
-  const decoded = jwt_decode(token);
+  // const token = getCookie("accessToken");
+  // const decoded = jwt_decode(token);
   const dispatch = useDispatch();
   const userData = users?.find((user) => (user.id === decoded.userId ? user : null));
   let history = useHistory();

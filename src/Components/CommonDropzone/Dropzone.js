@@ -6,17 +6,7 @@ import TextError from "../TextError";
 import image from "../../assets/Vector.png";
 import { errorFunction } from "../Alert/Alert";
 
-const Dropzone = ({
-  name,
-  label,
-  onChange,
-  removePhoto,
-  displayImage,
-  isNotFormik,
-  text,
-  error,
-  type,
-}) => {
+const Dropzone = ({ name, label, onChange, removePhoto, displayImage, isNotFormik, text, error, type }) => {
   let deleteButtonClass = displayImage ? "delete-button show" : "delete-button";
   const handleClick = () => {
     removePhoto();
@@ -29,9 +19,7 @@ const Dropzone = ({
     if (file) {
       const extension = file.name.split(".").pop().toLowerCase();
       if (!acceptedExtensions.includes(extension)) {
-        errorFunction(
-          `File extension of "jpeg", "jpg", "png" are only accepted`
-        );
+        errorFunction(`File extension of "jpeg", "jpg", "png" are only accepted`);
         return;
       }
     }
@@ -41,7 +29,7 @@ const Dropzone = ({
 
   return (
     <div className="common-dropzone-wrapper">
-      <label className="form-label">{label}</label>
+      <label className="form-label m-0">{label}</label>
       <br />
       <label
         className="custom-dropzone"
@@ -53,7 +41,7 @@ const Dropzone = ({
         ) : (
           <>
             <img src={image} alt="image-logo" />
-            <p>Select {label}</p>
+            {/* <p>Select {label}</p> */}
           </>
         )}
       </label>
@@ -63,13 +51,7 @@ const Dropzone = ({
           <FaTrashAlt />
         </div>
       )}
-      <input
-        type="file"
-        id={name}
-        name={name}
-        className="form-control"
-        onChange={handleFileChange}
-      />
+      <input type="file" id={name} name={name} className="form-control" onChange={handleFileChange} />
       {!isNotFormik && <ErrorMessage name={name} component={TextError} />}
       {!error && <span>{text}</span>}
     </div>

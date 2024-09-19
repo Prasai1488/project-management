@@ -78,11 +78,6 @@ const OrderDetails = () => {
       formRef.current.submitForm();
     }
   }, [submit]);
-  const customerOptions = [
-    { id: "AF1", name: "Hemant" },
-    { id: "AF2", name: "Yugan" },
-    { id: "AF3", name: "Prithivi" },
-  ];
 
   return (
     <>
@@ -91,24 +86,16 @@ const OrderDetails = () => {
         {(formik) => {
           return (
             <Form autoComplete="off">
-              <div className="create-order-wrapper mt-2">
+              <div className="create-order-wrapper">
                 <div className="row">
-                  {renderSelectField(
-                    formik,
-                    4,
-                    "customer",
-                    "Customer",
-                    customerOptions,
-                    true,
-                    formik?.values?.customer
-                  )}
-                  {renderTextField(formik, 2, "orderOn", "text", "Order On", true)}
-                  {renderTextField(formik, 2, "packedOn", "text", "Packed On", true)}
-                  {renderTextField(formik, 2, "approvedOn", "text", "Approved On ", true)}
-                  {renderTextField(formik, 2, "dispatchedOn", "text", "Dispatched On", true)}
+                  {renderTextField(formik, 3, "customer", "text", "Customer", true)}
+                  {renderTextField(formik, "col", "orderOn", "text", "Order On", true)}
+                  {renderTextField(formik, "col", "packedOn", "text", "Packed On", true)}
+                  {renderTextField(formik, "col", "approvedOn", "text", "Approved On ", true)}
+                  {renderTextField(formik, "col", "dispatchedOn", "text", "Dispatched On", true)}
                 </div>
               </div>
-              <div className="create-order-wrapper mt-3">
+              <div className="create-order-wrapper mt-2">
                 <table className="listing-table">
                   <thead>
                     <tr>
@@ -142,10 +129,9 @@ const OrderDetails = () => {
                   </tbody>
                 </table>
               </div>
-
-              <div className="row">
-                <div className="col-12 p-10 text-right">
-                  <div className="mt-3 d-flex justify-content-end align-items-center">
+              <div className="row p-0">
+                <div className="col-12 text-right">
+                  <div className="d-flex justify-content-end align-items-center">
                     <Button btnType="submit" className="btn create-button" title={"Approve"} content={"Approve"} />
                   </div>
                 </div>
