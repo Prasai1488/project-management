@@ -32,6 +32,44 @@
   align-items: center;
   letter-spacing: -0.32px;
 }
+.passwordchange-button {
+  background: #ffffff;
+  border-radius: 12px;
+  color: var(--blue-primary);
+  width: 208px;
+  outline: none;
+  border: none;
+  height: 42px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: -0.32px;
+  box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.1);
+}
+.passwordchange-button:hover {
+  background-color: rgb(247, 245, 245);
+}
+.logout-button {
+  background: var(--blue-primary);
+  border-radius: 12px;
+  color: #fff;
+  outline: none;
+  border: none;
+  width: 208px;
+  height: 42px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  align-items: center;
+  letter-spacing: -0.32px;
+}
+
+.logout-button:hover {
+  background-color: #c00c0c;
+}
 .next-button {
   background: none;
   border-radius: 4px;
@@ -50,14 +88,14 @@
 .next-button:hover {
   color: var(--blue-primary) !important;
 }
-/* .create-button:hover {
-  background: var(--blue-primary);
+.create-button:hover {
+  background: #c00c0c;
   color: #fff;
-} */
-/* .create-button:disabled {
+}
+.create-button:disabled {
   background: var(--blue-primary) 88;
   color: #fff;
-} */
+}
 .create-button svg {
   margin-right: 6px;
 }

@@ -25,7 +25,7 @@ const TextField = ({
         {label ? (
           <label htmlFor={label} className="form-label">
             {label}
-            {required && <strong className="text-danger">*</strong>}
+            {required && <strong className="text-danger"></strong>}
           </label>
         ) : null}
         <Field

@@ -8,6 +8,7 @@
 .dropzone-container {
   display: flex;
   justify-content: center;
+
   /* align-items: center; */
 }
 
@@ -17,4 +18,14 @@ button.create-button {
   color: white;
   border-radius: 4px;
   padding: 10px 10px;
+
+  align-items: center;
+  border-radius: 2px;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875em;
+  margin-top: 5px;
+
 }
