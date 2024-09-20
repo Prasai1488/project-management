@@ -1,0 +1,91 @@
+/* OtpPage.css */
+.otp-page {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+.otp-content {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  text-align: center;
+  position: relative;
+}
+
+.otp-box {
+  margin: 0 auto;
+}
+
+.logo-container img {
+  width: 300px;
+  height: auto;
+}
+
+.form-title {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.instructions {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.otp-input {
+  width: auto;
+  min-width: 150px;
+  padding: 10px;
+  font-size: 24px;
+  text-align: center;
+  border: 2px dashed red !important;
+  border-radius: 50px !important;
+  outline: none;
+  color: #d32f2f !important;
+  box-sizing: border-box;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+.otp-input::placeholder {
+  color: #aaa;
+}
+
+.otp-field {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.otp-button {
+  display: inline-block;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #bf202f;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 250px;
+  max-width: 300px;
+}
+
+.copyright {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+}
+
