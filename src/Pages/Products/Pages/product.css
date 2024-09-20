@@ -12,7 +12,7 @@
   /* align-items: center; */
 }
 
-button.create-button {
+/* button.create-button {
     right: 0;
   background-color: #ff4d4f;
   color: white;
@@ -21,7 +21,7 @@ button.create-button {
 
   align-items: center;
   border-radius: 2px;
-}
+} */
 
 .error-message {
   color: red;

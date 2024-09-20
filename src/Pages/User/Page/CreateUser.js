@@ -14,8 +14,8 @@ import Thumb from "../../../Components/Thumb";
 import axiosInstance from "../../../Utils/axios";
 import { SUPPORTED_FORMATS } from "../../../Utils/image";
 import { createUser, deletePhoto, getUser, updateUser } from "../Redux/thunk";
-import { renderSelectField } from "../../../Utils/customFields";
-
+import { renderSelectField, renderTextField } from "../../../Utils/customFields";
+import "./user.css";
 const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
   const formRef = useRef();
   const user = useSelector((state) => state.user.user);
@@ -149,14 +149,14 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
   return (
     <>
       {(loading || loadingUpdated) && <Loader />}
-      <div className="create-user-wrapper">
+      <div className="create-userdetail-wrapper">
         <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
           {(formik) => {
             return (
               <Form autoComplete="off">
-                <div className="my-2">
-                  <div className="row ">
-                    <div className="col-2 ps-5">
+                <div className="create-department-wrapper">
+                  <div className="row">
+                    <div className="col-2">
                       <Dropzone
                         name="photo"
                         label="Photo"
@@ -172,6 +172,7 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
                           formik.setFieldValue("photo", event.target.files[0]);
                           let reader = new FileReader();
                           reader.readAsDataURL(event.target.files[0]);
+
                           reader.onloadend = () => setImg([reader.result]);
                         }}
                         displayImage={
@@ -180,91 +181,22 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
                         error={formik.errors.photo}
                       />
                     </div>
-                    <div className="col-10 ps-1">
+                    <div className="col-10">
                       <div className="row">
-                        <div className="col-4">
-                          <div className="my-2">
-                            <TextField
-                              type="text"
-                              name="firstName"
-                              label="First Name"
-                              required
-                              formikRequired={formik?.errors?.firstName && formik?.touched?.firstName}
-                              onChange={(e) => {
-                                formik.setFieldValue("firstName", e.target.value);
-                              }}
-                              autoFocus={true}
-                            />
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="my-2">
-                            <TextField
-                              type="text"
-                              name="middleName"
-                              label="Middle Name"
-                              required={false}
-                              formikRequired={formik?.errors?.middleName && formik?.touched?.middleName}
-                              onChange={(e) => {
-                                formik.setFieldValue("middleName ", e.target.value);
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="my-2">
-                            <TextField
-                              type="text"
-                              name="lastName"
-                              label="Last Name"
-                              required
-                              formikRequired={formik?.errors?.lastName && formik?.touched?.lastName}
-                              onChange={(e) => {
-                                formik.setFieldValue("lastName", e.target.value);
-                              }}
-                              autoFocus={true}
-                            />
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="my-2">
-                            <TextField
-                              type="text"
-                              name="email"
-                              label="Email"
-                              required
-                              onChange={(e) => {
-                                formik.setFieldValue("email", e.target.value);
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="my-2">
-                            <TextField
-                              type="number"
-                              name="phone"
-                              label="Mobile No"
-                              required
-                              onChange={(e) => {
-                                formik.setFieldValue("phone", e.target.value);
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="my-2">
-                            {renderSelectField(
-                              formik,
-                              12,
-                              "organization",
-                              "Organization",
-                              organizationType,
-                              true,
-                              formik?.values?.organization
-                            )}
-                          </div>
-                        </div>
+                        {renderTextField(formik, 4, "firstName", "text", "First Name", true)}
+                        {renderTextField(formik, 4, "middleName", "text", "Middle Name", true)}
+                        {renderTextField(formik, 4, "lastName", "text", "Last Name", true)}
+                        {renderTextField(formik, 4, "email", "text", "Email", true)}
+                        {renderTextField(formik, 4, "phone", "text", "Mobile Number", true)}
+                        {renderSelectField(
+                          formik,
+                          4,
+                          "organization",
+                          "Organization",
+                          organizationType,
+                          true,
+                          formik?.values?.organization
+                        )}
                       </div>
                     </div>
                   </div>

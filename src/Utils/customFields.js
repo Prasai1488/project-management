@@ -13,10 +13,10 @@ const togglePassword = (type, setType) => {
 };
 export const renderTextField = (formik, colWidth, name, type, label, placeholder, required) => {
   return (
-    <div className={`col-${colWidth}`} key={name}>
+    <div className={colWidth === "col" ? "col" : `col-${colWidth}`} key={name}>
       <div className="my-1">
         <TextField
-          type={type || "text"}
+          type={type || "text" ||"date"}
           name={name}
           label={label}
           required={required ? required : false}
