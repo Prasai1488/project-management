@@ -10,7 +10,7 @@ const initialState = {
   username: null,
   userId: "",
   authError: false,
-  isSuperuser: true,
+  isSuperuser: false,
   isSetupDone: true,
   permissions: [],
   loadingResetPassword: false,
