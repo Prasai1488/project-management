@@ -322,7 +322,7 @@ const CrmSidebar = () => {
                     );
                   })}
                 </Menu>
-                 <Menu menuItemStyles={menuItemStyles} transitionDuration={750}>
+                <Menu menuItemStyles={menuItemStyles} transitionDuration={750}>
                   {sidebarData?.map((side) => {
                     const { menu, sub_menu, icon, link, permissions, key } = side;
                     const showMenu = permissions?.some((element) => permissionApi?.indexOf(element) !== -1);
@@ -359,43 +359,40 @@ const CrmSidebar = () => {
                 </Menu>
               </div>
 
-              <div>
-                <div className="password-logout-container">
-                  <div
-                    style={{
-                      pointerEvents: disablePointerEvents ? "none" : "auto",
-                    }}
-                    active={location?.pathname === "/change-password"}
-                    onClick={() => history.push("/change-password")}
-                  >
-                    <Button
-                      btnType="submit"
-                      className="passwordchange-button"
-                      title={"Change Password"}
-                      content={"Save"}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      pointerEvents: disablePointerEvents ? "none" : "auto",
-                    }}
-                    onClick={() => {
-                      const token = getCookie("refreshToken");
-                      if (token) {
-                        dispatch(logout(token))
-                          .unwrap()
-                          .then(() => {
-                            successFunction("Logged out successfully.");
-                            dispatch(setSystemSelected(""));
+              <div
+                className="password-logout-container"
+                style={{
+                  pointerEvents: disablePointerEvents ? "none" : "auto",
+                }}
+                active={location?.pathname === "/change-password"}
+                onClick={() => history.push("/change-password")}
+              >
+                <Button
+                  btnType="submit"
+                  className="passwordchange-button "
+                  title={"Change Password"}
+                  content={"Save"}
+                />
+                <div
+                  style={{
+                    pointerEvents: disablePointerEvents ? "none" : "auto",
+                  }}
+                  onClick={() => {
+                    const token = getCookie("refreshToken");
+                    if (token) {
+                      dispatch(logout(token))
+                        .unwrap()
+                        .then(() => {
+                          successFunction("Logged out successfully.");
+                          dispatch(setSystemSelected(""));
 
-                            history.push("/");
-                          })
-                          .catch((error) => errorFunction("Failed to logout."));
-                      }
-                    }}
-                  >
-                    <Button btnType="submit" className="logout-button" title={"Logout"} content={"Save"} />
-                  </div>
+                          history.push("/");
+                        })
+                        .catch((error) => errorFunction("Failed to logout."));
+                    }
+                  }}
+                >
+                  <Button btnType="submit" className="logout-button" title={"Logout"} content={"Save"} />
                 </div>
               </div>
             </div>

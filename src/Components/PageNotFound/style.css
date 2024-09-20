@@ -1,5 +1,47 @@
 .reload-text {
-    font-weight: 600;
-    color: #be182a;
+  font-weight: 600;
+  color: #be182a;
+}
+.reload-btn {
+  margin-top: 30px;
+  font-weight: 500;
+  width: 200px;
+  height: 52px;
+  font-size: 18px;
+  border-radius: 100px;
+  border: none;
+  color: #ffffff;
+  background-color: var(--blue-primary);
+}
+.reload-btn:hover {
+  background-color: var(--red-hover);
+}
+
+.pagenotfound-page {
+  display: flex;
+  gap: 15px;
+}
+.head-404 {
+  h1 {
+    font-size: 150px;
+    color: var(--blue-primary);
+    opacity: 0.7;
   }
-  
+}
+.boo-page {
+  margin-top: 50px;
+  h1 {
+    font-size: 50px;
+    font-weight: 600;
+    opacity: 0.7;
+    color: var(--blue-primary);
+  }
+}
+.woops-page {
+  margin: 20px;
+  h2 {
+    font-size: 20px;
+    letter-spacing: 1px;
+    opacity: 70%;
+  }
+}
