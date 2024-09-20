@@ -82,7 +82,7 @@ const PrivateRoute = () => {
       <Suspense fallback={""}>
         {isSetupDone ? (
           <Switch>
-            {/* <ProtectedRoute exact path="/" component={Dashboard} permission={""} /> */}
+            <ProtectedRoute exact path="/" component={Dashboard} permission={""} />
             <ProtectedRoute exact path="/change-password" component={ChangePassword} permission={""} />
 
             {/* <ProtectedRoute exact path="/core-setup" component={CoreSetupTabs} permission={permission?.coreSetup} />

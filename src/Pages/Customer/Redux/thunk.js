@@ -21,7 +21,9 @@ const createThunk = (type, apiCall) =>
   });
 
 export const getCustomers = createThunk(`${types[0]}`, API.getCustomers);
-export const getAllCustomers = createThunk(`${types[1]}`, ({postsPerPage,page})=>API.getAllCustomers({postsPerPage,page}));
+export const getAllCustomers = createThunk(`${types[1]}`, ({ postsPerPage, page }) =>
+  API.getAllCustomers({ postsPerPage, page })
+);
 export const createCustomers = createThunk(`${types[2]}`, (data) => API.createCustomers(JSON.stringify(data)));
 export const updateCustomers = createThunk(`${types[3]}`, ({ id, values }) => API.updateCustomers(id, values));
 

@@ -56,21 +56,21 @@ export const getPageSectors = createAsyncThunk("members/getPageSectors", async (
 export const createSectors = createAsyncThunk("members/createSectors", async (data, { rejectWithValue }) => {
   function createFormData(fmData) {
     const formData = new FormData();
-  
+
     function appendFormData(data, parentKey) {
-      if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
-        Object.keys(data).forEach(key => {
+      if (data && typeof data === "object" && !(data instanceof Date) && !(data instanceof File)) {
+        Object.keys(data).forEach((key) => {
           appendFormData(data[key], parentKey ? `${parentKey}[${key}]` : key);
         });
       } else {
         formData.append(parentKey, data);
       }
     }
-  
+
     appendFormData(fmData);
     return formData;
   }
-  
+
   const memberData = createFormData(data);
   try {
     const { data } = await API.createSectors(memberData);

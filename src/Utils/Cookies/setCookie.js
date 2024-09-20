@@ -5,8 +5,7 @@ function setCookie(name, value, options = {}) {
     // add other defaults here if necessary
     ...options,
   };
-  let updatedCookie =
-    encodeURIComponent(name) + "=" + encodeURIComponent(value);
+  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
 
   for (let optionKey in options) {
     updatedCookie += "; " + optionKey;

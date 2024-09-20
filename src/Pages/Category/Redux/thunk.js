@@ -2,30 +2,24 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as API from "./api";
 
 // get categories
-export const getCategories = createAsyncThunk(
-  "category/getCategories",
-  async (postsPerPage, { rejectWithValue }) => {
-    try {
-      const { data } = await API.getCategories(postsPerPage);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
-    }
+export const getCategories = createAsyncThunk("category/getCategories", async (postsPerPage, { rejectWithValue }) => {
+  try {
+    const { data } = await API.getCategories(postsPerPage);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
-);
+});
 
 // get specific category
-export const getSpecificCategory = createAsyncThunk(
-  "category/getSpecificCategory",
-  async (id, { rejectWithValue }) => {
-    try {
-      const { data } = await API.getSpecificCategory(id);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
-    }
+export const getSpecificCategory = createAsyncThunk("category/getSpecificCategory", async (id, { rejectWithValue }) => {
+  try {
+    const { data } = await API.getSpecificCategory(id);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
-);
+});
 
 // get all categories
 export const getAllCategories = createAsyncThunk(
@@ -54,17 +48,14 @@ export const getPreviousCategory = createAsyncThunk(
 );
 
 // get next category
-export const getNextCategory = createAsyncThunk(
-  "category/getNextCategory",
-  async (next, { rejectWithValue }) => {
-    try {
-      const { data } = await API.getNextCategory(next);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
-    }
+export const getNextCategory = createAsyncThunk("category/getNextCategory", async (next, { rejectWithValue }) => {
+  try {
+    const { data } = await API.getNextCategory(next);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
-);
+});
 
 // get particular page of categories
 export const getPageCategories = createAsyncThunk(
@@ -80,18 +71,15 @@ export const getPageCategories = createAsyncThunk(
 );
 
 // create category
-export const createCategory = createAsyncThunk(
-  "category/createCategory",
-  async (data, { rejectWithValue }) => {
-    const body = JSON.stringify({ ...data });
-    try {
-      const { data } = await API.createCategory(body);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
-    }
+export const createCategory = createAsyncThunk("category/createCategory", async (data, { rejectWithValue }) => {
+  const body = JSON.stringify({ ...data });
+  try {
+    const { data } = await API.createCategory(body);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
-);
+});
 
 // update category
 export const updateCategory = createAsyncThunk(

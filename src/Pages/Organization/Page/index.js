@@ -27,7 +27,7 @@ const Organization = () => {
   const [search, setSearch] = useState("");
   const [postsPerPage, setPostsPerPage] = useState(20);
   const [page, setPage] = useState(1);
-  
+
   const debouncedSearch = useDebounce(search, 500);
 
   useEffect(() => {

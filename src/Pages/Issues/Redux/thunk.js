@@ -132,7 +132,6 @@ export const getReplies = createAsyncThunk("ticketIssues/getReplies", async (id,
 });
 
 export const getReply = createAsyncThunk("ticketIssues/getReply", async (id, { rejectWithValue }) => {
-  
   try {
     const { data } = await API.getReply(id);
     return data;

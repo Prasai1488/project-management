@@ -24,8 +24,7 @@ export const tabsValueSlice = createSlice({
 });
 
 // export actions
-export const { setCoreSetupTabValue, setUserTabValue, setNotificationTabValue } =
-  tabsValueSlice.actions;
+export const { setCoreSetupTabValue, setUserTabValue, setNotificationTabValue } = tabsValueSlice.actions;
 
 // export reducer
 export default tabsValueSlice.reducer;

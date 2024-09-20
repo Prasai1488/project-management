@@ -52,7 +52,7 @@ export const purchaseOrderStatus = (status) => {
         >
           &#x2022; IN PROGRESS
         </button>
-      ) :status === "RESOLVED" ? (
+      ) : status === "RESOLVED" ? (
         <button
           style={{
             color: "#11B066",
@@ -66,7 +66,7 @@ export const purchaseOrderStatus = (status) => {
         >
           &#x2022; RESOLVED
         </button>
-      ): (
+      ) : (
         <button
           style={{
             color: "#EC3652",

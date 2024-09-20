@@ -37,7 +37,9 @@ const CreatePermission = ({ dispatch, postsPerPage = 10, setShowModal, type }) =
       ...values,
       permissionCategory: values.permissionCategory?._id,
     };
-    const action = edit ? updatePermissions({ id: permission?._id, values: createData }) : createPermissions(createData);
+    const action = edit
+      ? updatePermissions({ id: permission?._id, values: createData })
+      : createPermissions(createData);
     const successMessage = edit ? `${type} Updated successfully` : `${type} Created successfully`;
 
     dispatch(action)

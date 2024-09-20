@@ -7,7 +7,7 @@ import {
   getTicketsInspection,
   getTicketsInspectionById,
   handleSearchTicketsInspection,
-  updateTicketsInspection
+  updateTicketsInspection,
 } from "./thunk";
 
 const initialState = {

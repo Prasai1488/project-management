@@ -155,8 +155,8 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
             return (
               <Form autoComplete="off">
                 <div className="create-department-wrapper">
-                  <div className="row">
-                    <div className="col-2">
+                  <div className="d-flex ">
+                    <div className="">
                       <Dropzone
                         name="photo"
                         label="Photo"
@@ -181,7 +181,7 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
                         error={formik.errors.photo}
                       />
                     </div>
-                    <div className="col-10">
+                    <div className="details-form">
                       <div className="row">
                         {renderTextField(formik, 4, "firstName", "text", "First Name", true)}
                         {renderTextField(formik, 4, "middleName", "text", "Middle Name", true)}
@@ -205,7 +205,6 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
                   <Button
                     btnType="submit"
                     className="btn create-button"
-                    createButton={true}
                     title={edit ? "Update" : "Save"}
                     content={edit ? "Update" : "Save"}
                   />

@@ -50,8 +50,7 @@ const SectorsListing = ({ dispatch, setSectorsModal }) => {
               </thead>
               <tbody>
                 {sectors?.map((member, i) => {
-                  const { id, name, description } =
-                    member;
+                  const { id, name, description } = member;
                   return (
                     <tr key={id} onDoubleClick={() => handleEdit(id)} style={{ cursor: "pointer" }}>
                       <td>{i + 1}</td>
@@ -60,7 +59,7 @@ const SectorsListing = ({ dispatch, setSectorsModal }) => {
                       <td className="column_resizer_body" />
                       <td>{description ? description : "N/A"}</td>
                       <td className="column_resizer_body" />
-                     
+
                       <td>
                         <DetailActionButton type={"edit"} onClick={() => handleEdit(id)} />
                       </td>

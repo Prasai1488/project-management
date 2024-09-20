@@ -27,7 +27,6 @@ const CreateIssue = ({ dispatch, postsPerPage = 10, setShowModal, type }) => {
   });
 
   const onSubmit = (values) => {
-    
     const action = edit ? updateIssues({ id: issue?._id, values }) : createIssues(values);
     const successMessage = edit ? `${type} Updated successfully` : `${type} Created successfully`;
 

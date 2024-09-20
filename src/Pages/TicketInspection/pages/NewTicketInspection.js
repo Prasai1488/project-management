@@ -24,7 +24,7 @@ const NewTicketInspection = ({ selectedTicketId, itemId, setPage, setPostsPerPag
   const createPermission = isSuperuser || permissions?.includes("") || true;
 
   const next = useSelector((state) => state.newTicketInspection?.next);
-console.log(next)
+  console.log(next);
   const loadingNext = useSelector((state) => state.newTicketInspection.loadingNext);
   const questions = useSelector((state) => state.newTicketInspection.questions);
 

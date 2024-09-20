@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as API from "./api";
 
-
 // get customer
 export const getCustomers = createAsyncThunk("customer/getCustomers", async (postsPerPage, { rejectWithValue }) => {
   try {
@@ -65,8 +64,6 @@ export const createCustomers = createAsyncThunk("customer/createCustomers", asyn
 });
 export const updateCustomers = createAsyncThunk("customer/updateCustomers", async (data, { rejectWithValue }) => {
   const { id, values } = data;
-;
-
   try {
     const { data } = await API.updateCustomers(id, values);
     return data;

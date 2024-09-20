@@ -34,13 +34,7 @@
   max-height: 100%;
 }
 
-.permission-container
-  .col-sm-5
-  .card-permission
-  .header-content
-  .row
-  .col-11
-  h4 {
+.permission-container .col-sm-5 .card-permission .header-content .row .col-11 h4 {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -49,13 +43,7 @@
   color: #000000;
 }
 
-.permission-container
-  .col-sm-5
-  .card-permission
-  .header-content
-  .row
-  .col-11
-  p {
+.permission-container .col-sm-5 .card-permission .header-content .row .col-11 p {
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -74,13 +62,7 @@
   fill: #fff;
 }
 
-.permission-container
-  .col-sm-5
-  .card-permission
-  .card-body
-  .permission-list
-  .list-permission
-  .col-11 {
+.permission-container .col-sm-5 .card-permission .card-body .permission-list .list-permission .col-11 {
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -98,5 +80,4 @@
 
 .permission-list .list-permission {
   margin: 0;
-
 }

@@ -62,4 +62,3 @@ export const loadOptionsUser = async (search, loadOptions, { limit, offset }) =>
     },
   };
 };
-

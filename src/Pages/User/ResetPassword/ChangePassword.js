@@ -105,7 +105,6 @@ const ChangePassword = () => {
                         <h5>Change Password</h5>
                       </div>
                     </div>
-                    {/* #CE5661 */}
                   </div>
                 </div>
                 <div className="card-body py-4">

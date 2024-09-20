@@ -7,18 +7,15 @@ const CustomTableHead = ({
   columnMapping,
   initialVisibleColumns,
   visibleColumnKeys,
-  setVisibleColumnKeys
+  setVisibleColumnKeys,
 }) => {
-
   const toggleColumnVisibility = (key) => {
     if (columnsAlwaysDisplayed.includes(key)) {
       return;
     }
     if (visibleColumnKeys.includes(key)) {
       // If the column key is visible, hide it
-      setVisibleColumnKeys(
-        visibleColumnKeys.filter((colKey) => colKey !== key)
-      );
+      setVisibleColumnKeys(visibleColumnKeys.filter((colKey) => colKey !== key));
     } else {
       // If the column key is hidden, make it visible
       setVisibleColumnKeys([...visibleColumnKeys, key]);

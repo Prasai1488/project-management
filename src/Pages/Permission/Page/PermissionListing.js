@@ -9,13 +9,13 @@ import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 
 const TableHeaders = ["SN", "Name", "Code Name", "Action"];
 
-const PermissionListing = ({ dispatch,setPermissionModal }) => {
+const PermissionListing = ({ dispatch, setPermissionModal }) => {
   const listRef = useRef(null);
 
   const permissions = useSelector((state) => state?.permission?.permissions);
   const next = useSelector((state) => state.permission.next);
   const loadingNext = useSelector((state) => state.permission?.loadingNext);
-  const { handleScroll } = useInfinteScroll({loadingNext, next, getNext});
+  const { handleScroll } = useInfinteScroll({ loadingNext, next, getNext });
 
   const handleEdit = (id) => {
     dispatch(permissionsEditSuccess(id));
@@ -33,13 +33,13 @@ const PermissionListing = ({ dispatch,setPermissionModal }) => {
         >
           {permissions &&
             permissions.map((permission, i) => {
-              const { _id, name, codename, } = permission;
+              const { _id, name, codename } = permission;
               return (
                 <tr key={_id} style={{ cursor: "pointer" }}>
                   <td>{i + 1}</td>
                   <TableData data={name} />
                   <TableData data={codename} />
-                 
+
                   <td className="column_resizer_body" />
                   <td>
                     <DetailActionButton type={"edit"} onClick={() => handleEdit(_id)} />

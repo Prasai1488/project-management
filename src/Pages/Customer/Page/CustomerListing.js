@@ -10,12 +10,12 @@ import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 
 const TableHeaders = ["SN", "Name", "Email", "Phone", "Contact Person", "Contact Person Phone", "Action"];
 
-const CustomerListing = ({ dispatch,setCustomerModal,setPostsPerPage,setPage }) => {
+const CustomerListing = ({ dispatch, setCustomerModal, setPostsPerPage, setPage }) => {
   const listRef = useRef(null);
 
   const customers = useSelector((state) => state?.customer?.customers);
   const next = useSelector((state) => state.customer.next);
-  const {loadingNext,loadingCustomer} = useSelector((state) => state.customer);
+  const { loadingNext, loadingCustomer } = useSelector((state) => state.customer);
   const { handleScroll } = useInfinteScroll({
     loadingNext: loadingNext,
     next,
