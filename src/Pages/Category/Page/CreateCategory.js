@@ -102,6 +102,7 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
                   Active
                 </label>
               </div>
+
             </div>
             <div className="d-flex justify-content-end align-items-center">
               <Button
@@ -113,6 +114,7 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
                 onClick={() => setSubmit(true)}
               />
             </div>
+
           </Form>
         )}
       </Formik>
