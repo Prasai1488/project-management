@@ -88,7 +88,7 @@ h2 {
 }
 
 .forget-password {
-  color: darkred;
+  color: red;
   text-decoration: none;
   margin-left: auto;
 }
@@ -98,7 +98,7 @@ h2 {
 }
 
 .login-btn {
-  background-color: #be202f;
+  background-color: var(--blue-primary);
   color: white;
   padding: 16px;
   border: none;
