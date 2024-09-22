@@ -26,18 +26,18 @@ const Customers = () => {
 
   const [search, setSearch] = useState("");
   const [postsPerPage, setPostsPerPage] = useState(20);
-  const [page,setPage]=useState(1);
+  const [page, setPage] = useState(1);
 
   const [showFilter, setShowFilter] = useState(false);
   const debouncedSearch = useDebounce(search, 500);
 
   useEffect(() => {
     if (search === "") {
-      dispatch(getAllCustomers({postsPerPage,page}));
+      dispatch(getAllCustomers({ postsPerPage, page }));
     } else {
       dispatch(handleSearch({ search, postsPerPage }));
     }
-  }, [postsPerPage, debouncedSearch,page]);
+  }, [postsPerPage, debouncedSearch, page]);
 
   const createPermission = isSuperuser || permissions?.includes("") || true;
 
@@ -55,7 +55,14 @@ const Customers = () => {
         />
 
         {loadingCustomer && <ListingSkeleton />}
-        {!loadingCustomer && <CustomerListing setPage={setPage} setPostsPerPage={setPostsPerPage} dispatch={dispatch} setCustomerModal={setShowCustomerModal} />}
+        {!loadingCustomer && (
+          <CustomerListing
+            setPage={setPage}
+            setPostsPerPage={setPostsPerPage}
+            dispatch={dispatch}
+            setCustomerModal={setShowCustomerModal}
+          />
+        )}
       </div>
       <CommonCreateButton
         types={types}

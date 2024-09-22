@@ -63,29 +63,30 @@ const TicketIssuesListing = ({ dispatch, setTicketIssuesModal, postsPerPage }) =
                 </tr>
               </thead>
               <tbody>
-                {ticketIssues && ticketIssues?.map((issue, i) => {
-                  const { id, title, sector, status, createdAt, createdBy } = issue;
-                  return (
-                    <tr key={id} onDoubleClick={() => handleReply(issue)} style={{ cursor: "pointer" }}>
-                      <td>{i + 1}</td>
-                      <td className="column_resizer_body" />
-                      <td>{title ? title : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{sector ? sector.name : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{createdAt.substring(0, 10)}</td>
-                      <td className="column_resizer_body" />
-                      <td>{createdBy ? createdBy.username : "N/A"}</td>
-                      <td className="column_resizer_body" />
-                      <td>{purchaseOrderStatus(status)}</td>
-                      <td className="column_resizer_body" />
+                {ticketIssues &&
+                  ticketIssues?.map((issue, i) => {
+                    const { id, title, sector, status, createdAt, createdBy } = issue;
+                    return (
+                      <tr key={id} onDoubleClick={() => handleReply(issue)} style={{ cursor: "pointer" }}>
+                        <td>{i + 1}</td>
+                        <td className="column_resizer_body" />
+                        <td>{title ? title : "N/A"}</td>
+                        <td className="column_resizer_body" />
+                        <td>{sector ? sector.name : "N/A"}</td>
+                        <td className="column_resizer_body" />
+                        <td>{createdAt.substring(0, 10)}</td>
+                        <td className="column_resizer_body" />
+                        <td>{createdBy ? createdBy.username : "N/A"}</td>
+                        <td className="column_resizer_body" />
+                        <td>{purchaseOrderStatus(status)}</td>
+                        <td className="column_resizer_body" />
 
-                      <td>
-                        <DetailActionButton type={"edit"} onClick={() => handleEdit(id)} />
-                      </td>
-                    </tr>
-                  );
-                })}
+                        <td>
+                          <DetailActionButton type={"edit"} onClick={() => handleEdit(id)} />
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
             {loadingNext && (

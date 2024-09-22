@@ -23,10 +23,7 @@ const FiscalYearListing = ({}) => {
   };
 
   const handleScroll = (event) => {
-    if (
-      event.currentTarget.scrollTop + event.currentTarget.offsetHeight ===
-      event.currentTarget.scrollHeight
-    ) {
+    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight === event.currentTarget.scrollHeight) {
       if (next) {
         scrollToEnd();
       }
@@ -56,11 +53,7 @@ const FiscalYearListing = ({}) => {
             aria-label="Search"
             aria-describedby="basic-addon1"
           />
-          <FilterButton
-            filter={filter}
-            onClick={onClick}
-            className={"border"}
-          />
+          <FilterButton filter={filter} onClick={onClick} className={"border"} />
         </div>
       </div>
       {filter && (
@@ -94,11 +87,7 @@ const FiscalYearListing = ({}) => {
               <th>Title</th>
               <ColumnResize id={3} className="columnResizer" />
               <th>E. Project Valuation</th>
-              <ColumnResize
-                id={4}
-                minWidth={120}
-                className="columnResizer"
-              ></ColumnResize>
+              <ColumnResize id={4} minWidth={120} className="columnResizer"></ColumnResize>
               <th>Contact</th>
               <ColumnResize id={5} className="columnResizer">
                 <AiOutlineHolder />
@@ -111,14 +100,7 @@ const FiscalYearListing = ({}) => {
           </thead>
           <tbody>
             {fiscalYears?.map((fiscalYear, value) => {
-              const {
-                fiscalYearNo,
-                pipelineStatus,
-                contact,
-                estimatedProjectValue,
-                title,
-                id,
-              } = fiscalYear;
+              const { fiscalYearNo, pipelineStatus, contact, estimatedProjectValue, title, id } = fiscalYear;
 
               return (
                 <tr key={id}>

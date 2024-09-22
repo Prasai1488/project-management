@@ -15,7 +15,7 @@ const PublicRoute = () => {
           <Route exact path="/reset-password" component={ResetPassword} />
           <Route exact path="/forget-password" component={ForgetPassword} />
           <Route exact path="/" component={Login} />
-        <Route exact path = "/otp-page" component={OtpPage}/>
+          <Route exact path="/otp-page" component={OtpPage} />
           <Redirect from="*" to="/" />
         </Switch>
       </Suspense>

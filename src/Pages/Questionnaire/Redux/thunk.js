@@ -23,7 +23,6 @@ const createThunk = (type, apiCall) =>
 export const getQuestionnaires = createThunk(`${types[0]}`, API.getQuestionnaires);
 export const getAllQuestionnaires = createThunk(`${types[1]}`, ({ postsPerPage, page, item }) =>
   API.getAllQuestionnaires({ postsPerPage, page, item: item ? item : "" })
-
 );
 export const createQuestionnaires = createThunk(`${types[2]}`, (data) =>
   API.createQuestionnaires(JSON.stringify(data))

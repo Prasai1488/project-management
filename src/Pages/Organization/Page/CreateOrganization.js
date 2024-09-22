@@ -127,7 +127,6 @@ const CreateOrganization = ({ dispatch, setShowModal }) => {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      
       setShowModal(false);
     } catch (error) {
       console.error("Error creating organization", error);
@@ -161,7 +160,6 @@ const CreateOrganization = ({ dispatch, setShowModal }) => {
                     }}
                     displayImage={img ? <Thumb thumb={img} /> : ""}
                     error={formik.errors.logo}
-                   
                   />
                 </div>
                 <div className="form-fields">

@@ -1,15 +1,9 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
-import {
-  createMembers,
-  getMembers,
-  getNext,
-  handleSearch,
-  updateMembers
-} from "./thunk";
+import { createMembers, getMembers, getNext, handleSearch, updateMembers } from "./thunk";
 
 const initialState = {
   members: [],
-  member:null,
+  member: null,
   edit: false,
   count: null,
   next: null,

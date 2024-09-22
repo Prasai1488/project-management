@@ -14,9 +14,7 @@ const CustomTableBody = ({
   const keyList = tableList[0];
   const keys = keyList ? Object.keys(keyList) : [];
   const visibleKeys = keys.filter((key) => initialVisibleColumns.includes(key));
-  const [visibleColumnKeys, setVisibleColumnKeys] = useState(
-    initialVisibleColumns
-  );
+  const [visibleColumnKeys, setVisibleColumnKeys] = useState(initialVisibleColumns);
   return (
     <>
       <CustomTableHead
@@ -31,12 +29,7 @@ const CustomTableBody = ({
         <thead>
           <tr>
             <th>SN</th>
-            {keys.map(
-              (key, i) =>
-                visibleColumnKeys.includes(key) && (
-                  <th key={key}>{columnMapping[key]}</th>
-                )
-            )}
+            {keys.map((key, i) => visibleColumnKeys.includes(key) && <th key={key}>{columnMapping[key]}</th>)}
             {customColumns.map((column) => (
               <th key={column.key}>{column.name}</th>
             ))}
@@ -46,16 +39,9 @@ const CustomTableBody = ({
           {tableList?.map((value, index) => (
             <tr key={index} onClick={onClick}>
               <td>{index + 1}</td>
-              {keys.map(
-                (key) =>
-                  visibleColumnKeys.includes(key) && (
-                    <td key={key}>{value[key]}</td>
-                  )
-              )}
+              {keys.map((key) => visibleColumnKeys.includes(key) && <td key={key}>{value[key]}</td>)}
               {customColumns.map((column) => (
-                <td key={column.key} >
-                  {column.data}
-                </td>
+                <td key={column.key}>{column.data}</td>
               ))}
             </tr>
           ))}

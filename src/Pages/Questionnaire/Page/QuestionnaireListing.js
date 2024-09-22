@@ -13,7 +13,7 @@ const QuestionnaireListing = ({ dispatch, setShowQuestionnaireModal, setPostsPer
   const listRef = useRef(null);
   const questionnaires = useSelector((state) => state?.questionnaire?.questionnaires);
   const next = useSelector((state) => state.questionnaire.next);
-  const { loadingNext ,loadingQuestioner} = useSelector((state) => state.questionnaire);
+  const { loadingNext, loadingQuestioner } = useSelector((state) => state.questionnaire);
   const { handleScroll } = useInfinteScroll({
     loadingNext: loadingNext,
     next,

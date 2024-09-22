@@ -53,17 +53,9 @@ const FiscalSessionADListing = () => {
 
         {loadingFiscalSessionAD && <ListingSkeleton />}
         {!loadingFiscalSessionAD && (
-          <FiscalSessionAD
-            dispatch={dispatch}
-            showModal={showModal}
-            setPostsPerPage={setPostsPerPage}
-          />
+          <FiscalSessionAD dispatch={dispatch} showModal={showModal} setPostsPerPage={setPostsPerPage} />
         )}
-        <CommonCreateButton
-          types={types}
-          showModal={showFiscalSessionModal}
-          setShowModal={setShowFiscalSessionModal}
-        />
+        <CommonCreateButton types={types} showModal={showFiscalSessionModal} setShowModal={setShowFiscalSessionModal} />
       </div>
       {showFiscalSessionModal && (
         <Suspense fallback={<div></div>}>

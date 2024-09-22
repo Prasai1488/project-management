@@ -12,7 +12,7 @@ import {
 
 const initialState = {
   otherActivities: [],
-  otherActivity:null,
+  otherActivity: null,
   edit: false,
   count: null,
   next: null,

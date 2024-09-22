@@ -45,10 +45,7 @@ const ConfirmationModal = ({
             ref={ref}
           >
             {children}
-            <div
-              className="confirm-btns d-flex justify-content-center pt-3"
-              style={{ gap: "10px" }}
-            >
+            <div className="confirm-btns d-flex justify-content-center pt-3" style={{ gap: "10px" }}>
               <button
                 className="btn btn-success confirmClick"
                 onClick={() => {

@@ -358,21 +358,22 @@ const CrmSidebar = () => {
                   })}
                 </Menu>
               </div>
-
-              <div
-                className="password-logout-container"
-                style={{
-                  pointerEvents: disablePointerEvents ? "none" : "auto",
-                }}
-                active={location?.pathname === "/change-password"}
-                onClick={() => history.push("/change-password")}
-              >
-                <Button
-                  btnType="submit"
-                  className="passwordchange-button "
-                  title={"Change Password"}
-                  content={"Save"}
-                />
+              <div className="conatiner-logout">
+                <div
+                  className="password-logout-container"
+                  style={{
+                    pointerEvents: disablePointerEvents ? "none" : "auto",
+                  }}
+                  active={location?.pathname === "/change-password"}
+                  onClick={() => history.push("/change-password")}
+                >
+                  <Button
+                    btnType="submit"
+                    className="passwordchange-button "
+                    title={"Change Password"}
+                    content={"Save"}
+                  />
+                </div>
                 <div
                   style={{
                     pointerEvents: disablePointerEvents ? "none" : "auto",

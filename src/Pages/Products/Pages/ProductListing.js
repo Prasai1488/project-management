@@ -77,7 +77,7 @@ const ProductListing = ({ setShowProductModal, setPostsPerPage, setPage, page, p
                     <th>Product Name</th>
                     <th>Category</th>
                     <th>Capacity</th>
-                    <th>Action</th> 
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -97,7 +97,7 @@ const ProductListing = ({ setShowProductModal, setPostsPerPage, setPage, page, p
                         <td>{category || "N/A"}</td>
                         <td>{capacity || "N/A"}</td>
                         <td>
-                          <FaEllipsisH  type={"spread"} onClick={handleEdit} />
+                          <FaEllipsisH type={"spread"} onClick={handleEdit} />
                         </td>
                       </tr>
                     );

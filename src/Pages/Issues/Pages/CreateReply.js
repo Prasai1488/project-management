@@ -42,7 +42,7 @@ const CreateReply = ({ dispatch, postsPerPage = 10, setShowModal }) => {
       setShowAlert(true);
     } else {
       if (!edit) {
-        dispatch(createReply({...values, issue: issue?.id}))
+        dispatch(createReply({ ...values, issue: issue?.id }))
           .unwrap()
           .then(() => {
             successFunction("Issue created successfully.");
@@ -55,7 +55,7 @@ const CreateReply = ({ dispatch, postsPerPage = 10, setShowModal }) => {
             errorFunction(error);
           });
       } else {
-        let updateData = { id: reply?.id, values:{...values, issue: issue?.id} };
+        let updateData = { id: reply?.id, values: { ...values, issue: issue?.id } };
         dispatch(updateReply(updateData))
           .unwrap()
           .then(() => {

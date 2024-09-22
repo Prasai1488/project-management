@@ -54,7 +54,9 @@ const ExecutiveExecutiveMembers = () => {
         />
 
         {loadingExecutiveMembers && <ListingSkeleton />}
-        {!loadingExecutiveMembers && <ExecutiveMembersListing dispatch={dispatch} setExecutiveMembersModal={setShowExecutiveMembersModal} />}
+        {!loadingExecutiveMembers && (
+          <ExecutiveMembersListing dispatch={dispatch} setExecutiveMembersModal={setShowExecutiveMembersModal} />
+        )}
       </div>
       <CommonCreateButton
         types={types}
@@ -74,7 +76,11 @@ const ExecutiveExecutiveMembers = () => {
             size={"modal-lg"}
             clearAction={clearAllExecutiveMembers}
           >
-            <CreateExecutiveMember dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowExecutiveMembersModal} />
+            <CreateExecutiveMember
+              dispatch={dispatch}
+              postsPerPage={postsPerPage}
+              setShowModal={setShowExecutiveMembersModal}
+            />
           </Modal>
         </Suspense>
       )}

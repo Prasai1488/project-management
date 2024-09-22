@@ -29,9 +29,7 @@ export const countrySlice = createSlice({
   reducers: {
     countryEditSuccess: (state, action) => {
       state.edit = true;
-      state.country = state.countries.find(
-        (country) => country.id === action.payload
-      );
+      state.country = state.countries.find((country) => country.id === action.payload);
     },
     clearAllCountry: (state) => {
       state.edit = false;

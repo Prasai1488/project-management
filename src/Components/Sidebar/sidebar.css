@@ -9,13 +9,15 @@
 }
 .password-logout-container {
   margin: 10px;
-  margin-bottom: 20px;
-}
-.button-container {
-  display: flex;
-  margin-top: 10px;
 }
 
+.conatiner-logout {
+  display: flex;
+  margin-bottom: 5px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
 /* .logout-btn {
   border: none;
   background: var(--blue-primary);

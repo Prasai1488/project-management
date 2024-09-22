@@ -19,7 +19,7 @@ const Sectors = () => {
   const dispatch = useDispatch();
   const { permissions, isSuperuser } = useSelector((state) => state.auth);
   const loadingSectors = useSelector((state) => state.sectors.loadingSectors);
-  
+
   const sectors = useSelector((state) => state.sectors.sectors);
   const count = useSelector((state) => state.sectors.count);
   const edit = useSelector((state) => state.sectors.edit);

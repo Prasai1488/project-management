@@ -38,7 +38,7 @@ const CreateCustomer = ({ dispatch, postsPerPage = 10, setShowModal, type }) => 
   });
 
   const onSubmit = (values) => {
-    const action = edit ? updateCustomers({ id: customer?._id, values:values }) : createCustomers(values);
+    const action = edit ? updateCustomers({ id: customer?._id, values: values }) : createCustomers(values);
     const successMessage = edit ? `${type} Updated successfully` : `${type} Created successfully`;
 
     dispatch(action)

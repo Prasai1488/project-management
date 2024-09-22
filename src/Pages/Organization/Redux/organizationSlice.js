@@ -44,18 +44,15 @@ export const organizations = createSlice({
     addOrganization: (state, action) => {
       state.organizations = [...state.organizations, action.payload];
     },
-    updateOrganization: (state, action) => { // Avoiding conflict with thunk imports
-      const index = state.organizations.findIndex(
-        (organization) => organization.id === action.payload.id
-      );
+    updateOrganization: (state, action) => {
+      // Avoiding conflict with thunk imports
+      const index = state.organizations.findIndex((organization) => organization.id === action.payload.id);
       if (index !== -1) {
         state.organizations[index] = action.payload.updatedOrganization;
       }
     },
     deleteOrganization: (state, action) => {
-      state.organizations = state.organizations.filter(
-        (organization) => organization.id !== action.payload
-      );
+      state.organizations = state.organizations.filter((organization) => organization.id !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -64,10 +61,7 @@ export const organizations = createSlice({
     });
     builder.addCase(getNextOrganization.fulfilled, (state, action) => {
       state.loadingNext = false;
-      state.organizations = [
-        ...state.organizations,
-        ...action.payload?.organizations,
-      ];
+      state.organizations = [...state.organizations, ...action.payload?.organizations];
       state.next = action.payload;
     });
     builder.addCase(getNextOrganization.rejected, (state) => {
@@ -104,18 +98,11 @@ export const organizations = createSlice({
     builder.addCase(apiUpdateOrganization.rejected, (state) => {
       state.loadingUpdated = false;
     });
+    builder.addMatcher(isAnyOf(getOrganizations.pending, handleOrganizationSearch.pending), (state) => {
+      state.loadingOrganization = true;
+    });
     builder.addMatcher(
-      isAnyOf(getOrganizations.pending, handleOrganizationSearch.pending),
-      (state) => {
-        state.loadingOrganization = true;
-      }
-    );
-    builder.addMatcher(
-      isAnyOf(
-        getOrganizations.fulfilled,
-        getAllOrganizations.fulfilled,
-        handleOrganizationSearch.fulfilled
-      ),
+      isAnyOf(getOrganizations.fulfilled, getAllOrganizations.fulfilled, handleOrganizationSearch.fulfilled),
       (state, action) => {
         state.loadingOrganization = false;
         state.organizations = action.payload?.organizations;
@@ -125,11 +112,7 @@ export const organizations = createSlice({
       }
     );
     builder.addMatcher(
-      isAnyOf(
-        getOrganizations.rejected,
-        getAllOrganizations.rejected,
-        handleOrganizationSearch.rejected
-      ),
+      isAnyOf(getOrganizations.rejected, getAllOrganizations.rejected, handleOrganizationSearch.rejected),
       (state) => {
         state.loadingOrganization = false;
       }

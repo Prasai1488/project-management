@@ -48,7 +48,7 @@ export const contactPersonsSlice = createSlice({
     });
     builder.addCase(getNext.rejected, (state) => {
       state.loadingNext = false;
-    });    
+    });
     builder.addCase(createContactPersons.pending, (state) => {
       state.loading = true;
     });
