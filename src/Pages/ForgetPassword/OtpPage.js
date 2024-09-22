@@ -55,6 +55,8 @@ const OtpPage = (props) => {
                 </div>
 
                 <p className="instructions">
+                <strong>Hello there,</strong> 
+                <br/>
                   We have sent an OTP to your email. Please enter it above to reset your password.
                 </p>
 
