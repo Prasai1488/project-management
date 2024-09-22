@@ -33,7 +33,7 @@ const App = () => {
         <PublicRoute />
       )}
       <Toaster
-        position="top-right"
+        position="top-right "
         duration={1500}
         invert
         richColors

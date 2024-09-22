@@ -35,7 +35,7 @@
 .common-dropzone-wrapper .delete-button {
   position: relative;
   top: -50px;
-  left: 54px;
+  left: 40px;
   opacity: 0;
   transition: all 0.5s;
   cursor: pointer;

@@ -1,6 +1,7 @@
 import React from "react";
 import { BsPlusCircleFill } from "react-icons/bs";
 import "./button.css";
+import { IoMdAdd } from "react-icons/io";
 
 const Button = ({ btnType, className, disabled, title, onClick, createButton, loading }) => {
   return (
@@ -14,7 +15,7 @@ const Button = ({ btnType, className, disabled, title, onClick, createButton, lo
           </>
         ) : (
           <>
-            {createButton && <BsPlusCircleFill />}
+            {createButton && <IoMdAdd />}
             {title}
           </>
         )}
