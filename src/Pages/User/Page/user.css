@@ -4,9 +4,10 @@
   height: 190px;
   background: var(--background-color);
 }
-details-form {
+.details-form {
   flex-grow: 1;
 }
-.d-flex {
+.form-part {
+  display: flex;
   gap: 20px;
 }

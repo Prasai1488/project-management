@@ -155,7 +155,7 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
             return (
               <Form autoComplete="off">
                 <div className="create-department-wrapper">
-                  <div className="d-flex ">
+                  <div className="form-part ">
                     <div className="">
                       <Dropzone
                         name="photo"
@@ -201,7 +201,7 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
                     </div>
                   </div>
                 </div>
-                <div className=" d-flex justify-content-end align-items-center">
+                <div className="d-flex justify-content-end align-items-center ">
                   <Button
                     btnType="submit"
                     className="btn create-button"
