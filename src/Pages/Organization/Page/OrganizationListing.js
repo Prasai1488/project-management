@@ -6,13 +6,7 @@ import { getNextOrganization } from "../Redux/thunk";
 import { organizationEditSuccess } from "../Redux/organizationSlice";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 
-const OrganizationListing = ({
-  setShowOrganizationModal,
-  setPostsPerPage,
-  setPage,
-  page,
-  postsPerPage,
-}) => {
+const OrganizationListing = ({ setShowOrganizationModal, setPostsPerPage, setPage, page, postsPerPage }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
   const next = useSelector((state) => state.organization.next);
@@ -36,11 +30,7 @@ const OrganizationListing = ({
     <>
       {organizations && organizations.length > 0 ? (
         <div className="row">
-          <div
-            className="col-12 table-scrollable"
-            onScroll={handleScroll}
-            ref={listRef}
-          >
+          <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}>
             <table className="listing-table">
               <thead>
                 <tr>
@@ -66,15 +56,10 @@ const OrganizationListing = ({
                       <td>{phone || "N/A"}</td>
                       <td>{email || "N/A"}</td>
                       <td>
-                        <span className={`status ${status?.toLowerCase()}`}>
-                          {status || "N/A"}
-                        </span>
+                        <span className={`status ${status?.toLowerCase()}`}>{status || "N/A"}</span>
                       </td>
                       <td>
-                        <DetailActionButton
-                          type={"edit"}
-                          onClick={() => handleEdit(organization)}
-                        />
+                        <DetailActionButton type={"edit"} onClick={() => handleEdit(organization)} />
                       </td>
                     </tr>
                   );

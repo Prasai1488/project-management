@@ -30,8 +30,6 @@ const OfficeActivitiesListing = ({ dispatch, setOfficeActivitiesModal, postsPerP
     setOfficeActivitiesModal(true);
   };
 
-  
-
   return (
     <>
       {officeActivities?.length > 0 ? (
@@ -93,7 +91,6 @@ const OfficeActivitiesListing = ({ dispatch, setOfficeActivitiesModal, postsPerP
       ) : (
         <NoData />
       )}
-
     </>
   );
 };

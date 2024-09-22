@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import {
-  successFunction,
-  errorFunction,
-} from "../../../Components/Alert/Alert";
+import { successFunction, errorFunction } from "../../../Components/Alert/Alert";
 import { createFiscalSessionBS, getFiscalSessionBS } from "../Redux/thunk";
 import { checkRedundantDataFiscalSessionBS } from "../../../Utils/RedundantData/FiscalSessionBS";
 import Loader from "../../../Components/Loader";
@@ -55,9 +52,7 @@ const CreateFiscalSessionsBS = ({ dispatch, postsPerPage }) => {
     if (e.target.value.trim() && e.target.value !== "") {
       const result = await checkRedundantDataFiscalSessionBS(e, "full");
       result
-        ? errorFunction(
-            "Fiscal Session BS with this session full already exists."
-          ) || setLock(true)
+        ? errorFunction("Fiscal Session BS with this session full already exists.") || setLock(true)
         : setLock(false);
     }
   };
@@ -65,9 +60,7 @@ const CreateFiscalSessionsBS = ({ dispatch, postsPerPage }) => {
     if (e.target.value.trim() && e.target.value !== "") {
       const result = await checkRedundantDataFiscalSessionBS(e, "short");
       result
-        ? errorFunction(
-            "Fiscal Session BS with this session short already exists."
-          ) || setLock(true)
+        ? errorFunction("Fiscal Session BS with this session short already exists.") || setLock(true)
         : setLock(false);
     }
   };
@@ -76,11 +69,7 @@ const CreateFiscalSessionsBS = ({ dispatch, postsPerPage }) => {
     <>
       {(loading || loadingUpdated) && <Loader />}
       <div className="create-fiscal-session-bs-wrapper">
-        <Formik
-          initialValues={initialState}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-        >
+        <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit}>
           {(formik) => {
             return (
               <Form autoComplete="off">
@@ -91,10 +80,7 @@ const CreateFiscalSessionsBS = ({ dispatch, postsPerPage }) => {
                       name="sessionFull"
                       label="Session Full Name"
                       required
-                      formikRequired={
-                        formik?.errors?.sessionFull &&
-                        formik?.touched?.sessionFull
-                      }
+                      formikRequired={formik?.errors?.sessionFull && formik?.touched?.sessionFull}
                       placeholder="e.g 2020/2021"
                       onChange={(e) => {
                         formik.setFieldValue("sessionFull", e.target.value);
@@ -109,10 +95,7 @@ const CreateFiscalSessionsBS = ({ dispatch, postsPerPage }) => {
                       name="sessionShort"
                       label="Short Name"
                       required
-                      formikRequired={
-                        formik?.errors?.sessionShort &&
-                        formik?.touched?.sessionShort
-                      }
+                      formikRequired={formik?.errors?.sessionShort && formik?.touched?.sessionShort}
                       placeholder="e.g 2020/2021"
                       onChange={(e) => {
                         formik.setFieldValue("sessionShort", e.target.value);

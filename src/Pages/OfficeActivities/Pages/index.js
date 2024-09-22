@@ -84,8 +84,6 @@ const OfficeActivities = () => {
           </Modal>
         </Suspense>
       )}
-
-      
     </>
   );
 };

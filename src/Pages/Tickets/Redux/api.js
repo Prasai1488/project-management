@@ -2,7 +2,7 @@ import axiosInstance from "../../../Utils/axios";
 
 const BASE_URL = "api/v1/ticket-app/ticket";
 
-export const getAllTickets = ( postsPerPage, page, status, priority, level ) =>
+export const getAllTickets = (postsPerPage, page, status, priority, level) =>
   axiosInstance.get(
     `${BASE_URL}?limit=${postsPerPage}&page=${page}&status=${status !== undefined ? status : ""}&priority=${
       priority !== undefined ? priority : ""

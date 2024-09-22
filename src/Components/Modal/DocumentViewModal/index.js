@@ -29,7 +29,13 @@ const DocumentViewModal = ({ documentToView, showModal, setShowModal }) => {
 
   return (
     <>
-      <div className={modalClass} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div
+        className={modalClass}
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
         <div className={`modal-dialog modal-dialog-centered modal-lg`}>
           <div className="modal-content">
             <div className="modal-header">
@@ -55,7 +61,10 @@ const DocumentViewModal = ({ documentToView, showModal, setShowModal }) => {
                   className="border border-light rounded"
                 ></iframe>
               ) : (
-                <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: "400px" }}>
+                <div
+                  className="d-flex flex-column justify-content-center align-items-center"
+                  style={{ height: "400px" }}
+                >
                   <p>
                     Could not preview file. <MdError />
                   </p>

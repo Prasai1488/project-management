@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import "./DetailsModal.css";
 
 const DetailsModal = ({ children, showModal, setShowModal, clearAction, size, title }) => {
-
   const modalClass = showModal ? "modal details-modal display-block" : "modal details-modal display-none";
   const ref = useRef();
   const dispatch = useDispatch();

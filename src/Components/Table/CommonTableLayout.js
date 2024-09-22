@@ -27,8 +27,7 @@ const CommonTableHeader = ({ headers }) => {
   );
 };
 
-const CommonTableLayout = ({ children, listRef, TableHeaders, loadingNext, onscroll,  }) => {
-
+const CommonTableLayout = ({ children, listRef, TableHeaders, loadingNext, onscroll }) => {
   return (
     <div className="row">
       <div className="col-12 table-scrollable" ref={listRef} onScroll={onscroll}>

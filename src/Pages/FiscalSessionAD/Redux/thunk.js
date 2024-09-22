@@ -28,30 +28,24 @@ export const getAllFiscalSessionAD = createAsyncThunk(
 );
 
 // get previous
-export const getPrevious = createAsyncThunk(
-  "fiscalSessionAD/getPrevious",
-  async (previous, { rejectWithValue }) => {
-    try {
-      const { data } = await API.getPrevious(previous);
-      return data;
-    } catch (error) {
-      return rejectWithValue("Failed to get fiscalSessionADs.");
-    }
+export const getPrevious = createAsyncThunk("fiscalSessionAD/getPrevious", async (previous, { rejectWithValue }) => {
+  try {
+    const { data } = await API.getPrevious(previous);
+    return data;
+  } catch (error) {
+    return rejectWithValue("Failed to get fiscalSessionADs.");
   }
-);
+});
 // get next
-export const getNext = createAsyncThunk(
-  "fiscalSessionAD/getNext",
-  async (next, { rejectWithValue }) => {
-    try {
-      const { data } = await API.getNext(next);
+export const getNext = createAsyncThunk("fiscalSessionAD/getNext", async (next, { rejectWithValue }) => {
+  try {
+    const { data } = await API.getNext(next);
 
-      return data;
-    } catch (error) {
-      return rejectWithValue("Failed to get fiscalSessionADs.");
-    }
+    return data;
+  } catch (error) {
+    return rejectWithValue("Failed to get fiscalSessionADs.");
   }
-);
+});
 
 // get particular page
 export const getPageFiscalSessionAD = createAsyncThunk(
@@ -83,15 +77,12 @@ export const createFiscalSessionAD = createAsyncThunk(
 );
 
 // handle search
-export const handleSearch = createAsyncThunk(
-  "fiscalSessionAD/handleSearch",
-  async (data, { rejectWithValue }) => {
-    const { search, postsPerPage } = data;
-    try {
-      const { data } = await API.handleSearch(search, postsPerPage);
-      return data;
-    } catch (error) {
-      rejectWithValue("Failed to get fiscalSessionAD");
-    }
+export const handleSearch = createAsyncThunk("fiscalSessionAD/handleSearch", async (data, { rejectWithValue }) => {
+  const { search, postsPerPage } = data;
+  try {
+    const { data } = await API.handleSearch(search, postsPerPage);
+    return data;
+  } catch (error) {
+    rejectWithValue("Failed to get fiscalSessionAD");
   }
-);
+});

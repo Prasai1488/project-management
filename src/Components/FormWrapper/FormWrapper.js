@@ -4,7 +4,7 @@ import "./FormWrapper.css";
 
 const FormWrapper = ({ children, loading, loadingUpdated, edit }) => {
   return (
-    <Form autoComplete="off" autoSave="off"> 
+    <Form autoComplete="off" autoSave="off">
       <div className="create-form-wrapper">
         <div className="row">{children}</div>
       </div>

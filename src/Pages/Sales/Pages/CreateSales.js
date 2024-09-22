@@ -370,12 +370,10 @@
 
 // export default CreateSales;
 
-import React from 'react'
+import React from "react";
 
 const CreateSales = () => {
-  return (
-    <div>CreateSales</div>
-  )
-}
+  return <div>CreateSales</div>;
+};
 
-export default CreateSales
+export default CreateSales;

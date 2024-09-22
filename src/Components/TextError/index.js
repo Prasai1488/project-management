@@ -12,7 +12,6 @@ const TextError = (props) => {
     >
       {props.children}
     </p>
-
   );
 };
 

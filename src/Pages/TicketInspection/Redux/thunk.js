@@ -171,7 +171,7 @@ export const getNextTicketsInspection = createAsyncThunk(
       const response = await axiosInstance.getNextTicketsInspection(next);
       return {
         ticketInspections: response.data.ticketInspections,
-        
+
         nextPage: response.data.nextPage,
         count: response.data.count,
       };

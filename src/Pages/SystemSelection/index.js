@@ -47,25 +47,13 @@ const SystemSelection = () => {
       title: "Lead",
       text: "Some quick example text to build on the card title and make up the bulk of the card's content.",
       link: "/leads",
-      permissionsList: [
-        "add_system_setup",
-        "add_loan_lead",
-        "update_loan_lead",
-        "view_loan_lead",
-        "view_loan_lead",
-      ],
+      permissionsList: ["add_system_setup", "add_loan_lead", "update_loan_lead", "view_loan_lead", "view_loan_lead"],
     },
     {
       title: "Loan",
       text: "Some quick example text to build on the card title and make up the bulk of the card's content.",
       link: "/loan",
-      permissionsList: [
-        "add_system_setup",
-        "add_loan_lead",
-        "update_loan_lead",
-        "view_loan_lead",
-        "view_loan_lead",
-      ],
+      permissionsList: ["add_system_setup", "add_loan_lead", "update_loan_lead", "view_loan_lead", "view_loan_lead"],
     },
     {
       title: "Inspection",
@@ -93,11 +81,7 @@ const SystemSelection = () => {
         <div className="system-selecetion-nav">
           <div className="container h-100 d-flex justify-content-between">
             <div className="logo d-flex align-items-center">
-              <img
-                src={logo}
-                style={{ objectFit: "contain", width: "145px" }}
-                alt="logo"
-              />
+              <img src={logo} style={{ objectFit: "contain", width: "145px" }} alt="logo" />
             </div>
             <div className="d-flex align-items-center">
               <button
@@ -127,9 +111,7 @@ const SystemSelection = () => {
         <div className="container system-selection-choose">
           {systems.map((system, index) => {
             const { permissionsList } = system;
-            const showMenu = permissions?.some(
-              (element) => permissionsList?.indexOf(element) !== -1
-            );
+            const showMenu = permissions?.some((element) => permissionsList?.indexOf(element) !== -1);
             if (isSuperuser || showMenu) {
               return <Card key={index} {...system} dispatch={dispatch} />;
             }

@@ -44,18 +44,15 @@ export const categories = createSlice({
     addCategory: (state, action) => {
       state.categories = [...state.categories, action.payload];
     },
-    updateCategory: (state, action) => { // Avoiding conflict with thunk imports
-      const index = state.categories.findIndex(
-        (category) => category.id === action.payload.id
-      );
+    updateCategory: (state, action) => {
+      // Avoiding conflict with thunk imports
+      const index = state.categories.findIndex((category) => category.id === action.payload.id);
       if (index !== -1) {
         state.categories[index] = action.payload.updatedCategory;
       }
     },
     deleteCategory: (state, action) => {
-      state.categories = state.categories.filter(
-        (category) => category.id !== action.payload
-      );
+      state.categories = state.categories.filter((category) => category.id !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -64,10 +61,7 @@ export const categories = createSlice({
     });
     builder.addCase(getNextCategory.fulfilled, (state, action) => {
       state.loadingNext = false;
-      state.categories = [
-        ...state.categories,
-        ...action.payload?.categories,
-      ];
+      state.categories = [...state.categories, ...action.payload?.categories];
       state.next = action.payload;
     });
     builder.addCase(getNextCategory.rejected, (state) => {
@@ -104,18 +98,11 @@ export const categories = createSlice({
     builder.addCase(apiUpdateCategory.rejected, (state) => {
       state.loadingUpdated = false;
     });
+    builder.addMatcher(isAnyOf(getCategories.pending, handleCategorySearch.pending), (state) => {
+      state.loadingCategory = true;
+    });
     builder.addMatcher(
-      isAnyOf(getCategories.pending, handleCategorySearch.pending),
-      (state) => {
-        state.loadingCategory = true;
-      }
-    );
-    builder.addMatcher(
-      isAnyOf(
-        getCategories.fulfilled,
-        getAllCategories.fulfilled,
-        handleCategorySearch.fulfilled
-      ),
+      isAnyOf(getCategories.fulfilled, getAllCategories.fulfilled, handleCategorySearch.fulfilled),
       (state, action) => {
         state.loadingCategory = false;
         state.categories = action.payload?.categories;
@@ -125,11 +112,7 @@ export const categories = createSlice({
       }
     );
     builder.addMatcher(
-      isAnyOf(
-        getCategories.rejected,
-        getAllCategories.rejected,
-        handleCategorySearch.rejected
-      ),
+      isAnyOf(getCategories.rejected, getAllCategories.rejected, handleCategorySearch.rejected),
       (state) => {
         state.loadingCategory = false;
       }

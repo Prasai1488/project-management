@@ -25,7 +25,7 @@ const SaleListing = ({ setShowSaleModal, setPostsPerPage, setPage, postsPerPage,
 
   const handleEdit = async (sale) => {
     dispatch(salesEditSuccess(sale));
-   dispatch(getSpecificSalesDetails({ saleId: sale._id, postsPerPage: 10, page }));
+    dispatch(getSpecificSalesDetails({ saleId: sale._id, postsPerPage: 10, page }));
     setShowSaleModal(true);
   };
 

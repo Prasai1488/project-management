@@ -1,8 +1,5 @@
 import axios from "axios";
-import {
-  checkRedundantDataFullBS,
-  checkRedundantDataShortBS,
-} from "../../../Pages/FiscalSessionBS/Redux/api";
+import { checkRedundantDataFullBS, checkRedundantDataShortBS } from "../../../Pages/FiscalSessionBS/Redux/api";
 
 let cancelToken;
 

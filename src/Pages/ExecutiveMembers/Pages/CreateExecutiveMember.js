@@ -81,7 +81,7 @@ const CreateMembers = ({ dispatch, postsPerPage = 10, setShowModal }) => {
     }),
     password: Yup.string().required("Password is required"),
     // confirm password
-  
+
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Confirm Password is required"),
@@ -170,7 +170,8 @@ const CreateMembers = ({ dispatch, postsPerPage = 10, setShowModal }) => {
                       label="Organization Name"
                       required
                       formikRequired={
-                        formik?.errors?.executiveMember?.organizationName && formik?.touched?.executiveMember?.organizationName
+                        formik?.errors?.executiveMember?.organizationName &&
+                        formik?.touched?.executiveMember?.organizationName
                       }
                       onChange={formik.handleChange}
                       value={formik.values.executiveMember?.organizationName}
@@ -183,7 +184,9 @@ const CreateMembers = ({ dispatch, postsPerPage = 10, setShowModal }) => {
                       placeholder="Enter panOrVatNo"
                       label="PAN or VAT Number"
                       required
-                      formikRequired={formik?.errors?.executiveMember?.panOrVatNo && formik?.touched?.executiveMember?.panOrVatNo}
+                      formikRequired={
+                        formik?.errors?.executiveMember?.panOrVatNo && formik?.touched?.executiveMember?.panOrVatNo
+                      }
                       onChange={formik.handleChange}
                       value={formik.values.executiveMember?.panOrVatNo}
                     />
@@ -196,7 +199,8 @@ const CreateMembers = ({ dispatch, postsPerPage = 10, setShowModal }) => {
                       label="Organization Email"
                       required
                       formikRequired={
-                        formik?.errors?.executiveMember?.organizationEmail && formik?.touched?.executiveMember?.organizationEmail
+                        formik?.errors?.executiveMember?.organizationEmail &&
+                        formik?.touched?.executiveMember?.organizationEmail
                       }
                       onChange={formik.handleChange}
                       value={formik.values.executiveMember?.organizationEmail}
@@ -224,7 +228,10 @@ const CreateMembers = ({ dispatch, postsPerPage = 10, setShowModal }) => {
                       placeholder="Enter companyAddress"
                       label="Company Address"
                       required
-                      formikRequired={formik?.errors?.executiveMember?.companyAddress && formik?.touched?.executiveMember?.companyAddress}
+                      formikRequired={
+                        formik?.errors?.executiveMember?.companyAddress &&
+                        formik?.touched?.executiveMember?.companyAddress
+                      }
                       onChange={formik.handleChange}
                       value={formik.values.executiveMember?.companyAddress}
                     />
@@ -236,7 +243,9 @@ const CreateMembers = ({ dispatch, postsPerPage = 10, setShowModal }) => {
                       name="executiveMember.sector"
                       required
                       options={sector}
-                      formikRequired={formik?.errors?.executiveMember?.sector && formik?.touched?.executiveMember?.sector}
+                      formikRequired={
+                        formik?.errors?.executiveMember?.sector && formik?.touched?.executiveMember?.sector
+                      }
                       getOptionLabel={(option) => `${option?.name} `}
                       getOptionValue={(option) => `${option?.value}`}
                       onChange={(selected) => {
@@ -268,7 +277,9 @@ const CreateMembers = ({ dispatch, postsPerPage = 10, setShowModal }) => {
                       name="executiveMember.memberType"
                       required
                       options={memberType}
-                      formikRequired={formik?.errors?.executiveMember?.memberType && formik?.touched?.executiveMember?.memberType}
+                      formikRequired={
+                        formik?.errors?.executiveMember?.memberType && formik?.touched?.executiveMember?.memberType
+                      }
                       getOptionLabel={(option) => `${option?.name} `}
                       getOptionValue={(option) => `${option?.name}`}
                       onChange={(selected) => {

@@ -30,8 +30,6 @@ const OtherActivitiesListing = ({ dispatch, setOtherActivitiesModal, postsPerPag
     setOtherActivitiesModal(true);
   };
 
-  
-
   return (
     <>
       {otherActivities?.length > 0 ? (
@@ -59,7 +57,7 @@ const OtherActivitiesListing = ({ dispatch, setOtherActivitiesModal, postsPerPag
                 {otherActivities?.map((customer, i) => {
                   const { id, title, sector, status, createdAt, createdBy } = customer;
                   return (
-                    <tr key={id}  style={{ cursor: "pointer" }}>
+                    <tr key={id} style={{ cursor: "pointer" }}>
                       <td>{i + 1}</td>
                       <td className="column_resizer_body" />
                       <td>{title ? title : "N/A"}</td>
@@ -93,8 +91,6 @@ const OtherActivitiesListing = ({ dispatch, setOtherActivitiesModal, postsPerPag
       ) : (
         <NoData />
       )}
-
-     
     </>
   );
 };

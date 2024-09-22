@@ -17,13 +17,7 @@ const CoreSetupTabs = () => {
   function TabPanel(props) {
     const { children, value, index, tab, ...other } = props;
     return (
-      <div
-        className="tab-pane show active"
-        id={tab}
-        role="tabpanel"
-        aria-labelledby={`${tab}-tab`}
-        {...other}
-      >
+      <div className="tab-pane show active" id={tab} role="tabpanel" aria-labelledby={`${tab}-tab`} {...other}>
         {value === index && <>{children}</>}
       </div>
     );
@@ -43,12 +37,8 @@ const CoreSetupTabs = () => {
         <ul className="nav nav-tabs" id="saleTab" role="tablist">
           {userPermission?.map((side, i) => {
             const { permissionList, tabName, keyWord, ordering } = side;
-            haveAnyPermission.push(
-              permissions?.some((element) => permissionList?.indexOf(element) !== -1)
-            );
-            const showMenu = permissions?.some(
-              (element) => permissionList?.indexOf(element) !== -1
-            );
+            haveAnyPermission.push(permissions?.some((element) => permissionList?.indexOf(element) !== -1));
+            const showMenu = permissions?.some((element) => permissionList?.indexOf(element) !== -1);
             if (isSuperuser || showMenu) {
               return (
                 <React.Fragment key={i + 1}>

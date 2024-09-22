@@ -8,7 +8,7 @@ import {
   getTicketIssues,
   handleSearch,
   updateReply,
-  updateTicketIssues
+  updateTicketIssues,
 } from "./thunk";
 
 const initialState = {
@@ -150,6 +150,6 @@ export const ticketIssues = createSlice({
   },
 });
 
-export const { ticketIssuesEditSuccess, clearAllTicketIssues, ticketIssueReply,setIssue } = ticketIssues.actions;
+export const { ticketIssuesEditSuccess, clearAllTicketIssues, ticketIssueReply, setIssue } = ticketIssues.actions;
 
 export default ticketIssues.reducer;

@@ -26,18 +26,18 @@ const Units = () => {
 
   const [search, setSearch] = useState("");
   const [postsPerPage, setPostsPerPage] = useState(20);
-  const [page,setPage]=useState(1);
+  const [page, setPage] = useState(1);
 
   const [showFilter, setShowFilter] = useState(false);
   const debouncedSearch = useDebounce(search, 500);
 
   useEffect(() => {
     if (search === "") {
-      dispatch(getAllUnits({postsPerPage,page}));
+      dispatch(getAllUnits({ postsPerPage, page }));
     } else {
       dispatch(handleSearch({ search, postsPerPage }));
     }
-  }, [postsPerPage, debouncedSearch,page]);
+  }, [postsPerPage, debouncedSearch, page]);
 
   const createPermission = isSuperuser || permissions?.includes("") || true;
 
@@ -55,7 +55,14 @@ const Units = () => {
         />
 
         {loadingUnit && <ListingSkeleton />}
-        {!loadingUnit && <UnitListing setPage={setPage} setPostsPerPage={setPostsPerPage} dispatch={dispatch} setUnitModal={setShowUnitModal} />}
+        {!loadingUnit && (
+          <UnitListing
+            setPage={setPage}
+            setPostsPerPage={setPostsPerPage}
+            dispatch={dispatch}
+            setUnitModal={setShowUnitModal}
+          />
+        )}
       </div>
       <CommonCreateButton
         types={types}

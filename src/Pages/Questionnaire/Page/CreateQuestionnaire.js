@@ -34,7 +34,6 @@ const CreateQuestionnaire = ({ dispatch, postsPerPage = 10, setShowModal, type }
       item: values.item?.map((item) => item._id),
       isActive: true,
     };
- 
 
     const action = edit
       ? updateQuestionnaires({ id: questionnaire?._id, values: createValues })

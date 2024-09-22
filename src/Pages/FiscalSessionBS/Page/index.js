@@ -52,17 +52,9 @@ const FiscalSessionBSListing = () => {
 
         {loadingFiscalSessionBS && <ListingSkeleton />}
         {!loadingFiscalSessionBS && (
-          <FiscalSessionBS
-            dispatch={dispatch}
-            showModal={showModal}
-            setPostsPerPage={setPostsPerPage}
-          />
+          <FiscalSessionBS dispatch={dispatch} showModal={showModal} setPostsPerPage={setPostsPerPage} />
         )}
-        <CommonCreateButton
-          types={types}
-          showModal={showFiscalSessionModal}
-          setShowModal={setShowFiscalSessionModal}
-        />
+        <CommonCreateButton types={types} showModal={showFiscalSessionModal} setShowModal={setShowFiscalSessionModal} />
       </div>
       {showFiscalSessionModal && (
         <Suspense fallback={<div></div>}>
@@ -74,11 +66,7 @@ const FiscalSessionBSListing = () => {
             types={types}
             size={"modal-md"}
           >
-            <CreateFiscalSessionBS
-              dispatch={dispatch}
-              showModal={showFiscalSessionModal}
-              postsPerPage={postsPerPage}
-            />
+            <CreateFiscalSessionBS dispatch={dispatch} showModal={showFiscalSessionModal} postsPerPage={postsPerPage} />
           </Modal>
         </Suspense>
       )}

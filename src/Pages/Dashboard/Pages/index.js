@@ -62,15 +62,15 @@ const Dashboard = () => {
 
   const [graphSeries, setGraphSeries] = useState([
     {
-      name: "Employee",
+      name: "Medium",
       data: [44, 55, 57, 56],
     },
     {
-      name: "Present",
+      name: "High",
       data: [76, 85, 101, 98],
     },
     {
-      name: "Absent",
+      name: "Low",
       data: [35, 41, 36, 26],
     },
   ]);
@@ -141,7 +141,7 @@ const Dashboard = () => {
     dataLabels: {
       enabled: false,
     },
-    labels: ["Employee", "Present", "Absent", "Out"],
+    labels: ["Affilate", "Purchase", "Website", "Endorse"],
   });
   const [filters, setFilters] = useState({
     branch: null,
@@ -160,117 +160,118 @@ const Dashboard = () => {
     }
   };
   return (
-    <>ghhhkljgfhjk</>
-    // <div>
-    //   <CommonPageHeader
-    //     title={`Welcome, ${getGreeting()}`}
-    //     types={"dashboard"}
-    //     filters={filters}
-    //     setFilters={setFilters}
-    //   />
-    //   <div className=" w-100" style={{ overflow: "auto" }}>
-    //     {/*top row cards*/}
-    //     <div className="row px-4 pb-4 pt-2 m-0" style={{ gap: "20px" }}>
-    //       <div className="card col">
-    //         <div className="d-flex justify-content-between">
-    //           <div className="">
-    //             <h6 style={{ paddingTop: "35px" }}>Employees</h6>
-    //             <h5 className="text-primary py-3">2,490</h5>
-    //           </div>
-    //           <div>
-    //             <div id="chart">
-    //               <ReactApexChart options={options} series={series} type="line" height={130} width={150} />
-    //             </div>
-    //             <div id="html-dist"></div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //       <div className="card col">
-    //         <div className="d-flex justify-content-between">
-    //           <div className="">
-    //             <h6 style={{ paddingTop: "35px" }}>Present</h6>
-    //             <h5 className=" py-3" style={{ color: "#8324f0" }}>
-    //               2,490
-    //             </h5>
-    //           </div>
-    //           <div>
-    //             <div id="chart">
-    //               <ReactApexChart options={option2} series={series} type="line" height={130} width={150} />
-    //             </div>
-    //             <div id="html-dist"></div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //       <div className="card col">
-    //         <div className="d-flex justify-content-between">
-    //           <div className="">
-    //             <h6 style={{ paddingTop: "35px", color: "#D51E31" }}>Out</h6>
-    //             <h5 className=" py-3" style={{ color: "#D51E31" }}>
-    //               2,490
-    //             </h5>
-    //           </div>
-    //           <div>
-    //             <div id="chart">
-    //               <ReactApexChart options={option3} series={series} type="line" height={130} width={140} />
-    //             </div>
-    //             <div id="html-dist"></div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //       <div className="card col">
-    //         <div className="d-flex justify-content-between">
-    //           <div className="">
-    //             <h6 style={{ paddingTop: "35px" }}>Absent</h6>
-    //             <h5 className=" py-3" style={{ color: "#31d10d" }}>
-    //               2,490
-    //             </h5>
-    //           </div>
-    //           <div>
-    //             <div id="chart">
-    //               <ReactApexChart options={option4} series={series} type="line" height={130} width={150} />
-    //             </div>
-    //             <div id="html-dist"></div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
+    <>
+      <div>
+        <CommonPageHeader
+          title={`Welcome, ${getGreeting()}`}
+          types={"dashboard"}
+          filters={filters}
+          setFilters={setFilters}
+        />
+        <div className=" w-100" style={{ overflow: "auto" }}>
+          {/*top row cards*/}
+          <div className="row px-4 pb-4 pt-2 m-0" style={{ gap: "20px" }}>
+            <div className="card col">
+              <div className="d-flex justify-content-between">
+                <div className="">
+                  <h6 style={{ paddingTop: "35px" }}>Users</h6>
+                  <h5 className="text-primary py-3">2,490</h5>
+                </div>
+                <div>
+                  <div id="chart">
+                    <ReactApexChart options={options} series={series} type="line" height={130} width={150} />
+                  </div>
+                  <div id="html-dist"></div>
+                </div>
+              </div>
+            </div>
+            <div className="card col">
+              <div className="d-flex justify-content-between">
+                <div className="">
+                  <h6 style={{ paddingTop: "35px" }}>Sales</h6>
+                  <h5 className=" py-3" style={{ color: "#8324f0" }}>
+                    2,490
+                  </h5>
+                </div>
+                <div>
+                  <div id="chart">
+                    <ReactApexChart options={option2} series={series} type="line" height={130} width={150} />
+                  </div>
+                  <div id="html-dist"></div>
+                </div>
+              </div>
+            </div>
+            <div className="card col">
+              <div className="d-flex justify-content-between">
+                <div className="">
+                  <h6 style={{ paddingTop: "35px", color: "#D51E31" }}>Visitor</h6>
+                  <h5 className=" py-3" style={{ color: "#D51E31" }}>
+                    2,490
+                  </h5>
+                </div>
+                <div>
+                  <div id="chart">
+                    <ReactApexChart options={option3} series={series} type="line" height={130} width={140} />
+                  </div>
+                  <div id="html-dist"></div>
+                </div>
+              </div>
+            </div>
+            <div className="card col">
+              <div className="d-flex justify-content-between">
+                <div className="">
+                  <h6 style={{ paddingTop: "35px" }}>Purchase</h6>
+                  <h5 className=" py-3" style={{ color: "#31d10d" }}>
+                    2,490
+                  </h5>
+                </div>
+                <div>
+                  <div id="chart">
+                    <ReactApexChart options={option4} series={series} type="line" height={130} width={150} />
+                  </div>
+                  <div id="html-dist"></div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    //     {/*bottom row cards*/}
-    //     <div className="row m-0 px-4 d-flex w-100" style={{ gap: "20px" }}>
-    //       {/*bar graph*/}
-    //       <div style={{ flexGrow: "2" }}>
-    //         <div className="card p-4">
-    //           <div id="chart">
-    //             <h5>Attendances</h5>
-    //             <ReactApexChart options={graphOptions} series={graphSeries} type="bar" height={300} width={"100%"} />
-    //           </div>
-    //           <div id="html-dist"></div>
-    //         </div>
-    //       </div>
+          {/*bottom row cards*/}
+          <div className="row m-0 px-4 d-flex w-100" style={{ gap: "20px" }}>
+            {/*bar graph*/}
+            <div style={{ flexGrow: "2" }}>
+              <div className="card p-4">
+                <div id="chart">
+                  <h5>Sales Overview</h5>
+                  <ReactApexChart options={graphOptions} series={graphSeries} type="bar" height={300} width={"100%"} />
+                </div>
+                <div id="html-dist"></div>
+              </div>
+            </div>
 
-    //       {/* pie chart */}
-    //       <div style={{ maxWidth: "600px" }} className=" card flex-grow-1">
-    //         <div className=" p-4">
-    //           <div className="d-flex justify-content-between">
-    //             <h5 className="m-0 ">Attendance</h5>
-    //           </div>
-    //           <div className="d-flex mt-4 flex-row-reverse">
-    //             <div id="chart" className="flex-grow-1">
-    //               <ReactApexChart
-    //                 options={pieOptions}
-    //                 series={pieSeries}
-    //                 type="donut"
-    //                 // width={300}
-    //                 height={300}
-    //               />
-    //             </div>
-    //           </div>
-    //           <div id="html-dist"></div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
+            {/* pie chart */}
+            <div style={{ maxWidth: "600px" }} className=" card flex-grow-1">
+              <div className=" p-4">
+                <div className="d-flex justify-content-between">
+                  <h5 className="m-0 ">Earning Report</h5>
+                </div>
+                <div className="d-flex mt-4 flex-row-reverse">
+                  <div id="chart" className="flex-grow-1">
+                    <ReactApexChart
+                      options={pieOptions}
+                      series={pieSeries}
+                      type="donut"
+                      // width={300}
+                      height={300}
+                    />
+                  </div>
+                </div>
+                <div id="html-dist"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 export default Dashboard;

@@ -20,11 +20,7 @@ const FiscalYears = () => {
         <CommonPageHeader title={"FiscalYears"} onClick={onClickCreate} />
         <FiscalYearListing />
 
-        <Modal
-          showModal={createFiscalYear}
-          setShowModal={setCreateFiscalYear}
-          dispatch={setShowModal}
-        >
+        <Modal showModal={createFiscalYear} setShowModal={setCreateFiscalYear} dispatch={setShowModal}>
           <CreateFiscalYear />
         </Modal>
       </div>

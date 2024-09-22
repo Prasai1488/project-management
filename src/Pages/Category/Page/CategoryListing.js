@@ -6,13 +6,7 @@ import { getNextCategory } from "../Redux/thunk";
 import { categoriesEditSuccess } from "../Redux/categorySlice";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 
-const CategoryListing = ({
-  setShowCategoryModal,
-  setPostsPerPage,
-  setPage,
-  page,
-  postsPerPage,
-}) => {
+const CategoryListing = ({ setShowCategoryModal, setPostsPerPage, setPage, page, postsPerPage }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
   const next = useSelector((state) => state.category.next);
@@ -36,11 +30,7 @@ const CategoryListing = ({
     <>
       {categories && categories.length > 0 ? (
         <div className="row">
-          <div
-            className="col-12 table-scrollable"
-            onScroll={handleScroll}
-            ref={listRef}
-          >
+          <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}>
             <table className="listing-table">
               <thead>
                 <tr>
@@ -58,15 +48,10 @@ const CategoryListing = ({
                       <td>{i + 1}</td>
                       <td>{name ? name : "N/A"}</td>
                       <td>
-                        <span className={`status ${status.toLowerCase()}`}>
-                          {status ? status : "N/A"}
-                        </span>
+                        <span className={`status ${status.toLowerCase()}`}>{status ? status : "N/A"}</span>
                       </td>
                       <td>
-                        <DetailActionButton
-                          type={"edit"}
-                          onClick={() => handleEdit(category)}
-                        />
+                        <DetailActionButton type={"edit"} onClick={() => handleEdit(category)} />
                       </td>
                     </tr>
                   );
@@ -90,4 +75,3 @@ const CategoryListing = ({
 };
 
 export default CategoryListing;
-
