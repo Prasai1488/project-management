@@ -8,7 +8,7 @@ import mlogo from "../../assets/mlogo.png";
 import Button from "../../Components/Buttons/Button";
 import TextField from "../../Components/TextField/TextField";
 import { resetPassword } from "../../Redux/Auth/thunk";
-import "./resetPassword.css";
+import "./newPassword.css";
 
 const ResetPasswordConfirm = (props) => {
   let history = useHistory();
