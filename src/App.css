@@ -144,6 +144,8 @@ input[type="number"] {
 }
 
 .toast-sonner {
+  position: absolute;
+  left: 10px;
   padding: 12px 10px;
   .toast-close-btn {
     left: 99%;

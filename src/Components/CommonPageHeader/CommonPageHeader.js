@@ -209,8 +209,8 @@ const CommonPageHeader = ({
   }, [dispatch, postsPerPage]);
   return (
     <>
-      <div className="common-page-header  d-flex align-items-center justify-content-between">
-        <div className="d-flex justify-content-between align-items-end w-100">
+      <div className="common-page-header  d-flex align-items-center justify-content-between ">
+        <div className="d-flex justify-content-between align-items-center w-100">
           <div className="d-flex align-items-end" style={{ height: "min-content", gap: "10px", width: "max-content" }}>
             <div className="title">{title}</div>
             <div className="showing-entries-filter">

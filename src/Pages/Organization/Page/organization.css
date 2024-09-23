@@ -54,3 +54,13 @@
   border-radius: 4px;
   cursor: pointer;
 }
+.photo-part {
+  display: flex;
+  gap: 20px;
+}
+.middle-part {
+  flex-grow: 1;
+}
+.last-part {
+  margin-top: -25px;
+}
