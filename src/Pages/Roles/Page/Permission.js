@@ -14,8 +14,18 @@ const Permission = ({ selectedPermissions, setSelectedPermissions, holdPermissio
 
   const { role, edit } = useSelector((state) => state.role);
   // states
-  const [permissionCategory, setPermissionCategory] = useState(null);
-  const [unSelectedPermissions, setUnSelectedPermissions] = useState([]);
+  const [permissionCategory, setPermissionCategory] = useState([
+    { id: 5, name: "Select Permission" },
+    { id: 6, name: "Select Permission" },
+    { id: 7, name: "Select Permission" },
+    { id: 8, name: "Select Permission" },
+  ]);
+  const [unSelectedPermissions, setUnSelectedPermissions] = useState([
+    { id: 1, name: "UnSelect permission" },
+    { id: 2, name: "UnSelect permission" },
+    { id: 3, name: "UnSelect permission" },
+    { id: 4, name: "UnSelect permission" },
+  ]);
   const [selectedCheckedPermissions, setSelectedCheckedPermissions] = useState([]);
   const [unSelectedCheckedPermissions, setUnSelectedCheckedPermissions] = useState([]);
 
@@ -200,3 +210,109 @@ const Permission = ({ selectedPermissions, setSelectedPermissions, holdPermissio
 };
 
 export default Permission;
+
+// import React, { useEffect, useState } from "react";
+// import { FaArrowRight, FaArrowLeftLong } from "react-icons/fa6";
+// import { useDispatch, useSelector } from "react-redux";
+// import { errorFunction } from "../../../Components/Alert/Alert";
+// import PermissionList from "./PermissionList";
+// import "./role.css";
+
+// const Permission = () => {
+//   const [unSelectedPermissions, setUnSelectedPermissions] = useState([
+//     { id: 1, name: "UnSelect permission" },
+//     { id: 2, name: "UnSelect permission" },
+//     { id: 3, name: "UnSelect permission" },
+//     { id: 4, name: "UnSelect permission" },
+//   ]);
+//   const [selectedPermissions, setSelectedPermissions] = useState([
+//     { id: 4, name: "Select Permission" },
+//     { id: 5, name: "Select Permission" },
+//     { id: 6, name: "Select Permission" },
+//     { id: 7, name: "Select Permission" }, // Fixed duplicate id
+//   ]);
+
+//   const [selectedCheckedPermissions, setSelectedCheckedPermissions] = useState([]);
+//   const [unSelectedCheckedPermissions, setUnSelectedCheckedPermissions] = useState([]);
+
+//   const handleSelectPermission = () => {
+//     if (unSelectedCheckedPermissions.length > 0 && selectedCheckedPermissions.length === 0) {
+//       const filteredUnSelectedPermissions = unSelectedPermissions.filter(
+//         (permi) => !unSelectedCheckedPermissions.find(({ id }) => permi.id === id)
+//       );
+//       setSelectedPermissions([...selectedPermissions, ...unSelectedCheckedPermissions]);
+//       setUnSelectedPermissions(filteredUnSelectedPermissions);
+//       setUnSelectedCheckedPermissions([]);
+//     } else {
+//       if (unSelectedCheckedPermissions.length === 0 && selectedCheckedPermissions.length === 0) {
+//         errorFunction("Please select permission from unselected permissions");
+//       } else {
+//         errorFunction("You have checked some permission from selected permissions. Please uncheck them and try again");
+//       }
+//     }
+//   };
+
+//   const handleUnSelectPermission = () => {
+//     if (selectedCheckedPermissions.length > 0 && unSelectedCheckedPermissions.length === 0) {
+//       const filteredSelectedPermissions = selectedPermissions.filter(
+//         (permi) => !selectedCheckedPermissions.find(({ id }) => permi.id === id)
+//       );
+//       setUnSelectedPermissions([...unSelectedPermissions, ...selectedCheckedPermissions]);
+//       setSelectedPermissions(filteredSelectedPermissions);
+//       setSelectedCheckedPermissions([]);
+//     } else {
+//       if (unSelectedCheckedPermissions.length === 0 && selectedCheckedPermissions.length === 0) {
+//         errorFunction("Please select permission from selected permissions");
+//       } else {
+//         errorFunction(
+//           "You have checked some permission from unselected permissions. Please uncheck them and try again"
+//         );
+//       }
+//     }
+//   };
+
+//   return (
+//     <div className="row permission-container">
+//       {/* Unselected Permissions List */}
+//       <PermissionList
+//         permissions={unSelectedPermissions}
+//         title="Unselected Permissions"
+//         checkedPermissions={unSelectedCheckedPermissions}
+//         setCheckedPermissions={setUnSelectedCheckedPermissions}
+//       />
+//       <div className="col-sm-2 d-flex p-0 align-items-center justify-content-center">
+//         <div className="align-middle">
+//           <div>
+//             <button
+//               type="button"
+//               className="btn btn-sm"
+//               onClick={handleSelectPermission}
+//               disabled={unSelectedPermissions.length === 0}
+//             >
+//               <FaArrowRight />
+//             </button>
+//           </div>
+//           <div>
+//             <button
+//               type="button"
+//               className="btn btn-sm mt-2"
+//               onClick={handleUnSelectPermission}
+//               disabled={selectedPermissions.length === 0}
+//             >
+//               <FaArrowLeftLong />
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//       {/* Selected Permissions List */}
+//       <PermissionList
+//         permissions={selectedPermissions}
+//         title="Selected Permissions"
+//         checkedPermissions={selectedCheckedPermissions}
+//         setCheckedPermissions={setSelectedCheckedPermissions}
+//       />
+//     </div>
+//   );
+// };
+
+// export default Permission;
