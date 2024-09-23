@@ -4,7 +4,7 @@ import deleteCookie from "../../Utils/Cookies/deleteCookie";
 import setCookie from "../../Utils/Cookies/setCookie";
 
 const initialState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   loadingLogin: false,
   loadingLogout: false,
   username: null,
