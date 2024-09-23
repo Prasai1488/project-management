@@ -1,6 +1,7 @@
 .login-wrapper {
   display: flex;
   height: 100vh;
+  overflow: hidden;
 }
 
 .login-section {
@@ -8,29 +9,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
   padding: 0 80px;
+  position: relative;
+  z-index: 1;
 }
 
 .login-container {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   text-align: left;
+  padding: 30px;
+  border-radius: 12px;
 }
 
 .main-logo {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 100%;
-  max-width: 250px;
+  top: 20px;
+  left: 20px;
+  width: 200px;
   z-index: 1000;
 }
 
 h2 {
   font-family: "Poppins", sans-serif;
-  font-size: 40px;
-  margin-bottom: 30px;
+  font-size: 36px;
+  margin-bottom: 25px;
   text-align: center;
 }
 
@@ -41,21 +44,23 @@ h2 {
 
 .password-field {
   position: relative;
+  margin-bottom: 20px;
 }
 
 .password-field .toggle-password {
   position: absolute;
-  top: 62%;
-  right: 20px;
+  top: 60%;
+  right: 16px;
   transform: translateY(-50%);
   cursor: pointer;
+  color: #333;
 }
 
 .form-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .remember-me {
@@ -65,53 +70,44 @@ h2 {
 }
 
 .remember-me label {
-  font-size: 20px;
-  margin-bottom: 0;
-  cursor: pointer;
+  font-size: 14px;
+  margin-left: 8px;
 }
 
 .remember-me input {
   margin-right: 8px;
-  width: 40px;
-  height: 40px;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
-}
-
-.remember-me label {
-  font-size: 20px;
-  margin-bottom: 0;
-  cursor: pointer;
-}
-
-.remember-me input {
-  margin-right: 8px;
 }
 
 .forget-password {
-  color: red;
+  color: #ff4d4f;
   text-decoration: none;
-  margin-left: auto;
+  font-size: 14px;
 }
 
 .forget-password:hover {
-  color: red;
+  color: #d42f2f;
 }
 
 .login-btn {
   background-color: var(--blue-primary);
   color: white;
-  padding: 16px;
+  padding: 12px;
   border: none;
-  border-radius: 40px;
+  border-radius: 50px;
   width: 100%;
-  margin: 20px auto 0;
-  font-size: 16px;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
-  justify-content: center;
+  transition: background-color 0.3s;
+  text-align: center;
 }
 
 .login-btn:hover {
-  background-color: #911925;
+  background-color: #d42f2f;
 }
 
 .image-section {
@@ -119,10 +115,16 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f5f5f5;
+  position: relative;
 }
 
 .background-image {
   width: 100%;
   height: 100vh;
   object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }

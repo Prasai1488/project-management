@@ -60,7 +60,7 @@ const ForgetPassword = () => {
                   formik.setFieldValue("email", e.target.value);
                 }}
               />
-              <button type="submit" className="login-btn">
+              <button type="submit" className="submit-btn">
                 Reset
               </button>
               <div className="text-center mt-3">
