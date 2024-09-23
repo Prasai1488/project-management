@@ -29,7 +29,7 @@ const OrderDetails = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    customer: Yup.object().required(" Required!"),
+    customer: Yup.string().required(" Required!"),
     orderno: Yup.string().required(" Required!"),
     packedOn: Yup.string().required("Required!"),
     orderOn: Yup.string().required("Required!"),
