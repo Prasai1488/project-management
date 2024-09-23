@@ -24,43 +24,49 @@ const CreateProduct = ({ handleClose, edit = false }) => {
     barcode: Yup.string().required("Barcode is required"),
     category: Yup.string().required("Category is required"),
     capacity: Yup.string().required("Capacity is required"),
-    photo: Yup.mixed().test("fileSize", "File must be less than 500kb", (value) => {
-      if (!value) return true;
-      return value.size <= 500 * 1024;
-    }),
+    photo: Yup.mixed()
+      .required(" image is required")
+      .test("fileSize", "File must be less than 500kb", (value) => {
+        if (!value) return true;
+        return value.size <= 500 * 1024;
+      }),
   });
 
   const onSubmit = (values, { setSubmitting }) => {
     console.log(values);
+    // You can dispatch the product creation or update action here
+    // dispatch(createOrUpdateProduct(values));
+
     setSubmitting(false);
     handleClose();
   };
 
   return (
     <>
-      <div className="create-product-wrapper "></div>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         {(formik) => (
           <Form autoComplete="off">
-            <div className="create-department-wrapper">
-              <div className="row">
-                <div className="col-4">
-                  <Dropzone
-                    name="photo"
-                    label="Photo"
-                    removePhoto={() => {
-                      formik.setFieldValue("photo", "");
-                      setImg(null);
-                    }}
-                    onChange={(event) => {
-                      formik.setFieldValue("photo", event.target.files[0]);
-                      let reader = new FileReader();
-                      reader.readAsDataURL(event.target.files[0]);
-                      reader.onloadend = () => setImg([reader.result]);
-                    }}
-                    displayImage={img ? <Thumb thumb={img} /> : ""}
-                    error={formik.errors.photo}
-                  />
+            <div className="create-product-wrapper">
+              <div className="row ">
+                <div className="common-dropzone-wrapper">
+                  <div className="col-4">
+                    <Dropzone
+                      name="photo"
+                      label="Photo"
+                      removePhoto={() => {
+                        formik.setFieldValue("photo", "");
+                        setImg(null);
+                      }}
+                      onChange={(event) => {
+                        formik.setFieldValue("photo", event.target.files[0]);
+                        let reader = new FileReader();
+                        reader.readAsDataURL(event.target.files[0]);
+                        reader.onloadend = () => setImg([reader.result]);
+                      }}
+                      displayImage={img ? <Thumb thumb={img} /> : ""}
+                      error={formik.errors.photo}
+                    />
+                  </div>
                 </div>
 
                 <div className="col-8">
@@ -89,7 +95,7 @@ const CreateProduct = ({ handleClose, edit = false }) => {
                       />
                     </div>
 
-                    <div className="col-6 ">
+                    <div className="col-6">
                       <TextField
                         label="Category"
                         name="category"
@@ -116,7 +122,7 @@ const CreateProduct = ({ handleClose, edit = false }) => {
                 </div>
               </div>
             </div>
-            <div className=" d-flex justify-content-end align-items-center">
+            <div className="d-flex justify-content-end align-items-center">
               <Button
                 btnType="submit"
                 className="btn create-button"

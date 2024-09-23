@@ -84,7 +84,7 @@ const Login = () => {
                   </span>
                 </div>
                 <div className="form-options">
-                  <div className="d-flex justify-content-start align-items-center text-md-start">
+                  <div className="d-flex justify-content-start align-items-center text-md-start remember-me">
                     <Checkbox name="rememberMe" label={<span className="fs-4">Remember me</span>} />
                   </div>
                   <Link to="/forget-password" className="forget-password">

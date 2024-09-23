@@ -64,8 +64,8 @@ const ResetPasswordConfirm = (props) => {
     <div className="login-bak">
       <div className="reset-content">
         <div className="white-box">
-          <div className="logo-container">
-            <img src={mlogo} alt="logo" className="main-logo" />
+          <div className="flogo-container">
+            <img src={mlogo} alt="logo" className="fmain-logo" />
           </div>
           <h2 className="form-title">New Password</h2>
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
