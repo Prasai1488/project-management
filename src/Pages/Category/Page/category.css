@@ -3,3 +3,7 @@
   background-color: var(--background-color);
   border-radius: 8px;
 }
+
+.p-2 {
+  margin-top: 8px;
+}
