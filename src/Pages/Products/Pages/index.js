@@ -4,8 +4,8 @@ import CommonCreateButton from "../../../Components/CommonCreateButton/CommonCre
 import CommonPageHeader from "../../../Components/CommonPageHeader/CommonPageHeader";
 import ListingSkeleton from "../../../Components/Skeleton/ListingSkeleton";
 import useDebounce from "../../../Utils/Hooks/useDebounce";
-// import { clearAllTicket, clearEditTicket } from "../Redux/ticketSlice";
-// import { getAllTickets, handleSearch } from "../Redux/thunk";
+// import { clearAllProduct, clearEditProduct } from "../Redux/productSlice";
+// import { getAllProducts, handleSearch } from "../Redux/thunk";
 import ProductListing from "./ProductListing";
 import CreateProduct from "./CreateProduct";
 import "./product.css";
@@ -18,10 +18,10 @@ const types = "Products";
 const Products = () => {
   const dispatch = useDispatch();
   const { permissions, isSuperuser } = useSelector((state) => state.auth);
-  // const loadingTicket = useSelector((state) => state.ticket.loadingTicket);
-  // const tickets = useSelector((state) => state.ticket.tickets);
-  // const count = useSelector((state) => state.ticket.count);
-  const edit = useSelector((state) => state.ticket.edit);
+  // const loadingProduct = useSelector((state) => state.product.loadingProduct);
+  // const products = useSelector((state) => state.product.products);
+  // const count = useSelector((state) => state.product.count);
+  // const edit = useSelector((state) => state.product.edit);
   const [showProductModal, setShowProductModal] = useState(false);
 
   const [status, setStatus] = useState([]);
@@ -38,7 +38,7 @@ const Products = () => {
   // useEffect(() => {
   //   if (search === "") {
   //     dispatch(
-  //       getAllTickets({ postsPerPage, page, status: status?.value, priroity: priority?.value, level: level?.value })
+  //       getAllProducts({ postsPerPage, page, status: status?.value, priroity: priority?.value, level: level?.value })
   //     );
   //   } else {
   //     dispatch(handleSearch({ search, postsPerPage }));
@@ -62,7 +62,7 @@ const Products = () => {
           // setStatus={setStatus}
           // status={status}
           // setPriroity={setPriroity}
-          // priroity={priority}
+          // priority={priority}
           // setLevel={setLevel}
           // level={level}
         />
@@ -71,7 +71,7 @@ const Products = () => {
         {!loadingProduct && ( */}
         <ProductListing
           dispatch={dispatch}
-          setShowTicketModal={setShowProductModal}
+          setShowProductModal={setShowProductModal}
           setPostsPerPage={setPostsPerPage}
           setPage={setPage}
           postsPerPage={postsPerPage}
@@ -86,21 +86,22 @@ const Products = () => {
         setShowModal={setShowProductModal}
         createPermission={createPermission}
       />
-      {/* {showTicketModal && */}(
+      {/* {showProductModal && */}(
       <Suspense fallback={<div></div>}>
         <Modal
           showModal={showProductModal}
           setShowModal={setShowProductModal}
-          header={edit ? "Update Product" : "Add Product"}
+          // header={edit ? "Update Product" : "Add Product"}
+          header={"Add Product"}
           types={types}
-          edit={edit}
+          // edit={edit}
           size={"modal-md"}
-          // clearAction={clearEditTicket}
+          // clearAction={clearEditProduct}
         >
           <CreateProduct dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowProductModal} />
         </Modal>
       </Suspense>
-      ){/* } */}
+      )
     </>
   );
 };
