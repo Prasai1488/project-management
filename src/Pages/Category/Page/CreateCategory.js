@@ -98,7 +98,7 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
                   onChange={formik.handleChange}
                   checked={formik.values.status}
                 />
-                <label htmlFor="status" className="p-2">
+                <label htmlFor="status" className="p-2 custom-margin">
                   Active
                 </label>
               </div>
