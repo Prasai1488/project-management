@@ -4,13 +4,13 @@ import deleteCookie from "../../Utils/Cookies/deleteCookie";
 import setCookie from "../../Utils/Cookies/setCookie";
 
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   loadingLogin: false,
   loadingLogout: false,
   username: null,
   userId: "",
   authError: false,
-  isSuperuser: true,
+  isSuperuser: false,
   isSetupDone: true,
   permissions: [],
   loadingResetPassword: false,

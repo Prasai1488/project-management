@@ -34,7 +34,7 @@ const RoleListing = () => {
     } else {
       dispatch(handleSearch({ search, postsPerPage }));
     }
-    // eslint-disable-next-line
+  
   }, [postsPerPage, debouncedSearch]);
   const createPermission = isSuperuser || permissions?.includes("add_user_group");
   return (
