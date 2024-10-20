@@ -4,7 +4,7 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import rootReducer from ".";
 
 const persistConfig = {
-  key: "Cubix-Dege",
+  key: "Ranger-WholeSale",
   storage,
   version: 1,
   whitelist: ["auth", "layout", "tabsValue", "systemSelection"],

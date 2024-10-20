@@ -3,52 +3,55 @@ import React, { useState } from "react";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { MdLockOutline, MdMailOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { errorFunction, successFunction } from "../../Components/Alert/Alert";
 import LoginTextField from "../../Components/TextField/LoginTextField";
 import Checkbox from "../../Components/CommonCheckbox/Checkbox";
+import { login, checkSetup } from "../../Redux/Auth/thunk";
 import "./login.css";
 import main from "../../assets/main.png";
 import mlogo from "../../assets/mlogo.png";
 
 const Login = () => {
   const [type, setType] = useState("password");
-  const remember = localStorage.getItem("rememberMe");
-  const user = localStorage.getItem("username");
 
-  // Initial form values
+  const remember = localStorage.getItem("rememberMe") === "true";
+  const email = localStorage.getItem("email") || "";
+  const dispatch = useDispatch();
+
   const initialValues = {
-    username: user || "",
+    email,
     password: "",
-    rememberMe: remember === "true",
+    rememberMe: remember,
   };
 
-  // Form validation schema
-  const validationSchema = Yup.object().shape({
-    username: Yup.string()
-      .required("Required!")
-      .min(3, "Username must be at least 3 characters.")
-      .matches(/^[A-Za-z_]\w.*$/, "Username should begin with _ or alphabet."),
+  const validationSchema = Yup.object({
+    email: Yup.string().required("Required!").email("Invalid email format."),
     password: Yup.string().required("Required!").min(4, "Password should be at least 4 characters."),
     rememberMe: Yup.bool(),
   });
 
-  // Handle form submission
   const onSubmit = (values) => {
-    const { rememberMe, username, password } = values;
+    const { rememberMe, email, password } = values;
     localStorage.setItem("rememberMe", rememberMe);
-    localStorage.setItem("username", rememberMe ? username : "");
-
-    // Here you can dispatch login action or API call
-    successFunction("Logged in successfully.");
+    localStorage.setItem("email", rememberMe ? email : "");
+    const credentials = { email, password };
+    dispatch(login(credentials))
+      .unwrap()
+      .then(() => {
+        successFunction("Logged in successfully.");
+        // dispatch(checkSetup());
+      })
+      .catch(() => {
+        errorFunction("Failed to log in.");
+      });
   };
 
-  // Toggle password visibility
   const togglePassword = () => {
     setType((prevType) => (prevType === "password" ? "text" : "password"));
   };
 
-  // Icon style for consistent look
   const iconStyle = { color: "red" };
 
   return (
@@ -58,16 +61,16 @@ const Login = () => {
         <div className="login-container">
           <h2>Login</h2>
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-            {(formik) => (
+            {({ handleChange, values, touched, errors }) => (
               <Form className="login-form">
                 <LoginTextField
                   type="text"
-                  name="username"
+                  name="email"
                   placeholder="E-mail ID"
                   icon={<MdMailOutline size={25} style={iconStyle} />}
-                  value={formik.values.username}
-                  onChange={formik.handleChange}
-                  formikRequired={formik.touched.username && formik.errors.username}
+                  value={values.email}
+                  onChange={handleChange}
+                  formikRequired={touched.email && errors.email}
                 />
                 <div className="password-field">
                   <LoginTextField
@@ -75,17 +78,17 @@ const Login = () => {
                     name="password"
                     placeholder="Password"
                     icon={<MdLockOutline size={25} style={iconStyle} />}
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    formikRequired={formik.touched.password && formik.errors.password}
+                    value={values.password}
+                    onChange={handleChange}
+                    formikRequired={touched.password && errors.password}
                   />
-                  <span className="toggle-password" onClick={togglePassword}>
+                  <span className="mt-2 toggle-password" onClick={togglePassword}>
                     {type === "password" ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
                   </span>
                 </div>
                 <div className="form-options">
-                  <div className="d-flex justify-content-start align-items-center text-md-start remember-me">
-                    <Checkbox name="rememberMe" label={<span className="fs-4">Remember me</span>} />
+                  <div className="remember-me">
+                    <Checkbox name="rememberMe" label={<span>Remember me</span>} />
                   </div>
                   <Link to="/forget-password" className="forget-password">
                     Forget Password?

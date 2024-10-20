@@ -1,7 +1,6 @@
 import axiosInstance from "../../../Utils/axios";
 
-const BASE_URL = "api/v1/category-app/category"; // Adjusted base URL for Category
-
+const BASE_URL = "api/v1/category-app/category"; 
 export const getAllCategories = (postsPerPage, page, status, priority, level) =>
   axiosInstance.get(
     `${BASE_URL}?limit=${postsPerPage}&page=${page}&status=${status !== undefined ? status : ""}&priority=${

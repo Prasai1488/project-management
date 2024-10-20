@@ -123,3 +123,4 @@ const ProductListing = ({ setPostsPerPage, setPage, page, postsPerPage }) => {
 };
 
 export default ProductListing;
+

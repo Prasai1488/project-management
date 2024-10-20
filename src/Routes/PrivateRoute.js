@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Route, Switch, withRouter } from "react-router-dom";
 import PageNotFound from "../Components/PageNotFound";
 import Products from "../Pages/Products/Pages";
-
+import Offer from "../Pages/Offer/Pages";
 import ContactPersons from "../Pages/ContactPerson/Page";
 import Issues from "../Pages/Issue/Page";
 import Items from "../Pages/Item/Page";
@@ -67,6 +67,7 @@ const OtherActivities = lazyWithReload(() => import("../Pages/OtherActivities/Pa
 
 const PrivateRoute = () => {
   const { isSetupDone } = useSelector((state) => state.auth);
+  console.log("dfghjk",isSetupDone)
 
   const ErrorFallback = ({ error }) => {
     return (
@@ -84,27 +85,22 @@ const PrivateRoute = () => {
           <Switch>
             <ProtectedRoute exact path="/" component={Dashboard} permission={""} />
             <ProtectedRoute exact path="/change-password" component={ChangePassword} permission={""} />
-
             {/* <ProtectedRoute exact path="/core-setup" component={CoreSetupTabs} permission={permission?.coreSetup} />
             <ProtectedRoute exact path="/user-setup" component={UserTabs} permission={permission?.userSetup} />*/}
             <ProtectedRoute exact path="/change-password" component={ChangePassword} permission={""} />
-
             {/* system setup */}
             {/* <ProtectedRoute path="/fiscalSessionBS" component={FiscalSessionBS} permission={""} />
             <ProtectedRoute path="/fiscalSessionAD" component={FiscalSessionAD} permission={""} /> */}
-
             {/* <ProtectedRoute path="/country" component={Country} permission={""} /> */}
             <ProtectedRoute path="/organization-setup" component={Organization} permission={""} />
             <ProtectedRoute path="/permissions" component={Permissions} permission={""} />
             <ProtectedRoute path="/permission-categories" component={PermissionCategorys} permission={""} />
-
             <ProtectedRoute path="/manufacturer" component={Manufacturers} permission={""} />
             {/* user setup */}
             <ProtectedRoute exact path="/user" component={UserListing} permission={""} />
             <ProtectedRoute exact path="/roles" component={RoleListing} permission={""} />
-
             {/* <ProtectedRoute exact path="/tickets" component={Issues} permission={""} /> */}
-
+            <ProtectedRoute exact path = "/offer" component={Offer} permission={""} />
             <ProtectedRoute exact path="/products" component={Products} permission={""} />
             <ProtectedRoute exact path="/ticket" component={Tickets} permission={""} />
             <ProtectedRoute exact path="/sales" component={Sales} permission={""} />
@@ -115,12 +111,9 @@ const PrivateRoute = () => {
             <ProtectedRoute exact path="/client" component={Clients} permission={""} />
             <ProtectedRoute exact path="/customer" component={Customers} permission={""} />
             <ProtectedRoute exact path="/unit" component={Units} permission={""} />
-
             <ProtectedRoute exact path="/organization" component={Organization} permission={""} />
             <ProtectedRoute exact path="/category" component={Category} permission={""} />
-
             <ProtectedRoute exact path="/orders" component={Orders} permission={""} />
-
             <Route path="*" component={PageNotFound} />
           </Switch>
         ) : (

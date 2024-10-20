@@ -81,7 +81,7 @@ const RoleListing = () => {
             header={edit ? "Update Role" : "Add Role"}
             types={types}
             edit={edit}
-            size={"modal-lg"}
+            size={"modal-lx"}
             clearAction={clearEditRole}
           >
             <CreateRole dispatch={dispatch} setShowModal={setShowRoleModal} postsPerPage={postsPerPage} />

@@ -26,6 +26,13 @@ export const sidebarData = [
     link: "/roles",
     permissions: [""],
   },
+  {
+    menu: "Offer",
+    icon: <IoBookmarksOutline size={20} />,
+    key: "offer",
+    link: "/offer",
+    permissions: [""],
+  },
 ];
 export const products = [
   {

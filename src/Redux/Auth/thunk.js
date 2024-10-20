@@ -4,18 +4,35 @@ import getCookie from "../../Utils/Cookies/getCookie";
 import { checkSetupSuccess, loginSuccess, logoutSuccess } from "./authSlice";
 import { errorFunction, successFunction } from "../../Components/Alert/Alert";
 
-// login
+//Login
 
 export const login = createAsyncThunk("auth/login", async (credentials, { rejectWithValue, dispatch }) => {
-  const { username, password } = credentials;
+  const { email, password } = credentials;
   try {
-    const body = { username, password };
+    const body = { email, password };
     const { data } = await API.login(body);
-    dispatch(loginSuccess(data));
+    console.log("Login data:", data);
 
-    return data;
+    // Check if the required data is present
+    if (data && data.access && data.refresh) {
+      // Prepare a new structure to pass to loginSuccess
+      const loginData = {
+        tokens: {
+          accessToken: data.access,
+          refreshToken: data.refresh,
+        },
+        message: data.message,
+      };
+      dispatch(loginSuccess(loginData));
+      return data;
+    } else {
+      // If the response does not have the expected structure, reject with an error
+      throw new Error("Invalid login response structure.");
+    }
   } catch (error) {
-    return rejectWithValue(error);
+    console.error("Login failed:", error);
+    // Reject with a custom error message or the original error message
+    return rejectWithValue(error.response?.data?.message || "Failed to log in.");
   }
 });
 

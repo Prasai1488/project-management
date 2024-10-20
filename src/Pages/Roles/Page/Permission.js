@@ -180,7 +180,7 @@ const Permission = ({ selectedPermissions, setSelectedPermissions, holdPermissio
           <div>
             <button
               type="button"
-              className="btn btn-sm"
+              className="btn btn-sm p-0"
               onClick={handleSelectPermission}
               disabled={unSelectedPermissions.length === 0}
             >
@@ -190,7 +190,7 @@ const Permission = ({ selectedPermissions, setSelectedPermissions, holdPermissio
           <div>
             <button
               type="button"
-              className=" btn btn-sm mt-2"
+              className=" btn btn-sm p-0"
               onClick={handleUnSelectPermission}
               disabled={selectedPermissions?.length === 0}
             >

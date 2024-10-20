@@ -125,7 +125,7 @@ export const {
   clearAllCategory,
   clearEditCategory,
   addCategory,
-  updateCategory, // Correctly defined without conflict
+  updateCategory, 
   deleteCategory,
 } = categories.actions;
 
