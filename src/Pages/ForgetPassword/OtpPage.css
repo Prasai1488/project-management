@@ -11,39 +11,45 @@
 
 .otp-content {
   background-color: #fff;
-  padding: 40px;
-  border-radius: 10px;
+  padding: 40px 60px;
+  border-radius: 15px;
   box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.1);
   text-align: center;
   position: relative;
+  width: auto;
+  max-width: 90%;
 }
 
 .otp-box {
   margin: 0 auto;
+  max-width: 100%;
+  height: max-content;
 }
 
 .logo-container img {
   width: 300px;
   height: auto;
+  margin-bottom: 30px;
 }
 
 .form-title {
-  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+  font-size: 36px;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .instructions {
   font-size: 16px;
   color: #666;
-  margin-bottom: 20px;
-  margin-top: 10px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  line-height: 1.5;
 }
 
 .otp-input {
-  width: auto;
-  min-width: 150px;
-  padding: 10px;
+  width: 50%; /* Full width */
+  padding: 15px; /* Increased padding */
   font-size: 24px;
   text-align: center;
   border: 2px dashed red !important;
@@ -52,7 +58,7 @@
   color: #d32f2f !important;
   box-sizing: border-box;
   background-color: #fff;
-  margin: 0 auto;
+  margin: 0 auto 30px; /* Added bottom margin */
 }
 
 .otp-input::placeholder {
@@ -60,15 +66,14 @@
 }
 
 .otp-field {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   text-align: center;
 }
 
 .otp-button {
-  display: inline-block;
-  padding: 12px 40px;
-  font-size: 16px;
-
+  display: inline-box;
+  padding: 15px 40px; /* Increased padding */
+  font-size: 18px; /* Slightly increased font size */
   text-align: center;
   text-decoration: none;
   background-color: #e62526;
@@ -77,8 +82,8 @@
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 250px;
-  max-width: 300px;
+  width: 300px; /* Full width */
+
 }
 
 .otp-button:hover {

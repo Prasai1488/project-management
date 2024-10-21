@@ -32,6 +32,7 @@ import saledetailReducer from "../Pages/SaleDetails/Redux/salesDetailsSlice.js";
 import categoryReducer from "../Pages/Category/Redux/categorySlice";
 
 import orderReducer from "../Pages/Orders/Redux/ordersSlice.js";
+import productReducer from "../Pages/Products/Redux/ProductSlice.js";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -72,6 +73,7 @@ const rootReducer = combineReducers({
   saledetail: saledetailReducer,
 
   category: categoryReducer,
+  product: productReducer,
 });
 
 export default rootReducer;
