@@ -56,6 +56,7 @@ const CrmSidebar = () => {
   const systemSelected = useSelector((state) => state.systemSelection.systemSelected);
   const dispatch = useDispatch();
   const permissionApi = useSelector((state) => state.auth.permissions);
+  console.log(permissionApi, "permissionApi");
 
   const menuItemStyles = {
     root: {

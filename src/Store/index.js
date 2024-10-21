@@ -42,19 +42,15 @@ const rootReducer = combineReducers({
   layout: layoutReducer,
   tabsValue: tabsValueReducer,
   systemSelection: systemSelectionReducer,
-
   organization: organizationReducer,
   sectors: sectorReducer,
   permission: permissionReducer,
   permissionCategory: permissionCategoryReducer,
-
   country: countryReducer,
-
   ad: fiscalSessionADReducer,
   bs: fiscalSessionBSReducer,
   user: userReducer,
   role: roleReducer,
-
   notification: notificationReducer,
 
   //reducers
@@ -73,9 +69,7 @@ const rootReducer = combineReducers({
   unit: unitReducer,
   sale: salesReducer,
   saledetail: saledetailReducer,
-
   category: categoryReducer,
-
   //ranjer
   offer: offerReducer,
 });
