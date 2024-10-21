@@ -3,7 +3,7 @@ import axiosInstance, { publicAxiosInstance } from "../../Utils/axios";
 const BASE_URL = "http://192.168.1.91:8000"
 
 //for login
-export const login = (body) => publicAxiosInstance.post(`${BASE_URL}/auth/login`, body);
+export const login = (body) => publicAxiosInstance.post(`${BASE_URL}/auth/login/`, body);
 // for checking setup
 export const checkSetup = () => axiosInstance.get(`api/v1/organization/issetup`);
 //for logout

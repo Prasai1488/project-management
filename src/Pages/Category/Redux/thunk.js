@@ -1,40 +1,41 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as API from "./api";
 
-// get categories
+// Get categories
 export const getCategories = createAsyncThunk("category/getCategories", async (postsPerPage, { rejectWithValue }) => {
   try {
     const { data } = await API.getCategories(postsPerPage);
     return data;
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
   }
 });
 
-// get specific category
+// Get specific category
 export const getSpecificCategory = createAsyncThunk("category/getSpecificCategory", async (id, { rejectWithValue }) => {
   try {
     const { data } = await API.getSpecificCategory(id);
     return data;
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
   }
 });
 
-// get all categories
+// Get all categories
 export const getAllCategories = createAsyncThunk(
   "category/getAllCategories",
-  async ({ postsPerPage, page, status, priority, level }, { rejectWithValue }) => {
+  async ({ postsPerPage, offset, search, orderBy, createdAt }, { rejectWithValue }) => {
     try {
-      const { data } = await API.getAllCategories(postsPerPage, page, status, priority, level);
+      const { data } = await API.getAllCategories(postsPerPage, offset, search, orderBy, createdAt);
+      console.log(data, "this is product categoried data");
       return data;
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
     }
   }
 );
 
-// get previous category
+// Get previous category
 export const getPreviousCategory = createAsyncThunk(
   "category/getPreviousCategory",
   async (previous, { rejectWithValue }) => {
@@ -42,22 +43,22 @@ export const getPreviousCategory = createAsyncThunk(
       const { data } = await API.getPreviousCategory(previous);
       return data;
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
     }
   }
 );
 
-// get next category
+// Get next category
 export const getNextCategory = createAsyncThunk("category/getNextCategory", async (next, { rejectWithValue }) => {
   try {
     const { data } = await API.getNextCategory(next);
     return data;
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
   }
 });
 
-// get particular page of categories
+// Get page of categories
 export const getPageCategories = createAsyncThunk(
   "category/getPageCategories",
   async ({ number, postsPerPage }, { rejectWithValue }) => {
@@ -65,23 +66,22 @@ export const getPageCategories = createAsyncThunk(
       const { data } = await API.getPageCategories(number, postsPerPage);
       return data;
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
     }
   }
 );
 
-// create category
+// Create category
 export const createCategory = createAsyncThunk("category/createCategory", async (data, { rejectWithValue }) => {
-  const body = JSON.stringify({ ...data });
   try {
-    const { data } = await API.createCategory(body);
-    return data;
+    const { data: responseData } = await API.createCategory(data);
+    return responseData;
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
   }
 });
 
-// update category
+// Update category
 export const updateCategory = createAsyncThunk(
   "category/updateCategory",
   async ({ id, values }, { rejectWithValue }) => {
@@ -89,12 +89,13 @@ export const updateCategory = createAsyncThunk(
       const { data } = await API.updateCategory(id, values);
       return data;
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+      const errorMessage = error?.response?.data?.errors?.[0]?.error || error.message || "Something went wrong";
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
-// handle search for categories
+// Handle search for categories
 export const handleCategorySearch = createAsyncThunk(
   "category/handleCategorySearch",
   async ({ search, postsPerPage }, { rejectWithValue }) => {
@@ -102,7 +103,7 @@ export const handleCategorySearch = createAsyncThunk(
       const { data } = await API.handleCategorySearch(search, postsPerPage);
       return data;
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
     }
   }
 );

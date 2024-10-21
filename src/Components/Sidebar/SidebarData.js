@@ -34,24 +34,36 @@ export const sidebarData = [
     permissions: [""],
   },
 ];
+
 export const products = [
   {
     menu: "Products",
-    icon: <BsGrid size={20} />,
     sub_menu: [
-      {
-        name: "Products",
-        link: "/products",
-        permissions: ["view_products"],
-      },
-      {
-        name: "Category",
-        link: "/category",
-        permissions: ["view_category"],
-      },
+      { name: "Products", link: "/products" },
+      { name: "Category", link: "/category" },
     ],
+    icon: <BsGrid size={20} />,
   },
 ];
+
+// export const products = [
+//   {
+//     menu: "Products",
+//     icon: <BsGrid size={20} />,
+//     sub_menu: [
+//       {
+//         name: "Products",
+//         link: "/products",
+//         permissions: [""],
+//       },
+//       {
+//         name: "Category",
+//         link: "/category",
+//         permissions: [""],
+//       },
+//     ],
+//   },
+// ];
 export const orders = [
   {
     menu: "Orders",

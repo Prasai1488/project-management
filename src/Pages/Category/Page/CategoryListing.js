@@ -1,27 +1,33 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
-import { getNextCategory } from "../Redux/thunk";
+import { getNextCategory, getAllCategories } from "../Redux/thunk";
 import { categoriesEditSuccess } from "../Redux/categorySlice";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 
-const CategoryListing = ({ setShowCategoryModal, setPostsPerPage, setPage, page, postsPerPage }) => {
+const CategoryListing = ({ setShowCategoryModal, setPostsPerPage, setPage }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
   const next = useSelector((state) => state.category.next);
   const loadingNext = useSelector((state) => state.category?.loadingNext);
-  const categories = useSelector((state) => state?.category?.categories);
+  const categories = useSelector((state) => state.category?.categories);
+
+  console.log("categories", categories);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
 
   const { handleScroll } = useInfinteScroll({
-    loadingNext: loadingNext,
+    loadingNext,
     next,
     getNext: getNextCategory,
     setPostsPerPage,
     setPage,
   });
 
-  const handleEdit = async (category) => {
+  const handleEdit = (category) => {
     dispatch(categoriesEditSuccess(category));
     setShowCategoryModal(true);
   };
@@ -41,17 +47,17 @@ const CategoryListing = ({ setShowCategoryModal, setPostsPerPage, setPage, page,
                 </tr>
               </thead>
               <tbody>
-                {categories.map((category, i) => {
+                {categories.map((category, index) => {
                   const { _id, name, status } = category;
                   return (
                     <tr key={_id} style={{ cursor: "pointer" }}>
-                      <td>{i + 1}</td>
-                      <td>{name ? name : "N/A"}</td>
+                      <td>{index + 1}</td>
+                      <td>{name || "N/A"}</td>
                       <td>
-                        <span className={`status ${status.toLowerCase()}`}>{status ? status : "N/A"}</span>
+                        <span className={`status ${status ? status.toLowerCase() : "unknown"}`}>{status || "N/A"}</span>
                       </td>
                       <td>
-                        <DetailActionButton type={"edit"} onClick={() => handleEdit(category)} />
+                        <DetailActionButton type="edit" onClick={() => handleEdit(category)} />
                       </td>
                     </tr>
                   );
