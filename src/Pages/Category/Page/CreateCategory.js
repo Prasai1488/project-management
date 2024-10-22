@@ -11,7 +11,7 @@ import { renderTextField } from "../../../Utils/customFields";
 const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
-  const currentCategory = useSelector((state) => state.category.category); // Use a specific selector for the current category
+  const currentCategory = useSelector((state) => state.category.category); 
   const loading = useSelector((state) => state.category.loading);
   const loadingUpdated = useSelector((state) => state.category.loadingUpdated);
   const edit = useSelector((state) => state.category.edit);

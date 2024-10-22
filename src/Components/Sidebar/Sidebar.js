@@ -444,9 +444,9 @@ const CrmSidebar = () => {
     setOpenMenu(openMenu === key ? null : key);
   };
 
-  const handleChildMenuOpen = (key) => {
-    setOpenChildMenu(openChildMenu === key ? null : key);
-  };
+  // const handleChildMenuOpen = (key) => {
+  //   setOpenChildMenu(openChildMenu === key ? null : key);
+  // };
 
   const handleMenuClick = () => {
     setDisablePointerEvents(true);
@@ -491,20 +491,52 @@ const CrmSidebar = () => {
       if (level === 1) return { padding: collapsed ? "10px 5px" : "10px 20px" };
     },
   };
+  // const renderMenuItems = (items, parentKey) => {
+  //   return items.map((item, index) => {
+  //     const { menu, sub_menu, icon, link } = item;
+
+  //     // console.log("Rendering item:", menu, "Submenu:", sub_menu);
+
+  //     const isSubMenuOpen = openMenu === parentKey;
+
+  //     return Array.isArray(sub_menu) && sub_menu.length > 0 ? (
+  //       <SubMenu key={index} label={menu} icon={icon} open={isSubMenuOpen} onClick={() => handleOpenSubMenu(parentKey)}>
+  //         {renderMenuItems(sub_menu, parentKey + "_" + index)}
+  //       </SubMenu>
+  //     ) : (
+  //       <MenuItem key={index} active={location.pathname === link} component={<Link to={link} />} icon={icon}>
+  //         {menu}
+  //       </MenuItem>
+  //     );
+  //   });
+  // };
+
   const renderMenuItems = (items, parentKey) => {
     return items.map((item, index) => {
       const { menu, sub_menu, icon, link } = item;
-
-      // console.log("Rendering item:", menu, "Submenu:", sub_menu); 
-
-      const isSubMenuOpen = openMenu === parentKey;
+      const currentKey = parentKey + "_" + index;
+      const isSubMenuOpen = openMenu === currentKey;
 
       return Array.isArray(sub_menu) && sub_menu.length > 0 ? (
-        <SubMenu key={index} label={menu} icon={icon} open={isSubMenuOpen} onClick={() => handleOpenSubMenu(parentKey)}>
-          {renderMenuItems(sub_menu, parentKey + "_" + index)}
+        <SubMenu
+          key={currentKey}
+          label={menu}
+          icon={icon}
+          open={isSubMenuOpen}
+          onClick={() => handleOpenSubMenu(currentKey)}
+        >
+          {sub_menu.map((subItem, subIndex) => (
+            <MenuItem
+              key={`${currentKey}_${subIndex}`}
+              active={location.pathname === subItem.link}
+              component={<Link to={subItem.link} />}
+            >
+              {subItem.name}
+            </MenuItem>
+          ))}
         </SubMenu>
       ) : (
-        <MenuItem key={index} active={location.pathname === link} component={<Link to={link} />} icon={icon}>
+        <MenuItem key={currentKey} active={location.pathname === link} component={<Link to={link} />} icon={icon}>
           {menu}
         </MenuItem>
       );

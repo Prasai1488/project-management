@@ -2,7 +2,6 @@ import axiosInstance from "../../../Utils/axios";
 
 const RANGER_URL = "http://192.168.1.91:8000";
 export const getAllCategories = () => axiosInstance.get(`${RANGER_URL}/api/v1/product/category/`);
-
 export const getCategories = (postsPerPage) =>
   axiosInstance.get(`${RANGER_URL}/api/v1/product-category/?offset=0&limit=${postsPerPage}&ordering=-id`);
 
@@ -24,4 +23,3 @@ export const handleCategorySearch = (search, postsPerPage) =>
   axiosInstance.get(`${RANGER_URL}/api/v1/product-category/?offset=0&limit=${postsPerPage}&search=${search}`);
 
 export const getSpecificCategory = (id) => axiosInstance.get(`${RANGER_URL}/api/v1/product-category/${id}/`);
- 
