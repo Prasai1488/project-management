@@ -22,6 +22,8 @@
   border-radius: 12px;
   background-color: white;
   text-align: left;
+  padding: 30px;
+  border-radius: 12px;
 }
 
 .main-logo {
@@ -57,6 +59,7 @@ h2 {
   right: 16px;
   transform: translateY(-50%);
   cursor: pointer;
+  color: #333;
 }
 
 .form-options {

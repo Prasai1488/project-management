@@ -4,56 +4,6 @@
   border-radius: 8px;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.form-layout {
-  display: flex;
-  gap: 20px;
-}
-
-.image-upload {
-  flex: 0 0 200px;
-}
-
-.form-fields {
-  flex: 1;
-}
-
-.field-row {
-  display: flex;
-  gap: 20px;
-}
-
-.field-row > * {
-  flex: 1;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.save-button {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-}
 .photo-part {
   display: flex;
   gap: 20px;

@@ -32,6 +32,7 @@ import tabsValueReducer from "../Redux/TabsValue/tabsValueSlice.js";
 import categoryReducer from "../Pages/Category/Redux/categorySlice";
 
 import orderReducer from "../Pages/Orders/Redux/ordersSlice.js";
+import productReducer from "../Pages/Products/Redux/ProductSlice.js";
 
 //ranjer
 import offerReducer from "../Pages/Offer/Redux/offerSlice.js";
