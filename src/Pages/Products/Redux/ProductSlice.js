@@ -137,9 +137,8 @@
 
 // export default ProductSlice.reducer;
 
-
 import { createSlice } from "@reduxjs/toolkit";
-import { getProducts } from "./thunk";
+import { getProducts, createProduct,updateProduct } from "./thunk";
 
 // initialState
 const initialState = {
@@ -148,6 +147,7 @@ const initialState = {
   next: null,
   previous: null,
   loading: false,
+  error: null,
 };
 
 export const ProductSlice = createSlice({
@@ -157,17 +157,56 @@ export const ProductSlice = createSlice({
   extraReducers: (builder) => {
     // Handle getProducts thunk states
     builder.addCase(getProducts.pending, (state) => {
-      state.loading = true; // Set loading state when fetching products
+      state.loading = true;
+      state.error = null;
     });
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.loading = false; // Clear loading state once products are fetched
-      state.products = action.payload.results; // Store fetched products in state
+      state.products = action.payload.data; // Store fetched products in state
       state.count = action.payload.totalCount; // Save the total count of products
       state.next = action.payload.next; // Save pagination data (next)
       state.previous = action.payload.previous; // Save pagination data (previous)
+      state.error = null;
     });
     builder.addCase(getProducts.rejected, (state) => {
-      state.loading = false; // Clear loading state when request fails
+      state.loading = false;
+      state.error = action.error?.message || "Failed to fetch products";
+    });
+
+    // Handle createProduct thunk states
+    builder.addCase(createProduct.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(createProduct.fulfilled, (state, action) => {
+      state.loading = false;
+      state.products.push(action.payload);
+      state.error = null;
+    });
+    builder.addCase(createProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload || "Failed to create product";
+    });
+
+    // Handle updateProduct thunk states
+    builder.addCase(updateProduct.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateProduct.fulfilled, (state, action) => {
+      state.loading = false;
+      const updatedProduct = action.payload;
+
+      // Find the index of the product being updated and replace it
+      const index = state.products.findIndex((product) => product.id === updatedProduct.id);
+      if (index !== -1) {
+        state.products[index] = updatedProduct; // Update product details in the list
+      }
+      state.error = null;
+    });
+    builder.addCase(updateProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload || "Failed to update product";
     });
   },
 });

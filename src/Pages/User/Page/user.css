@@ -4,6 +4,7 @@
   height: 190px;
   background: var(--background-color);
 }
+
 .details-form {
   flex-grow: 1;
 }

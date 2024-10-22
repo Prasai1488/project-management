@@ -1,6 +1,5 @@
-.create-department-wrapper {
+.create-role-wrapper {
   border-radius: 10px;
-  padding: 20px;
   background: var(--background-color);
 }
 /* permission css */
@@ -53,14 +52,11 @@
 }
 
 .permission-container .col-sm-2 .align-middle button {
-  background: #555555;
-  border-radius: 5px;
-  padding: 2px 5px;
   cursor: pointer;
 }
-.permission-container .col-sm-2 .align-middle button svg {
-  fill: #fff;
-}
+/* .permission-container .col-sm-2 .align-middle button svg {
+  fill: #0000;
+} */
 
 .permission-container .col-sm-5 .card-permission .card-body .permission-list .list-permission .col-11 {
   font-style: normal;

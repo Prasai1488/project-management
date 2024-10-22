@@ -12,7 +12,7 @@ import permissionCategoryReducer from "../Pages/PermissionCategory/Redux/permiss
 import questionnaireReducer from "../Pages/Questionnaire/Redux/questionnaireSlice";
 import roleReducer from "../Pages/Roles/Redux/roleSlice";
 import sectorReducer from "../Pages/Sector/Redux/sectorSlice";
-// import productReducer from "../Pages/Product/Redux/product";
+
 import ticketInspectionReducer from "../Pages/TicketInspection/Redux/ticketInspectionSlice.js";
 import ticketReducer from "../Pages/Tickets/Redux/ticketSlice.js";
 import userReducer from "../Pages/User/Redux/userSlice";
@@ -33,6 +33,9 @@ import categoryReducer from "../Pages/Category/Redux/categorySlice";
 
 import orderReducer from "../Pages/Orders/Redux/ordersSlice.js";
 import productReducer from "../Pages/Products/Redux/ProductSlice.js";
+
+//ranjer
+import offerReducer from "../Pages/Offer/Redux/offerSlice.js";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -73,7 +76,13 @@ const rootReducer = combineReducers({
   saledetail: saledetailReducer,
 
   category: categoryReducer,
+
   product: productReducer,
+
+
+  //ranjer
+  offer: offerReducer,
+
 });
 
 export default rootReducer;

@@ -115,7 +115,7 @@ import Permission from "./Permission";
 //       <div className="create-role-wrapper">
 //         <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
 //           {(formik) => {
-//             return (
+//             return (c
 //               <Form autoComplete="off">
 //                 <div className="row">
 //                   <div className="col-12 ">
@@ -186,8 +186,8 @@ import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import TextField from "../../../Components/TextField/TextField";
-import Checkbox from "../../../Components/CommonCheckbox/Checkbox";
 import Button from "../../../Components/Buttons/Button";
+import Checkbox from "../../../Components/CommonCheckbox/Checkbox";
 
 const CreateRole = ({ dispatch, setShowModal, postsPerPage }) => {
   const formRef = useRef();
@@ -201,12 +201,11 @@ const CreateRole = ({ dispatch, setShowModal, postsPerPage }) => {
     "Unselected Permission 4",
   ]);
   const [selectedPermissions, setSelectedPermissions] = useState([]);
-  const [holdPermissions, setHoldPermissions] = useState([]); // Define holdPermissions state
 
   const initialState = {
     name: edit ? role?.name : "",
     isActive: edit ? role?.isActive : true,
-    remarks: edit ? role?.remarks : "", // Add remarks for editing case
+    permissionGroup: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -215,6 +214,7 @@ const CreateRole = ({ dispatch, setShowModal, postsPerPage }) => {
       .min(1, "Role must be at least 1 character.")
       .max(50, "Role must be 50 characters or less."),
     isActive: Yup.bool(),
+    permissionGroup: Yup.string(),
   });
 
   const onSubmit = (values) => {
@@ -223,77 +223,45 @@ const CreateRole = ({ dispatch, setShowModal, postsPerPage }) => {
       permissions: selectedPermissions,
     };
     console.log("Submitted data:", submitData);
-    // Here you would typically dispatch an action to save or update the role
   };
 
   return (
-    <div className="create-role-wrapper">
+    <div className="relative">
       <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
         {(formik) => (
           <Form autoComplete="off">
-            <div className="row">
-              <div className="col-12">
-                <TextField
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  label="Name *"
-                  required
-                  formikRequired={formik?.errors?.name && formik?.touched?.name}
-                />
-              </div>
-
-              {/* <div className="col-12">
-                <TextField
-                  type="text"
-                  name="permissionGroup"
-                  placeholder="Permission"
-                  label="Select Permission Group"
-                />
-              </div> */}
-
-              {/* Permission Component */}
-              <div className="col-12">
-                <Permission
-                  selectedPermissions={selectedPermissions}
-                  setSelectedPermissions={setSelectedPermissions}
-                  holdPermissions={holdPermissions}
-                  setHoldPermissions={setHoldPermissions}
-                />
-              </div>
-
-              {edit && (
-                <div className="my-2">
-                  <Textarea
-                    name="remarks"
-                    label="Remarks"
+            <div className="">
+              <div className="create-role-wrapper p-2">
+                <div className="col-12">
+                  <TextField
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    label="Name *"
                     required
-                    onChange={(e) => {
-                      formik.setFieldValue("remarks", e.target.value.trim());
-                    }}
+                    formikRequired={formik?.errors?.name && formik?.touched?.name}
                   />
-                </div>
-              )}
 
-              <div className="col-12 my-2 d-flex justify-content-center align-items-center">
-                <Checkbox name="isActive" label="Active" />
-              </div>
-
-              <div className="col-12 text-right">
-                <div className="my-4 d-flex justify-content-end align-items-center">
-                  <Button
-                    btnType="submit"
-                    className="btn create-button"
-                    createButton={true}
-                    title="Save"
-                    content="Save"
+                  <Permission
+                    unselectedPermissions={unselectedPermissions}
+                    selectedPermissions={selectedPermissions}
+                    setUnselectedPermissions={setUnselectedPermissions}
+                    setSelectedPermissions={setSelectedPermissions}
                   />
                 </div>
               </div>
             </div>
+            <div className="col-12 my-2 d-flex justify-content-center align-items-center">
+              <Checkbox name="isActive" label="Active" />
+            </div>
           </Form>
         )}
       </Formik>
+      <div className="col-12 p-0 text-right">
+        <div className="mt-3 d-flex justify-content-end align-items-center">
+          <Button btnType="submit" className="btn create-button" createButton={true} title="Save" content="Save" />
+        </div>
+      </div>
     </div>
   );
 };
