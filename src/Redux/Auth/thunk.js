@@ -13,9 +13,8 @@ export const login = createAsyncThunk("auth/login", async (credentials, { reject
     const { data } = await API.login(body);
     console.log("Login data:", data);
 
-    // Check if the required data is present
+ 
     if (data && data.access && data.refresh) {
-      // Prepare a new structure to pass to loginSuccess
       const loginData = {
         tokens: {
           accessToken: data.access,
@@ -26,12 +25,10 @@ export const login = createAsyncThunk("auth/login", async (credentials, { reject
       dispatch(loginSuccess(loginData));
       return data;
     } else {
-      // If the response does not have the expected structure, reject with an error
       throw new Error("Invalid login response structure.");
     }
   } catch (error) {
     console.error("Login failed:", error);
-    // Reject with a custom error message or the original error message
     return rejectWithValue(error.response?.data?.message || "Failed to log in.");
   }
 });

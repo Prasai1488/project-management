@@ -11,10 +11,11 @@ import { renderTextField } from "../../../Utils/customFields";
 const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
-  const currentCategory = useSelector((state) => state.category.category); 
-  const loading = useSelector((state) => state.category.loading);
-  const loadingUpdated = useSelector((state) => state.category.loadingUpdated);
-  const edit = useSelector((state) => state.category.edit);
+  const currentCategory = useSelector((state) => state?.category?.category);
+  console.log("currentCategor", currentCategory);
+  const loading = useSelector((state) => state?.category?.loading);
+  const loadingUpdated = useSelector((state) => state?.category?.loadingUpdated);
+  const edit = useSelector((state) => state?.category?.edit);
   const [submit, setSubmit] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -55,24 +56,25 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
           id: currentCategory?.id,
           values: updatedValues,
         };
-
-        dispatch(updateCategory(updateData))
-          .unwrap()
-          .then(() => {
-            console.log("Update successful", updatedValues);
-            successFunction("Category updated successfully.");
-            dispatch(getAllCategories(postsPerPage));
-            setShowModal(false);
-          })
-          .catch((error) => {
-            console.error("Update failed", error);
-            setSubmit(false);
-            setShowAlert(false);
-            errorFunction(error);
-          });
+        console.log("updateData", updateData),
+          dispatch(updateCategory(updateData))
+            .unwrap()
+            .then(() => {
+              console.log("Update successful", updatedValues);
+              successFunction("Category updated successfully.");
+              dispatch(getAllCategories(postsPerPage));
+              setShowModal(false);
+            })
+            .catch((error) => {
+              console.error("Update failed", error);
+              setSubmit(false);
+              setShowAlert(false);
+              errorFunction(error);
+            });
       }
     }
   };
+  
 
   return (
     <>

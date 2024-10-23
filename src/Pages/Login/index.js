@@ -41,7 +41,6 @@ const Login = () => {
       .unwrap()
       .then(() => {
         successFunction("Logged in successfully.");
-        // dispatch(checkSetup());
       })
       .catch(() => {
         errorFunction("Failed to log in.");

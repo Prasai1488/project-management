@@ -50,6 +50,11 @@ export const products = [
         link: "/category",
         permissions: [""],
       },
+      {
+        name: "SubCategory",
+        link: "/sub-category",
+        permissions: [""],
+      },
     ],
   },
 ];

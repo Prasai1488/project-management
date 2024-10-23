@@ -36,6 +36,8 @@ import productReducer from "../Pages/Products/Redux/ProductSlice.js";
 
 //ranjer
 import offerReducer from "../Pages/Offer/Redux/offerSlice.js";
+import subCategoryReducer from "../Pages/SubCategories/Redux/subcategoriesSlice.js";
+
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -73,6 +75,7 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   //ranjer
   offer: offerReducer,
+  subCategory: subCategoryReducer,
 });
 
 export default rootReducer;

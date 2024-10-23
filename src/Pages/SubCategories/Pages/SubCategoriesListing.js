@@ -1,47 +1,44 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
-import { getNextCategory, getAllCategories } from "../Redux/thunk";
-import { categoriesEditSuccess } from "../Redux/categorySlice";
+import { getNextSubCategory, getAllSubCategories } from "../Redux/thunk";
+import { subCategoriesEditSuccess } from "../Redux/subcategoriesSlice";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 
-const CategoryListing = ({ setShowCategoryModal, setPage }) => {
+const SubCategoryListing = ({ setShowSubCategoryModal, setPostsPerPage, setPage }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
 
   // Redux selectors to get state
-  const next = useSelector((state) => state.category.next);
-  const loadingNext = useSelector((state) => state?.category?.loadingNext);
-  const categories = useSelector((state) => state?.category?.categories || []);
+  const next = useSelector((state) => state?.subCategory?.next);
+  const loadingNext = useSelector((state) => state?.subCategory?.loadingNext);
+  const subCategories = useSelector((state) => state?.subCategory?.subCategories || []);
 
-  const [postsPerPage, setPostsPerPage] = useState(20);
-  const [offset, setOffset] = useState(0);
-  const [orderBy, setOrderBy] = useState("id");
 
-  // Fetch all categories on component mount
+  // Fetch all subcategories on component mount
   useEffect(() => {
-    dispatch(getAllCategories({ limit: postsPerPage, offset }));
-  }, [dispatch, postsPerPage, offset]);
+    dispatch(getAllSubCategories({ postsPerPage: 10, page: 1 }));
+  }, [dispatch]);
 
   // Infinite Scroll logic
   const { handleScroll } = useInfinteScroll({
     loadingNext,
     next,
-    getNext: getNextCategory,
+    getNext: getNextSubCategory,
     setPostsPerPage,
     setPage,
   });
 
   // Handle edit button click
-  const handleEdit = (category) => {
-    dispatch(categoriesEditSuccess(category));
-    setShowCategoryModal(true);
+  const handleEdit = (subCategory) => {
+    dispatch(subCategoriesEditSuccess(subCategory));
+    setShowSubCategoryModal(true);
   };
 
   return (
     <>
-      {categories?.length > 0 ? (
+      {subCategories.length > 0 ? (
         <div className="row">
           <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}>
             <table className="listing-table">
@@ -54,8 +51,8 @@ const CategoryListing = ({ setShowCategoryModal, setPage }) => {
                 </tr>
               </thead>
               <tbody>
-                {categories.map((category, index) => {
-                  const { id, name, status } = category;
+                {subCategories.map((subCategory, index) => {
+                  const { id, name, status } = subCategory;
                   return (
                     <tr key={id} style={{ cursor: "pointer" }}>
                       <td>{index + 1}</td>
@@ -64,7 +61,7 @@ const CategoryListing = ({ setShowCategoryModal, setPage }) => {
                         <span className={`status ${status?.toLowerCase() || "unknown"}`}>{status || "N/A"}</span>
                       </td>
                       <td>
-                        <DetailActionButton type="edit" onClick={() => handleEdit(category)} />
+                        <DetailActionButton type="edit" onClick={() => handleEdit(subCategory)} />
                       </td>
                     </tr>
                   );
@@ -88,4 +85,4 @@ const CategoryListing = ({ setShowCategoryModal, setPage }) => {
   );
 };
 
-export default CategoryListing;
+export default SubCategoryListing;
