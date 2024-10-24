@@ -13,21 +13,27 @@ import questionnaireReducer from "../Pages/Questionnaire/Redux/questionnaireSlic
 import roleReducer from "../Pages/Roles/Redux/roleSlice";
 import sectorReducer from "../Pages/Sector/Redux/sectorSlice";
 
+
 import ticketInspectionReducer from "../Pages/TicketInspection/Redux/ticketInspectionSlice.js";
 import ticketReducer from "../Pages/Tickets/Redux/ticketSlice.js";
+
+// import productReducer from "../Pages/Product/Redux/product";
+// import ticketInspectionReducer from "../Pages/TicketInspection/Redux/ticketInspectionSlice.js";
+// import ticketReducer from "../Pages/Tickets/Redux/ticketSlice.js";
+
 import userReducer from "../Pages/User/Redux/userSlice";
 import alertReducer from "../Redux/Alert/alertSlice";
 import authReducer from "../Redux/Auth/authSlice";
 import layoutReducer from "../Redux/Layout/layoutSlice";
 import systemSelectionReducer from "../Redux/SystemSelection/systemSelectionSlice";
 import tabsValueReducer from "../Redux/TabsValue/tabsValueSlice.js";
-import clientReducer from "../Pages/Client/Redux/clientSlice";
-import customerReducer from "../Pages/Customer/Redux/customerSlice";
-import manufacturerReducer from "../Pages/Manufacturer/Redux/manufacturerSlice";
-import unitReducer from "../Pages/Unit/Redux/unitSlice";
-import newTicketInspectionReducer from "../Pages/TicketInspection/Redux/newTicketInspectionSlice";
-import salesReducer from "../Pages/Sales/Redux/salesSlice";
-import saledetailReducer from "../Pages/SaleDetails/Redux/salesDetailsSlice.js";
+// import clientReducer from "../Pages/Client/Redux/clientSlice";
+// import customerReducer from "../Pages/Customer/Redux/customerSlice";
+// import manufacturerReducer from "../Pages/Manufacturer/Redux/manufacturerSlice";
+// import unitReducer from "../Pages/Unit/Redux/unitSlice";
+// import newTicketInspectionReducer from "../Pages/TicketInspection/Redux/newTicketInspectionSlice";
+// import salesReducer from "../Pages/Sales/Redux/salesSlice";
+// import saledetailReducer from "../Pages/SaleDetails/Redux/salesDetailsSlice.js";
 
 import categoryReducer from "../Pages/Category/Redux/categorySlice";
 
@@ -43,45 +49,44 @@ const rootReducer = combineReducers({
   layout: layoutReducer,
   tabsValue: tabsValueReducer,
   systemSelection: systemSelectionReducer,
-
   organization: organizationReducer,
   sectors: sectorReducer,
   permission: permissionReducer,
   permissionCategory: permissionCategoryReducer,
-
   country: countryReducer,
-
   ad: fiscalSessionADReducer,
   bs: fiscalSessionBSReducer,
   user: userReducer,
   role: roleReducer,
-
   notification: notificationReducer,
 
   //reducers
-  ticket: ticketReducer,
+  // ticket: ticketReducer,
   notification: notificationReducer,
-  ticketInspection: ticketInspectionReducer,
-  newTicketInspection: newTicketInspectionReducer,
+  // ticketInspection: ticketInspectionReducer,
+  // newTicketInspection: newTicketInspectionReducer,
   item: itemReducer,
   order: orderReducer,
   questionnaire: questionnaireReducer,
   issue: issueReducer,
   contactPerson: contactPersonReducer,
-  client: clientReducer,
-  customer: customerReducer,
-  manufacturer: manufacturerReducer,
-  unit: unitReducer,
-  sale: salesReducer,
-  saledetail: saledetailReducer,
-
+  // client: clientReducer,
+  // customer: customerReducer,
+  // manufacturer: manufacturerReducer,
+  // unit: unitReducer,
+  // sale: salesReducer,
+  // saledetail: saledetailReducer,
   category: categoryReducer,
+
 
   product: productReducer,
 
 
   //ranjer
   offer: offerReducer,
+
+
+
 
 });
 

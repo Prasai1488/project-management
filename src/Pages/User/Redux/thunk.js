@@ -5,26 +5,44 @@ import * as API from "./api";
 // get user
 export const getUser = createAsyncThunk("user/getUser", async ({ postsPerPage, page }, { rejectWithValue }) => {
   try {
-    const { data } = await API.getUser(postsPerPage, page);
-
-    const filteredData = data.users.filter((user) => user.isSuperuser !== true);
-    return { ...data, results: filteredData };
+    const response = await API.getUser(postsPerPage, page);
+    const data = response.data;
+    console.log("getUser response data:", data);
+    const usersArray = data.data || [];
+    return {
+      results: usersArray,
+      count: data.pagination.count,
+      currentPage: data.pagination.currentPage,
+      totalPages: data.pagination.totalPages,
+      next: data.pagination.next,
+      previous: data.pagination.previous,
+    };
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    console.error("Error fetching users:", error);
+    return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching users.");
   }
 });
 
 // get all users
 export const getAllUser = createAsyncThunk("user/getAllUser", async (_, { rejectWithValue }) => {
   try {
-    const { data } = await API.getAllUser();
-    const filteredData = data.results.filter((user) => user.isSuperuser !== true);
-    return { ...data, results: filteredData };
+    const response = await API.getAllUser();
+    const data = response.data;
+
+    const usersArray = data.data || [];
+    const filteredData = usersArray; // Apply any necessary filtering
+
+    return {
+      results: filteredData,
+      count: data.pagination.count,
+      next: data.pagination.next,
+      previous: data.pagination.previous,
+    };
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    console.error("Error fetching all users:", error);
+    return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching all users.");
   }
 });
-
 // get previous
 export const getPrevious = createAsyncThunk("user/getPrevious", async (previous, { rejectWithValue }) => {
   try {
@@ -36,13 +54,20 @@ export const getPrevious = createAsyncThunk("user/getPrevious", async (previous,
   }
 });
 // get next
-export const getNext = createAsyncThunk("user/getNext", async (next, { rejectWithValue }) => {
+export const getNext = createAsyncThunk("user/getNext", async ({ postsPerPage, page }, { rejectWithValue }) => {
   try {
-    const { data } = await API.getNext(next);
-    const filteredData = data.results.filter((user) => user.isSuperuser === false);
-    return { ...data, results: filteredData, count: filteredData?.length };
+    const response = await API.getUser(postsPerPage, page);
+    const data = response.data;
+    const usersArray = data.data || [];
+    return {
+      results: usersArray,
+      count: data.pagination.count,
+      next: data.pagination.next,
+      previous: data.pagination.previous,
+    };
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    console.error("Error fetching next users:", error);
+    return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching next users.");
   }
 });
 
@@ -70,102 +95,69 @@ export const getCurrentUser = createAsyncThunk("user/getCurrentUser", async (tok
 });
 
 // create user
-export const createUser = createAsyncThunk("user/createUser", async (data, { rejectWithValue, dispatch }) => {
-  const {
-    firstName,
-    middleName,
-    lastName,
-    email,
-    username,
-    address,
-    phone,
-    isActive,
-    photo,
-    roles,
-    level,
-    gender,
-    password,
-    confirmPassword,
-  } = data;
+export const createUser = createAsyncThunk("user/createUser", async (data, { rejectWithValue }) => {
   try {
-    const body = new FormData();
+    const { email, fullName, userType, phone } = data;
 
-    body.append("firstName", firstName);
-    body.append("middleName", middleName);
-    body.append("lastName", lastName);
-    body.append("email", email);
-    body.append("username", username);
-    body.append("address", address);
+    // Use the correct field name
+    const payload = {
+      email,
+      full_name: fullName,
+      user_type: userType,
+      phone,
+    };
 
-    body.append("phoneNo", phone);
-    body.append("isActive", isActive);
-    body.append("gender", gender);
-    body.append("password", password);
-    body.append("confirmPassword", confirmPassword);
-    await roles.forEach((group, i) => {
-      body.append(`roles[${i}]`, group);
-    });
-    body.append("level", level);
-
-    if (photo) {
-      body.append("profileImage", photo);
-    }
-
-    const { data } = await API.createUser(body);
-    return data;
+    const response = await API.createUser(payload);
+    console.log("Create user response data:", response.data);
+    return response.data;
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    console.error("Error creating user:", error);
+    if (error.response) {
+      console.error("Server response:", error.response.data);
+      if (error.response.data.errors) {
+        console.error("Error details:", error.response.data.errors);
+        if (error.response.data.errors.full_name) {
+          console.error("full_name errors:", error.response.data.errors.full_name);
+        }
+      }
+    }
+    return rejectWithValue(
+      error?.response?.data?.errors?.full_name?.[0] ||
+        error?.response?.data?.message ||
+        "An error occurred while creating the user."
+    );
   }
 });
+
 // update user
-export const updateUser = createAsyncThunk("user/updateUser", async (data, { rejectWithValue, dispatch }) => {
-  const { id, values } = data;
-  const {
-    firstName,
-    middleName,
-    lastName,
-    email,
-    username,
-    address,
-    phone,
-    isActive,
-    photo,
-    roles,
-    level,
-    gender,
-    password,
-    confirmPassword,
-  } = values;
-  try {
-    const body = new FormData();
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (data, { rejectWithValue }) => {
+    const { id, values } = data;
+    const { fullName, email, phone, userType } = values;
 
-    body.append("firstName", firstName);
-    body.append("middleName", middleName);
-    body.append("lastName", lastName);
-    body.append("email", email);
-    body.append("username", username);
-    body.append("address", address);
+    try {
+      const userData = {
+        email,
+        fullName,
+        userType,
+        phone,
+      };
 
-    body.append("phoneNo", phone);
-    body.append("isActive", isActive);
-    body.append("gender", gender);
-    body.append("password", password);
-    body.append("confirmPassword", confirmPassword);
-    await roles.forEach((group, i) => {
-      body.append(`roles[${i}]`, group);
-    });
-    body.append("level", level);
-
-    if (photo) {
-      body.append("profileImage", photo);
+      const response = await API.updateUser(id, userData);
+      return response.data;
+    } catch (error) {
+      console.error("Error updating user:", error);
+      if (error.response) {
+        console.error("Server response:", error.response.data);
+      }
+      return rejectWithValue(
+        error?.response?.data?.errors?.[0]?.error || error.message || "An error occurred while updating the user."
+      );
     }
-
-    const { data } = await API.updateUser(id, body);
-    return data;
-  } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
-});
+);
+
 
 // get specific user
 export const getSpecificUser = createAsyncThunk("user/getSpecificUser", async (id, { rejectWithValue, dispatch }) => {
@@ -189,16 +181,28 @@ export const deleteUser = createAsyncThunk("user/deleteUser", async (id, { rejec
 });
 
 // handle search
-export const handleSearch = createAsyncThunk("user/handleSearch", async (data, { rejectWithValue }) => {
-  const { search, postsPerPage } = data;
-  try {
-    const { data } = await API.handleSearch(search, postsPerPage);
-    return data;
-  } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
-  }
-});
+export const handleSearch = createAsyncThunk(
+  "user/handleSearch",
+  async ({ search, postsPerPage, page }, { rejectWithValue }) => {
+    try {
+      const response = await API.handleSearch(search, postsPerPage, page);
+      const data = response.data;
 
+      const usersArray = data.data || [];
+      return {
+        results: usersArray,
+        count: data.pagination.count,
+        currentPage: data.pagination.currentPage,
+        totalPages: data.pagination.totalPages,
+        next: data.pagination.next,
+        previous: data.pagination.previous,
+      };
+    } catch (error) {
+      console.error("Error searching users:", error);
+      return rejectWithValue(error?.response?.data?.message || "An error occurred while searching users.");
+    }
+  }
+);
 // delete photo
 export const deletePhoto = createAsyncThunk("user/deletePhoto", async (id, { rejectWithValue }) => {
   try {

@@ -34,6 +34,7 @@ export const sidebarData = [
     permissions: [""],
   },
 ];
+
 export const products = [
   {
     menu: "Products",
@@ -42,12 +43,12 @@ export const products = [
       {
         name: "Products",
         link: "/products",
-        permissions: ["view_products"],
+        permissions: [""],
       },
       {
         name: "Category",
         link: "/category",
-        permissions: ["view_category"],
+        permissions: [""],
       },
     ],
   },

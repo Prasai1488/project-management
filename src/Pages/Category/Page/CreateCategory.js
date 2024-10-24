@@ -11,7 +11,7 @@ import { renderTextField } from "../../../Utils/customFields";
 const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
-  const category = useSelector((state) => state.category.category);
+  const currentCategory = useSelector((state) => state.category.category); 
   const loading = useSelector((state) => state.category.loading);
   const loadingUpdated = useSelector((state) => state.category.loadingUpdated);
   const edit = useSelector((state) => state.category.edit);
@@ -19,8 +19,8 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
   const [showAlert, setShowAlert] = useState(false);
 
   const initialState = {
-    name: edit ? category?.name : "",
-    status: edit ? category?.status === "Active" : false,
+    name: edit ? currentCategory?.name : "",
+    status: edit ? currentCategory?.status === "Active" : false,
   };
 
   const validationSchema = Yup.object().shape({
@@ -52,18 +52,20 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
           });
       } else {
         const updateData = {
-          id: category?._id,
+          id: currentCategory?.id,
           values: updatedValues,
         };
 
         dispatch(updateCategory(updateData))
           .unwrap()
           .then(() => {
+            console.log("Update successful", updatedValues);
             successFunction("Category updated successfully.");
             dispatch(getAllCategories(postsPerPage));
             setShowModal(false);
           })
           .catch((error) => {
+            console.error("Update failed", error);
             setSubmit(false);
             setShowAlert(false);
             errorFunction(error);
@@ -80,16 +82,7 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
           <Form autoComplete="off">
             <div className="create-category-wrapper">
               <div className="header d-flex justify-content-between align-items-center"></div>
-              <div className="form-group">
-                {renderTextField(
-                  formik,
-                  12, // Full width
-                  "name",
-                  "text",
-                  "Name",
-                  true
-                )}
-              </div>
+              <div className="form-group">{renderTextField(formik, 12, "name", "text", "Name", true)}</div>
               <div className="d-flex justify-content-center align-items-center">
                 <input
                   type="checkbox"

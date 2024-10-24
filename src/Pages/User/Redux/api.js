@@ -1,51 +1,48 @@
 import axiosInstance from "../../../Utils/axios";
 
-const userModURL = "/api/v1/auth-app/users";
+const userModURL = "auth/list-user/";
 
-//obtaining the paginated data
+// Obtaining the paginated data
 export const getUser = (postsPerPage, page) => axiosInstance.get(`${userModURL}?limit=${postsPerPage}&page=${page}`);
 
-//obtaining all data
+// Obtaining all data
 export const getAllUser = () => axiosInstance.get(`${userModURL}`);
 
+// Get current user
 export const getCurrentUser = (decoded) => axiosInstance.get(`${userModURL}/${decoded.user_id}`);
-//obtaining the previous page data from paginated data
+
+// Obtaining the previous page data from paginated data
 export const getPrevious = (previous) => axiosInstance.get(previous);
 
-//obtaining the next page data from paginated data
+// Obtaining the next page data from paginated data
 export const getNext = (next) => axiosInstance.get(next);
 
-//obtaining the particular page data from paginated data
+// Obtaining the particular page data from paginated data
 export const getPageUser = (number, postsPerPage) =>
-  axiosInstance.get(`${userModURL}/list?offset=${(number - 1) * postsPerPage}&limit=${postsPerPage}&ordering=-id`);
+  axiosInstance.get(`${userModURL}?offset=${(number - 1) * postsPerPage}&limit=${postsPerPage}`);
 
-//creating function
-export const createUser = (body) =>
-  axiosInstance.post(`/api/v1/auth-app/register`, body, {
-    "Content-Type": "multipart/form-data",
-  });
+// Creating function
+export const createUser = (body) => axiosInstance.post(`auth/signup/`, body);
 
-//deleting function
+// Deleting function
 export const deleteUser = (id) => axiosInstance.delete(`${userModURL}/${id}`);
 
-//update function
-export const updateUser = (id, body) =>
-  axiosInstance.patch(`/api/v1/auth-app/users/${id}`, body, {
-    "Content-Type": "multipart/form-data",
-  });
-
-// get specific user
+// Update function
+export const updateUser = (id, body) => axiosInstance.patch(`auth/user/${id}/`, body);
+// Get specific user
 export const getSpecificUser = (id) => axiosInstance.get(`auth/user/${id}`);
-//searching function
-export const handleSearch = (search, postsPerPage) =>
-  axiosInstance.get(`${userModURL}/list?offset=0&limit=${postsPerPage}&search=${search}`);
 
-// checking the redundant data
+// **Adjusted** Searching function
+export const handleSearch = (searchTerm, postsPerPage, page) =>
+  axiosInstance.get(`${userModURL}?search=${encodeURIComponent(searchTerm)}&limit=${postsPerPage}&page=${page}`);
+// Checking redundant data
 export const checkRedundantData = (e, cancelToken) =>
-  axiosInstance.get(`${userModURL}/list?user_name=${e.target.value.trim()}`, {
+  axiosInstance.get(`${userModURL}?user_name=${e.target.value.trim()}`, {
     cancelToken: cancelToken.token,
   });
-//deleting the image
+
+// Deleting the image
 export const deletePhoto = (id, body) => axiosInstance.patch(`${userModURL}/${id}`, body);
-//change password
-export const changePassword = (id, body) => axiosInstance.get(`api/v1/user-app/change-password/${id}`, body);
+
+// Change password
+export const changePassword = (id, body) => axiosInstance.post(`api/v1/user-app/change-password/${id}`, body);

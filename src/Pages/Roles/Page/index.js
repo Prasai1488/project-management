@@ -59,7 +59,7 @@ const RoleListing = () => {
               showModal={showRoleModal}
               setShowModal={setShowRoleModal}
               tyes={types}
-              createPermission={createPermission}
+              createPermission={true}
             />
           </>
         )}
