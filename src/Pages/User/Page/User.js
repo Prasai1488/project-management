@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, {useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import ColumnResize from "react-table-column-resizer";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
@@ -8,13 +8,15 @@ import { getNext, getSpecificUser } from "../Redux/thunk";
 import { userEditSuccess } from "../Redux/userSlice";
 import { organizations } from "../../Organization/Redux/organizationSlice";
 
-const User = ({ dispatch, setShowUserModal }) => {
+const UserListing = ({ dispatch, setShowUserModal }) => {
+  const [page, setPage] = useState(1);
   const listRef = useRef(null);
   const next = useSelector((state) => state.user.next);
   const loadingNext = useSelector((state) => state.user.loadingNext);
   const users = useSelector((state) => state.user.users);
-  const scrollToEnd = (next) => {
-    dispatch(getNext(next));
+  const scrollToEnd = () => {
+    setPage((prevPage) => prevPage + 1);
+    dispatch(getNext({ postsPerPage, page: page + 1 }));
   };
   const handleScroll = (event) => {
     if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight === event.currentTarget.scrollHeight) {
@@ -41,40 +43,53 @@ const User = ({ dispatch, setShowUserModal }) => {
                   <ColumnResize id={1} className="columnResizer" />
                   <th>Name</th>
                   <ColumnResize id={2} className="columnResizer" minWidth={120} />
-                  <th>ROLE</th>
+                  <th>Email</th>
                   <ColumnResize id={3} className="columnResizer" minWidth={120} />
-                  <th>PHONE</th>
+                  <th>User Type</th>
                   <ColumnResize id={4} className="columnResizer" minWidth={120} />
-                  <th>ORGANIZATION</th>
-                  <ColumnResize id={4} className="columnResizer" minWidth={120} />
-                  <th>EMAIL</th>
-                  <ColumnResize id={4} className="columnResizer" minWidth={120} />
-                  <th>Status</th>
+                  <th>Phone</th>
                   <ColumnResize id={5} className="columnResizer" minWidth={120} />
-                  <th></th>
+                  <th>Status</th>
+                  <ColumnResize id={6} className="columnResizer" minWidth={120} />
+                  <th>Action</th> {/* For the action buttons */}
                 </tr>
               </thead>
+
               <tbody>
+             
                 {users?.map((user, i) => {
-                  const { _id, username } = user;
+                  const { id, email, userType, isActive, userProfile } = user;
+                  const fullName = userProfile?.fullName || "N/A";
+                  const phone = userProfile?.phone || "N/A";
+                  const status = isActive ? "Active" : "Inactive";
 
                   return (
-                    <tr key={_id} onDoubleClick={() => handleEdit(id)} style={{ cursor: "pointer" }}>
+                    <tr key={id} onDoubleClick={() => handleEdit(user)} style={{ cursor: "pointer" }}>
+                      {/* SN */}
                       <td>{i + 1}</td>
                       <td className="column_resizer_body" />
-                      <td>{username ? username : "N/A"}</td>
-                      <td>
-                        {roles.map((role, i) => (
-                          <span key={i}>{role.name}</span>
-                        ))}
-                      </td>
+
+                      {/* Name */}
+                      <td>{fullName}</td>
                       <td className="column_resizer_body" />
-                      <td>{phone ? phone : "N/A"}</td>
+
+                      {/* Email */}
+                      <td>{email}</td>
                       <td className="column_resizer_body" />
-                      <td>{organizations ? organizations : "N/A"}</td>
+
+                      {/* User Type */}
+                      <td>{userType || "N/A"}</td>
                       <td className="column_resizer_body" />
-                      <td>{email ? email : "N/A"}</td>
+
+                      {/* Phone */}
+                      <td>{phone}</td>
                       <td className="column_resizer_body" />
+
+                      {/* Status */}
+                      <td>{status}</td>
+                      <td className="column_resizer_body" />
+
+                      {/* Action Button */}
                       <td>
                         <DetailActionButton type={"edit"} onClick={() => handleEdit(user)} />
                       </td>
@@ -99,4 +114,4 @@ const User = ({ dispatch, setShowUserModal }) => {
   );
 };
 
-export default User;
+export default UserListing;

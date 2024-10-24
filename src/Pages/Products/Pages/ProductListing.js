@@ -1,4 +1,4 @@
-// import React, { useRef, useState } from "react";
+// import React, { useEffect, useRef, useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 // import { FaEllipsisH } from "react-icons/fa";
 // import NoData from "../../../Components/NoData/NoData";
@@ -6,18 +6,7 @@
 // import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 // import CreateProduct from "./CreateProduct";
 
-// // Sample Products Data
-// const products = [
-//   {
-//     serial: "123456789",
-//     itemCode: "ABC123",
-//     productName: "SuperWidget",
-//     category: "Electronics",
-//     capacity: "500GB",
-//     image: "https://example.com/images/superwidget.jpg",
-//     imageName: "superwidget.jpg",
-//   },
-// ];
+// import { getProducts } from "../Redux/thunk"; // Import the getProducts thunk
 
 // const ProductListing = ({ setPostsPerPage, setPage, page, postsPerPage }) => {
 //   const dispatch = useDispatch();
@@ -25,12 +14,21 @@
 //   const [editProduct, setEditProduct] = useState(null); // State to store the product to edit or create a new one
 
 //   const listRef = useRef(null);
+
+//   // Get products and loading states from Redux
+//   const products = useSelector((state) => state.product?.products); // Access products from Redux state
 //   const loadingNext = useSelector((state) => state.product?.loadingNext); // Updated state selector
+//   const loading = useSelector((state) => state.product?.loading); // Loading state for initial fetch
 
 //   const { handleScroll } = useInfinteScroll({
 //     loadingNext: loadingNext,
 //     // Define other necessary parameters or functions for infinite scroll
 //   });
+
+//   // Fetch products when component mounts
+//   useEffect(() => {
+//     dispatch(getProducts()); // Fetch the products from the backend
+//   }, [dispatch]);
 
 //   const handleEdit = (product) => {
 //     setEditProduct(product); // Set the product to edit
@@ -49,9 +47,13 @@
 
 //   return (
 //     <>
-//       {products && products.length > 0 ? (
+//       {loading ? (
+//         <div className="spinner-border text-danger" role="status">
+//           <span className="sr-only">Loading...</span>
+//         </div>
+//       ) : products && products.length > 0 ? (
 //         <div className="row">
-//           <div className="col-12 table-scrollable" ref={listRef}>
+//           <div className="col-12 table-scrollable" ref={listRef} onScroll={handleScroll}>
 //             <div className="table-responsive">
 //               <table className="listing-table">
 //                 <thead>
@@ -66,20 +68,26 @@
 //                 </thead>
 //                 <tbody>
 //                   {products.map((product, i) => {
-//                     const { itemCode, productName, category, capacity, image } = product;
+//                     const { name, category, image } = product; // Adjusted to match API response structure
+//                     const productImage = image ? `http://192.168.1.91:8000${image}` : null; // Fix relative image path
+
 //                     return (
 //                       <tr key={i} style={{ cursor: "pointer" }}>
-//                         <td>{itemCode || "N/A"}</td>
+//                         <td>N/A</td> {/* itemCode is missing in API response, leaving as N/A */}
 //                         <td>
-//                           <img
-//                             src={image}
-//                             alt={productName}
-//                             style={{ width: "50px", height: "50px", objectFit: "cover" }}
-//                           />
+//                           {productImage ? (
+//                             <img
+//                               src={productImage}
+//                               alt={name}
+//                               style={{ width: "50px", height: "50px", objectFit: "cover" }}
+//                             />
+//                           ) : (
+//                             "N/A"
+//                           )}
 //                         </td>
-//                         <td>{productName || "N/A"}</td>
-//                         <td>{category || "N/A"}</td>
-//                         <td>{capacity || "N/A"}</td>
+//                         <td>{name || "N/A"}</td> {/* Product Name */}
+//                         <td>{category?.name || "N/A"}</td> {/* Category Name */}
+//                         <td>N/A</td> {/* Capacity is missing in API response, leaving as N/A */}
 //                         <td>
 //                           <FaEllipsisH onClick={() => handleEdit(product)} />
 //                         </td>
@@ -113,17 +121,11 @@
 //       ) : (
 //         <NoData />
 //       )}
-
-//       {/* Button to create a new product */}
-//       <button className="btn btn-primary mt-3" onClick={handleCreate}>
-//         Add New Product
-//       </button>
 //     </>
 //   );
 // };
 
 // export default ProductListing;
-
 
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -133,31 +135,29 @@ import Modal from "../../../Components/Modal/Modal";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 import CreateProduct from "./CreateProduct";
 
-// Sample Products Data
-const products = [
-  {
-    serial: "123456789",
-    itemCode: "ABC123",
-    productName: "SuperWidget",
-    category: "Electronics",
-    capacity: "500GB",
-    image: "https://example.com/images/superwidget.jpg",
-    imageName: "superwidget.jpg",
-  },
-];
+import { getProducts } from "../Redux/thunk"; // Import the getProducts thunk
 
-const ProductListing = ({ setPostsPerPage, setPage, page, postsPerPage }) => {
+const ProductListing = ({ postsPerPage }) => {
   const dispatch = useDispatch();
   const [showProductModal, setShowProductModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null); // State to store the product to edit or create a new one
 
   const listRef = useRef(null);
-  const loadingNext = useSelector((state) => state.product?.loadingNext); // Updated state selector
+  const [page, setPage] = useState(1); // Track the current page
+
+  // Get products and loading states from Redux
+  const products = useSelector((state) => state.product?.products); // Access products from Redux state
+  const loadingNext = useSelector((state) => state.product?.loading); // Loading state for pagination
+  const next = useSelector((state) => state.product?.next); // Next page URL or null
 
   const { handleScroll } = useInfinteScroll({
-    loadingNext: loadingNext,
-    // Define other necessary parameters or functions for infinite scroll
+    loadingNext,
   });
+
+  // Fetch products when component mounts or page changes
+  useEffect(() => {
+    dispatch(getProducts({ page })); // Fetch products based on the current page
+  }, [dispatch, page]);
 
   const handleEdit = (product) => {
     setEditProduct(product); // Set the product to edit
@@ -176,7 +176,7 @@ const ProductListing = ({ setPostsPerPage, setPage, page, postsPerPage }) => {
 
   return (
     <>
-      {loading ? (
+      {loadingNext && page === 1 ? ( // Show loading spinner for initial fetch
         <div className="spinner-border text-danger" role="status">
           <span className="sr-only">Loading...</span>
         </div>
@@ -197,20 +197,26 @@ const ProductListing = ({ setPostsPerPage, setPage, page, postsPerPage }) => {
                 </thead>
                 <tbody>
                   {products.map((product, i) => {
-                    const { itemCode, productName, category, capacity, image } = product;
+                    const { name, category, image } = product;
+                    const productImage = image ? `http://192.168.1.91:8000${image}` : null;
+
                     return (
                       <tr key={i} style={{ cursor: "pointer" }}>
-                        <td>{itemCode || "N/A"}</td>
+                        <td>N/A</td> {/* itemCode is missing in API response, leaving as N/A */}
                         <td>
-                          <img
-                            src={image}
-                            alt={productName}
-                            style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                          />
+                          {productImage ? (
+                            <img
+                              src={productImage}
+                              alt={name}
+                              style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                            />
+                          ) : (
+                            "N/A"
+                          )}
                         </td>
-                        <td>{productName || "N/A"}</td>
-                        <td>{category || "N/A"}</td>
-                        <td>{capacity || "N/A"}</td>
+                        <td>{name || "N/A"}</td> {/* Product Name */}
+                        <td>{category?.name || "N/A"}</td> {/* Category Name */}
+                        <td>N/A</td> {/* Capacity is missing in API response, leaving as N/A */}
                         <td>
                           <FaEllipsisH onClick={() => handleEdit(product)} />
                         </td>
@@ -220,13 +226,14 @@ const ProductListing = ({ setPostsPerPage, setPage, page, postsPerPage }) => {
                 </tbody>
               </table>
             </div>
-            {loadingNext && (
-              <div className="w-100 d-flex justify-content-center align-items-center py-4">
-                <div className="spinner-border text-danger" role="status">
-                  <span className="sr-only">Loading...</span>
+            {loadingNext &&
+              page > 1 && ( // Show loading spinner when loading next page
+                <div className="w-100 d-flex justify-content-center align-items-center py-4">
+                  <div className="spinner-border text-danger" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
 
           {/* Modal to Create or Edit Product */}
@@ -244,14 +251,8 @@ const ProductListing = ({ setPostsPerPage, setPage, page, postsPerPage }) => {
       ) : (
         <NoData />
       )}
-
-      {/* Button to create a new product */}
-      <button className="btn btn-primary mt-3" onClick={handleCreate}>
-        Add New Product
-      </button>
     </>
   );
 };
 
 export default ProductListing;
-

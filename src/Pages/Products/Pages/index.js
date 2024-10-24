@@ -24,6 +24,10 @@ const Products = () => {
   // const edit = useSelector((state) => state.product.edit);
   const [showProductModal, setShowProductModal] = useState(false);
 
+  const handleCloseModal = () => {
+    setShowProductModal(false);
+  };
+
   const [status, setStatus] = useState([]);
   const [priority, setPriroity] = useState([]);
   const [level, setLevel] = useState([]);
@@ -98,7 +102,7 @@ const Products = () => {
           size={"modal-md"}
           // clearAction={clearEditProduct}
         >
-          <CreateProduct dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowProductModal} />
+          <CreateProduct dispatch={dispatch} postsPerPage={postsPerPage} handleClose={handleCloseModal} />
         </Modal>
       </Suspense>
       )
