@@ -137,7 +137,7 @@
 //   return (
 //     <>
 //       {(loading || loadingUpdated) && <Loader />}
-//       <div className="create-userdetail-wrapper"> 
+//       <div className="create-userdetail-wrapper">
 //         <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
 //           {(formik) => {
 //             return (
@@ -229,9 +229,9 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
   const [showAlert, setShowAlert] = useState(false);
 
   const initialState = {
-    fullName: edit ? user?.fullName : "",
+    fullName: edit ? user?.userProfile?.fullName : "",
     email: edit ? user?.email : "",
-    phone: edit ? user?.phone : "",
+    phone: edit ? user?.userProfile?.phone : "",
     userType: edit ? user?.userType : "",
   };
 
@@ -306,12 +306,7 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
     <>
       {(loading || loadingUpdated) && <Loader />}
       <div className="create-userdetail-wrapper">
-        <Formik
-          initialValues={initialState}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-          innerRef={formRef}
-        >
+        <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
           {(formik) => {
             return (
               <Form autoComplete="off">
@@ -360,9 +355,7 @@ const CreateUser = ({ dispatch, setShowModal, postsPerPage }) => {
           }}
         </Formik>
       </div>
-      {showAlert && (
-        <CreateAlert showAlert={showAlert} setShowAlert={setShowAlert} setSubmit={setSubmit} />
-      )}
+      {showAlert && <CreateAlert showAlert={showAlert} setShowAlert={setShowAlert} setSubmit={setSubmit} />}
     </>
   );
 };

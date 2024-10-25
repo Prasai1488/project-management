@@ -6,7 +6,7 @@ import NoData from "../../../Components/NoData/NoData";
 import Status from "../../../Components/Status";
 import { getNext, getSpecificUser } from "../Redux/thunk";
 import { userEditSuccess } from "../Redux/userSlice";
-import { organizations } from "../../Organization/Redux/organizationSlice";
+
 
 const UserListing = ({ dispatch, setShowUserModal }) => {
   const [page, setPage] = useState(1);
