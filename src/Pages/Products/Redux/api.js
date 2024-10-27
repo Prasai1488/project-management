@@ -1,65 +1,59 @@
+
 import axiosInstance from "../../../Utils/axios";
 
-const BASE_URL = "api/v1/product/";
+const ProductModURL = "api/v1/product/";
 
-// export const getPaginatedProducts = () => axiosInstance.get(`${BASE_URL}`);
+// Obtaining the paginated data
+export const getProduct = (postsPerPage, page) =>
+  axiosInstance.get(`${ProductModURL}?limit=${postsPerPage}&page=${page}`);
 
+// Obtaining all data
+export const getAllProduct = () => axiosInstance.get(`${ProductModURL}`);
 
-export const getPaginatedProducts = (page = 1) => {
-  const url = `${BASE_URL}?page=${page}`;
-  return axiosInstance
-    .get(url)
-    .then((response) => {
-      const { data, pagination } = response.data; // Extract data and pagination from the response
-      return { products: data, pagination }; // Return the products as 'data'
-    })
-    .catch((error) => {
-      console.error("Error fetching products:", error);
-      throw error; // Rethrow the error for rejection
-    });
-};
+// Get current product
+export const getCurrentProduct = (decoded) => axiosInstance.get(`${ProductModURL}/${decoded.product_id}`);
 
-export const createProduct = (productData) => {
-  const formData = new FormData();
+// Obtaining the previous page data from paginated data
+export const getPrevious = (previous) => axiosInstance.get(previous);
 
-  // Append all product fields
-  formData.append("name", productData.name);
-  formData.append("category", productData.category);
-  formData.append("price", productData.price);
-  formData.append("capacity", productData.capacity);
+// Obtaining the next page data from paginated data
+export const getNext = (next) => axiosInstance.get(next);
 
-  // Append the image if it exists
-  if (productData.image) {
-    formData.append("image", productData.image);
-  }
+// Obtaining the particular page data from paginated data
+export const getPageProduct = (number, postsPerPage) =>
+  axiosInstance.get(`${ProductModURL}?offset=${(number - 1) * postsPerPage}&limit=${postsPerPage}`);
 
-  // Send multipart/form-data request
-  return axiosInstance.post(`${BASE_URL}`, formData, {
+// Creating function
+export const createProduct = (formData) => {
+  return axiosInstance.post("api/v1/product/", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 };
 
-// Update an existing product
-export const updateProduct = (productId, productData) => {
-  const formData = new FormData();
+// Deleting function
+export const deleteProduct = (id) => axiosInstance.delete(`${ProductModURL}/${id}`);
 
-  // Append all product fields
-  formData.append("name", productData.name);
-  formData.append("category", productData.category);
-  formData.append("price", productData.price);
-  formData.append("capacity", productData.capacity);
-
-  // Conditionally append the image if it's a new file (not a string)
-  if (productData.image && typeof productData.image !== "string") {
-    formData.append("image", productData.image);
-  }
-
-  // Send multipart/form-data request via PATCH
-  return axiosInstance.patch(`${BASE_URL}${productId}/`, formData, {
+// Update function
+export const updateProduct = (id, formData) => {
+  return axiosInstance.patch(`api/v1/product/${id}/`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 };
+// Get specific user
+export const getSpecificProduct = (id) => axiosInstance.get(`auth/user/${id}`);
+
+// **Adjusted** Searching function
+export const handleSearch = (searchTerm, postsPerPage, page) =>
+  axiosInstance.get(`${ProductModURL}?search=${encodeURIComponent(searchTerm)}&limit=${postsPerPage}&page=${page}`);
+// Checking redundant data
+export const checkRedundantData = (e, cancelToken) =>
+  axiosInstance.get(`${ModURL}?user_name=${e.target.value.trim()}`, {
+    cancelToken: cancelToken.token,
+  });
+
+// Deleting the image
+export const deletePhoto = (id, body) => axiosInstance.patch(`${ProductModURL}/${id}`, body);

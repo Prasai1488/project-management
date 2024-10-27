@@ -1,252 +1,104 @@
-// import React, { useEffect, useRef, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { FaEllipsisH } from "react-icons/fa";
-// import NoData from "../../../Components/NoData/NoData";
-// import Modal from "../../../Components/Modal/Modal";
-// import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
-// import CreateProduct from "./CreateProduct";
-
-// import { getProducts } from "../Redux/thunk"; // Import the getProducts thunk
-
-// const ProductListing = ({ setPostsPerPage, setPage, page, postsPerPage }) => {
-//   const dispatch = useDispatch();
-//   const [showProductModal, setShowProductModal] = useState(false);
-//   const [editProduct, setEditProduct] = useState(null); // State to store the product to edit or create a new one
-
-//   const listRef = useRef(null);
-
-//   // Get products and loading states from Redux
-//   const products = useSelector((state) => state.product?.products); // Access products from Redux state
-//   const loadingNext = useSelector((state) => state.product?.loadingNext); // Updated state selector
-//   const loading = useSelector((state) => state.product?.loading); // Loading state for initial fetch
-
-//   const { handleScroll } = useInfinteScroll({
-//     loadingNext: loadingNext,
-//     // Define other necessary parameters or functions for infinite scroll
-//   });
-
-//   // Fetch products when component mounts
-//   useEffect(() => {
-//     dispatch(getProducts()); // Fetch the products from the backend
-//   }, [dispatch]);
-
-//   const handleEdit = (product) => {
-//     setEditProduct(product); // Set the product to edit
-//     setShowProductModal(true);
-//   };
-
-//   const handleCreate = () => {
-//     setEditProduct(null); // Reset to null for new product
-//     setShowProductModal(true);
-//   };
-
-//   const handleCloseModal = () => {
-//     setShowProductModal(false);
-//     setEditProduct(null); // Reset after modal is closed
-//   };
-
-//   return (
-//     <>
-//       {loading ? (
-//         <div className="spinner-border text-danger" role="status">
-//           <span className="sr-only">Loading...</span>
-//         </div>
-//       ) : products && products.length > 0 ? (
-//         <div className="row">
-//           <div className="col-12 table-scrollable" ref={listRef} onScroll={handleScroll}>
-//             <div className="table-responsive">
-//               <table className="listing-table">
-//                 <thead>
-//                   <tr>
-//                     <th>Item Code</th>
-//                     <th>Product</th>
-//                     <th>Product Name</th>
-//                     <th>Category</th>
-//                     <th>Capacity</th>
-//                     <th>Action</th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {products.map((product, i) => {
-//                     const { name, category, image } = product; // Adjusted to match API response structure
-//                     const productImage = image ? `http://192.168.1.91:8000${image}` : null; // Fix relative image path
-
-//                     return (
-//                       <tr key={i} style={{ cursor: "pointer" }}>
-//                         <td>N/A</td> {/* itemCode is missing in API response, leaving as N/A */}
-//                         <td>
-//                           {productImage ? (
-//                             <img
-//                               src={productImage}
-//                               alt={name}
-//                               style={{ width: "50px", height: "50px", objectFit: "cover" }}
-//                             />
-//                           ) : (
-//                             "N/A"
-//                           )}
-//                         </td>
-//                         <td>{name || "N/A"}</td> {/* Product Name */}
-//                         <td>{category?.name || "N/A"}</td> {/* Category Name */}
-//                         <td>N/A</td> {/* Capacity is missing in API response, leaving as N/A */}
-//                         <td>
-//                           <FaEllipsisH onClick={() => handleEdit(product)} />
-//                         </td>
-//                       </tr>
-//                     );
-//                   })}
-//                 </tbody>
-//               </table>
-//             </div>
-//             {loadingNext && (
-//               <div className="w-100 d-flex justify-content-center align-items-center py-4">
-//                 <div className="spinner-border text-danger" role="status">
-//                   <span className="sr-only">Loading...</span>
-//                 </div>
-//               </div>
-//             )}
-//           </div>
-
-//           {/* Modal to Create or Edit Product */}
-//           {showProductModal && (
-//             <Modal
-//               showModal={showProductModal}
-//               setShowModal={setShowProductModal}
-//               header={editProduct ? "Edit Product" : "Add New Product"}
-//               size={"modal-md"}
-//             >
-//               <CreateProduct handleClose={handleCloseModal} edit={editProduct} />
-//             </Modal>
-//           )}
-//         </div>
-//       ) : (
-//         <NoData />
-//       )}
-//     </>
-//   );
-// };
-
-// export default ProductListing;
-
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { FaEllipsisH } from "react-icons/fa";
+import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
+import ColumnResize from "react-table-column-resizer";
+import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
-import Modal from "../../../Components/Modal/Modal";
-import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
-import CreateProduct from "./CreateProduct";
+import { getNext } from "../Redux/thunk";
+import { productEditSuccess } from "../Redux/ProductSlice";
 
-import { getProducts } from "../Redux/thunk"; // Import the getProducts thunk
-
-const ProductListing = ({ postsPerPage }) => {
-  const dispatch = useDispatch();
-  const [showProductModal, setShowProductModal] = useState(false);
-  const [editProduct, setEditProduct] = useState(null); // State to store the product to edit or create a new one
-
+const ProductListing = ({ dispatch, setShowProductModal }) => {
+  const [page, setPage] = useState(1);
   const listRef = useRef(null);
-  const [page, setPage] = useState(1); // Track the current page
+  const next = useSelector((state) => state.product.next);
+  const loadingNext = useSelector((state) => state.product.loadingNext);
+  const products = useSelector((state) => state.product.products);
 
-  // Get products and loading states from Redux
-  const products = useSelector((state) => state.product?.products); // Access products from Redux state
-  const loadingNext = useSelector((state) => state.product?.loading); // Loading state for pagination
-  const next = useSelector((state) => state.product?.next); // Next page URL or null
-
-  const { handleScroll } = useInfinteScroll({
-    loadingNext,
-  });
-
-  // Fetch products when component mounts or page changes
-  useEffect(() => {
-    dispatch(getProducts({ page })); // Fetch products based on the current page
-  }, [dispatch, page]);
-
-  const handleEdit = (product) => {
-    setEditProduct(product); // Set the product to edit
-    setShowProductModal(true);
+  const scrollToEnd = () => {
+    setPage((prevPage) => prevPage + 1);
+    dispatch(getNext({ postsPerPage, page: page + 1 }));
   };
 
-  const handleCreate = () => {
-    setEditProduct(null); // Reset to null for new product
-    setShowProductModal(true);
+  const handleScroll = (event) => {
+    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight === event.currentTarget.scrollHeight) {
+      if (!loadingNext && next !== null) {
+        scrollToEnd(next);
+      }
+    }
   };
 
-  const handleCloseModal = () => {
-    setShowProductModal(false);
-    setEditProduct(null); // Reset after modal is closed
+  const handleEdit = async (product) => {
+    dispatch(productEditSuccess(product));
+    setShowProductModal(true);
   };
 
   return (
     <>
-      {loadingNext && page === 1 ? ( // Show loading spinner for initial fetch
-        <div className="spinner-border text-danger" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      ) : products && products.length > 0 ? (
+      {products?.length > 0 ? (
         <div className="row">
-          <div className="col-12 table-scrollable" ref={listRef} onScroll={handleScroll}>
-            <div className="table-responsive">
-              <table className="listing-table">
-                <thead>
-                  <tr>
-                    <th>Item Code</th>
-                    <th>Product</th>
-                    <th>Product Name</th>
-                    <th>Category</th>
-                    <th>Capacity</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map((product, i) => {
-                    const { name, category, image } = product;
-                    const productImage = image ? `http://192.168.1.91:8000${image}` : null;
+          <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}>
+            <table className="listing-table">
+              <thead>
+                <tr>
+                  <th>SN</th>
+                  <ColumnResize id={1} className="columnResizer" />
+                  <th>Image</th>
+                  <ColumnResize id={2} className="columnResizer" minWidth={120} />
+                  <th>Code</th>
+                  <ColumnResize id={3} className="columnResizer" minWidth={120} />
+                  <th>Name</th>
+                  <ColumnResize id={4} className="columnResizer" minWidth={120} />
+                  <th>Category</th>
+                  <ColumnResize id={5} className="columnResizer" minWidth={120} />
+                  <th>Action</th>
+                </tr>
+              </thead>
 
-                    return (
-                      <tr key={i} style={{ cursor: "pointer" }}>
-                        <td>N/A</td> {/* itemCode is missing in API response, leaving as N/A */}
-                        <td>
-                          {productImage ? (
-                            <img
-                              src={productImage}
-                              alt={name}
-                              style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                            />
-                          ) : (
-                            "N/A"
-                          )}
-                        </td>
-                        <td>{name || "N/A"}</td> {/* Product Name */}
-                        <td>{category?.name || "N/A"}</td> {/* Category Name */}
-                        <td>N/A</td> {/* Capacity is missing in API response, leaving as N/A */}
-                        <td>
-                          <FaEllipsisH onClick={() => handleEdit(product)} />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-            {loadingNext &&
-              page > 1 && ( // Show loading spinner when loading next page
-                <div className="w-100 d-flex justify-content-center align-items-center py-4">
-                  <div className="spinner-border text-danger" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+              <tbody>
+                {products?.map((product, i) => {
+                  const { id, name, code, category, image } = product;
+                  const categoryName = category?.name || "N/A";
+
+                  return (
+                    <tr key={id} onDoubleClick={() => handleEdit(product)} style={{ cursor: "pointer" }}>
+                      {/* SN */}
+                      <td>{i + 1}</td>
+                      <td className="column_resizer_body" />
+
+                      {/* Image */}
+                      <td>
+                        {image ? <img src={image} alt={name} style={{ width: "50px", height: "50px" }} /> : "N/A"}
+                      </td>
+                      <td className="column_resizer_body" />
+
+                      {/* Code */}
+                      <td>{code || "N/A"}</td>
+                      <td className="column_resizer_body" />
+
+                      {/* Name */}
+                      <td>{name}</td>
+                      <td className="column_resizer_body" />
+
+                      {/* Category */}
+                      <td>{categoryName}</td>
+                      <td className="column_resizer_body" />
+
+                      {/* Action Button */}
+                      <td>
+                        <DetailActionButton type={"edit"} onClick={() => handleEdit(product)} />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            {loadingNext && (
+              <div className="w-100 d-flex justify-content-center align-items-center py-4">
+                <div className="spinner-border text-danger" role="status">
+                  <span className="sr-only">Loading...</span>
                 </div>
-              )}
+              </div>
+            )}
           </div>
-
-          {/* Modal to Create or Edit Product */}
-          {showProductModal && (
-            <Modal
-              showModal={showProductModal}
-              setShowModal={setShowProductModal}
-              header={editProduct ? "Edit Product" : "Add New Product"}
-              size={"modal-md"}
-            >
-              <CreateProduct handleClose={handleCloseModal} edit={editProduct} />
-            </Modal>
-          )}
         </div>
       ) : (
         <NoData />
