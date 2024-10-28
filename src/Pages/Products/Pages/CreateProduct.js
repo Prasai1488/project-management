@@ -132,7 +132,7 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
                       onChange={handleImageChange}
                       removePhoto={removeImage}
                       displayImage={imagePreview}
-                      text="Select an image file"
+                      
                     />
                     {formik.touched.image && formik.errors.image ? (
                       <div className="invalid-feedback">{formik.errors.image}</div>
