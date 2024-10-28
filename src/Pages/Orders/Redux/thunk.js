@@ -11,29 +11,37 @@ export const getOrders = createAsyncThunk("orders/getOrders", async (postsPerPag
     return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
 });
-//get SpecificOrders
+// get SpecificOrders
+
+// export const getSpecificOrders = createAsyncThunk("orders/getSpecificOrders", async (id, { rejectWithValue }) => {
+//   try {
+//     const { data } = await API.getSpecificOrders(id);
+//     return data;
+//   } catch (error) {
+//     return rejectWithValue(error?.response?.data?.errors[0]?.error);
+//   }
+// });
 export const getSpecificOrders = createAsyncThunk("orders/getSpecificOrders", async (id, { rejectWithValue }) => {
   try {
-    const { data } = await API.getSpecificOrders(id);
-    return data;
+    const response = await API.getSpecificOrders(id);
+    return response.data;
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    console.error("Error fetching order details:", error?.response?.data || error.message);
+    return rejectWithValue(error?.response?.data?.message || error.message || "Error fetching order");
   }
 });
 
 // get all orders
-export const getAllOrders = createAsyncThunk(
-  "orders/getAllOrders",
-  async ({ postsPerPage, page }, { rejectWithValue }) => {
-    try {
-      const { data } = await API.getAllOrders(postsPerPage, page);
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors[0]?.error);
-    }
+export const getAllOrders = createAsyncThunk("orders/getAllOrders", async ({ rejectWithValue }) => {
+  try {
+    const { data } = await API.getAllOrders();
+    console.log("Fetched orders data:", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
-);
+});
 
 // get previous
 export const getPrevious = createAsyncThunk("orders/getPrevious", async (previous, { rejectWithValue }) => {
@@ -95,5 +103,14 @@ export const handleSearch = createAsyncThunk("orders/handleSearch", async (data,
     return data;
   } catch (error) {
     rejectWithValue(error?.response?.data?.errors[0]?.error);
+  }
+});
+
+export const getStatus = createAsyncThunk("orders/getStatus", async (status, { rejectWithValue }) => {
+  try {
+    const { data } = await API.getStatus(status);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
 });

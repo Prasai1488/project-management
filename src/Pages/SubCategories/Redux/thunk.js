@@ -31,11 +31,13 @@ export const getSpecificSubCategory = createAsyncThunk(
 // Get all subcategories
 export const getAllSubCategories = createAsyncThunk(
   "subCategory/getAllSubCategories",
-  async ({ postsPerPage, offset, search, order_by, createdAt }, { rejectWithValue }) => {
+  async ({ page, postsPerPage }, { rejectWithValue }) => {
     try {
-      const { data } = await API.getAllSubCategories(postsPerPage, offset, search, order_by, createdAt);
+      const { data } = await API.getAllSubCategories(page, postsPerPage);
+      console.log(data, "this is subcategory datafdghjk");
       return data;
     } catch (error) {
+      console.error("Error fetching subcategories:", error.response);
       return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
     }
   }
@@ -60,6 +62,7 @@ export const getNextSubCategory = createAsyncThunk(
   async (next, { rejectWithValue }) => {
     try {
       const { data } = await API.getNextSubCategory(next);
+      console.log(data, "this is next subcategory data");
       return data;
     } catch (error) {
       return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
@@ -99,7 +102,6 @@ export const updateSubCategory = createAsyncThunk(
   async ({ id, values }, { rejectWithValue }) => {
     try {
       const { data } = await API.updateSubCategory(id, values);
-      console.log("dataupdated", data);
       return data;
     } catch (error) {
       console.error("Error updating subcategory:", error.response);
@@ -113,9 +115,9 @@ export const updateSubCategory = createAsyncThunk(
 // Handle search for subcategories
 export const handleSubCategorySearch = createAsyncThunk(
   "subCategory/handleSubCategorySearch",
-  async ({ search, postsPerPage }, { rejectWithValue }) => {
+  async ({ page, postsPerPage, search }, { rejectWithValue }) => {
     try {
-      const { data } = await API.handleSubCategorySearch(search, postsPerPage);
+      const { data } = await API.handleSubCategorySearch(page, postsPerPage, search);
       return data;
     } catch (error) {
       return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);

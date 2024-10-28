@@ -2,11 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
-import { getNextSubCategory, getAllSubCategories } from "../Redux/thunk";
+import { getNextSubCategory, getAllSubCategories, getSpecificSubCategory } from "../Redux/thunk";
 import { subCategoriesEditSuccess } from "../Redux/subcategoriesSlice";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
+import { getSpecificCategory } from "../../Category/Redux/thunk";
 
-const SubCategoryListing = ({ setShowSubCategoryModal, setPostsPerPage, setPage }) => {
+const SubCategoryListing = ({ setShowSubCategoryModal, PostsPerPage, page }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
 
@@ -15,10 +16,9 @@ const SubCategoryListing = ({ setShowSubCategoryModal, setPostsPerPage, setPage 
   const loadingNext = useSelector((state) => state?.subCategory?.loadingNext);
   const subCategories = useSelector((state) => state?.subCategory?.subCategories || []);
 
-
   // Fetch all subcategories on component mount
   useEffect(() => {
-    dispatch(getAllSubCategories({ postsPerPage: 10, page: 1 }));
+    dispatch(getAllSubCategories({ PostsPerPage, page }));
   }, [dispatch]);
 
   // Infinite Scroll logic
@@ -26,14 +26,14 @@ const SubCategoryListing = ({ setShowSubCategoryModal, setPostsPerPage, setPage 
     loadingNext,
     next,
     getNext: getNextSubCategory,
-    setPostsPerPage,
-    setPage,
+    PostsPerPage,
+    page,
   });
 
   // Handle edit button click
-  const handleEdit = (subCategory) => {
-    dispatch(subCategoriesEditSuccess(subCategory));
-    setShowSubCategoryModal(true);
+  const handleEdit = async (subCategory) => {
+    dispatch(getSpecificSubCategory(subCategory));
+    await setShowSubCategoryModal(true);
   };
 
   return (
@@ -61,7 +61,7 @@ const SubCategoryListing = ({ setShowSubCategoryModal, setPostsPerPage, setPage 
                         <span className={`status ${status?.toLowerCase() || "unknown"}`}>{status || "N/A"}</span>
                       </td>
                       <td>
-                        <DetailActionButton type="edit" onClick={() => handleEdit(subCategory)} />
+                        <DetailActionButton type="edit" onClick={() => handleEdit(id)} />
                       </td>
                     </tr>
                   );

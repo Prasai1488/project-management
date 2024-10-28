@@ -19,6 +19,7 @@ const TextField = ({
   onBlur,
   value,
 }) => {
+  console.log(readOnly);
   return (
     <div>
       <div className="common-textfield-wrapper">

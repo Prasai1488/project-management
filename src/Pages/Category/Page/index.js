@@ -5,10 +5,10 @@ import CommonPageHeader from "../../../Components/CommonPageHeader/CommonPageHea
 import ListingSkeleton from "../../../Components/Skeleton/ListingSkeleton";
 import useDebounce from "../../../Utils/Hooks/useDebounce";
 import { clearEditCategory } from "../Redux/categorySlice"; // Adjust action to match Category slice
-import { getAllCategories, handleCategorySearch } from "../Redux/thunk"; 
-import CreateCategory from "./CreateCategory"; 
+import { getAllCategories, handleCategorySearch } from "../Redux/thunk";
+import CreateCategory from "./CreateCategory";
 import "./category.css";
-import CategoryListing from "./CategoryListing"; 
+import CategoryListing from "./CategoryListing";
 
 const Modal = lazy(() => import("../../../Components/Modal/Modal"));
 
@@ -26,7 +26,7 @@ const Category = () => {
 
   const [search, setSearch] = useState("");
   const [postsPerPage, setPostsPerPage] = useState(20);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
 
   const debouncedSearch = useDebounce(search, 500);
 
@@ -34,14 +34,14 @@ const Category = () => {
     if (search === "") {
       dispatch(
         getAllCategories({
-          postsPerPage,
           page,
+          postsPerPage,
         })
       );
     } else {
-      dispatch(handleCategorySearch({ search, postsPerPage }));
     }
-  }, [postsPerPage, debouncedSearch, page, dispatch]);
+      dispatch(handleCategorySearch({ page, postsPerPage , search}));
+  }, [postsPerPage, debouncedSearch, page, dispatch,]);
 
   const createPermission = isSuperuser || permissions?.includes("") || true;
 

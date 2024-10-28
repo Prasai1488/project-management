@@ -205,7 +205,7 @@ const CommonPageHeader = ({
   //   // };
   // }, [dispatch, postsPerPage, socket]);
   useEffect(() => {
-    dispatch(getAllNotifications(postsPerPage));
+    // dispatch(getAllNotifications(postsPerPage));
   }, [dispatch, postsPerPage]);
   return (
     <>

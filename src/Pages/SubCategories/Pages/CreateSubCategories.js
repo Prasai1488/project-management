@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
@@ -7,50 +7,31 @@ import Loader from "../../../Components/Loader";
 import { createSubCategory, updateSubCategory, getAllSubCategories } from "../Redux/thunk";
 import { errorFunction, successFunction } from "../../../Components/Alert/Alert";
 import AsyncSelect from "../../../Components/CommonAsyncSelectField/AsyncSelect";
-import axiosInstance from "../../../Utils/axios";
-
-const RANGER_URL = "http://192.168.1.91:8000";
+import { loadCategoryOptions } from "../../../Utils/asyncFunction";
+import TextField from "../../../Components/TextField/TextField";
+import "./subCategory.css";
 
 const CreateSubCategory = ({ setShowModal, postsPerPage = 10 }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
-  const currentSubCategory = useSelector((state) => state?.subCategory?.SubCategory);
-  console.log("currentSubCategoryy", currentSubCategory);
+  const subCategory = useSelector((state) => state?.subCategory?.subCategory);
+  console.log(subCategory, "subcatefjgnj");
   const loadingSubCategory = useSelector((state) => state?.subCategory?.loading);
   const loadingUpdated = useSelector((state) => state?.subCategory?.loadingUpdated);
 
+  // Initial values setup based on whether it's an update or create mode
   const initialState = {
-    name: currentSubCategory ? currentSubCategory.name : "",
-    category: currentSubCategory ? { label: currentSubCategory.name, value: currentSubCategory.id } : null,
-    status: currentSubCategory ? currentSubCategory.status === "Active" : false,
+    name: subCategory ? subCategory?.name : "",
+    category: subCategory ? { label: subCategory?.category?.name, value: subCategory?.category?.id } : null,
+    status: subCategory ? subCategory?.status === "Active" : false,
   };
 
+  // Validation schema using Yup0
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Subcategory name is required!"),
     category: Yup.object().required("Category is required!"),
     status: Yup.boolean(),
   });
-
-  // Load categories from API for AsyncSelect
-  const loadCategoryOptions = async (inputValue) => {
-    try {
-      const response = await axiosInstance.get(`${RANGER_URL}/api/v1/product/category/`, {
-        params: {
-          search: inputValue || "",
-        },
-      });
-
-      const options = response?.data?.data.map((category) => ({
-        label: category?.name,
-        value: category?.id,
-      }));
-
-      return { options };
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      return { options: [] };
-    }
-  };
 
   // Form submission handler
   const onSubmit = (values, { resetForm }) => {
@@ -60,12 +41,10 @@ const CreateSubCategory = ({ setShowModal, postsPerPage = 10 }) => {
       status: values.status ? "Active" : "Inactive",
     };
 
-    // Log the values being submitted
-    console.log("Submitting values:", updatedValues);
-
-    if (currentSubCategory) {
+    // Check if we are in create or update mode
+    if (subCategory) {
       // Edit mode: Update subcategory
-      dispatch(updateSubCategory({ id: currentSubCategory.id, values: updatedValues }))
+      dispatch(updateSubCategory({ id: subCategory.id, values: updatedValues }))
         .unwrap()
         .then(() => {
           successFunction("Subcategory updated successfully.");
@@ -100,17 +79,14 @@ const CreateSubCategory = ({ setShowModal, postsPerPage = 10 }) => {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
         innerRef={formRef}
-        enableReinitialize={true} // Reinitialize form values when currentSubCategory changes
+        enableReinitialize={true}
       >
         {(formik) => (
           <Form autoComplete="off">
-            <div className="create-subcategory-wrapper">
-              <div className="header d-flex justify-content-between align-items-center"></div>
-
-              {/* Subcategory Name Field */}
+            <div className="create-subcategory-wrapper p-3">
               <div className="form-group">
-                <label htmlFor="name">Subcategory Name</label>
-                <input
+                <TextField
+                  label="Subcategory Name"
                   type="text"
                   name="name"
                   onChange={formik.handleChange}
@@ -124,23 +100,21 @@ const CreateSubCategory = ({ setShowModal, postsPerPage = 10 }) => {
 
               {/* AsyncSelect Category Field */}
               <div className="form-group">
-                <label htmlFor="category">Category</label>
                 <AsyncSelect
+                  label="Category"
                   name="category"
                   cacheOptions
                   defaultOptions
                   loadOptions={loadCategoryOptions}
-                  onChange={(selectedOption) => formik.setFieldValue("category", selectedOption)} // Handle Formik value
+                  onChange={(selectedOption) => formik.setFieldValue("category", selectedOption)}
                   value={formik.values.category}
                   getOptionLabel={(option) => option.label}
                   getOptionValue={(option) => option.value}
                 />
-
                 {formik.touched.category && formik.errors.category && (
                   <div className="invalid-feedback">{formik.errors.category?.label || formik.errors.category}</div>
                 )}
               </div>
-
               {/* Status Checkbox */}
               <div className="d-flex justify-content-center align-items-center">
                 <input
@@ -162,8 +136,8 @@ const CreateSubCategory = ({ setShowModal, postsPerPage = 10 }) => {
                 btnType="submit"
                 className="btn create-button"
                 createButton={true}
-                title={currentSubCategory ? "Update" : "Save"}
-                content={currentSubCategory ? "Update" : "Save"}
+                title={subCategory ? "Update" : "Save"}
+                content={subCategory ? "Update" : "Save"}
               />
             </div>
           </Form>

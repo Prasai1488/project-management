@@ -6,22 +6,18 @@ import { getNextCategory, getAllCategories } from "../Redux/thunk";
 import { categoriesEditSuccess } from "../Redux/categorySlice";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 
-const CategoryListing = ({ setShowCategoryModal, setPage }) => {
+const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
-
   // Redux selectors to get state
-  const next = useSelector((state) => state.category.next);
+  const next = useSelector((state) => state?.category?.next);
   const loadingNext = useSelector((state) => state?.category?.loadingNext);
   const categories = useSelector((state) => state?.category?.categories || []);
-
   const [postsPerPage, setPostsPerPage] = useState(20);
-  const [offset, setOffset] = useState(0);
-  const [orderBy, setOrderBy] = useState("id");
 
   // Fetch all categories on component mount
   useEffect(() => {
-    dispatch(getAllCategories({ limit: postsPerPage, offset }));
+    dispatch(getAllCategories({ postsPerPage, offset }));
   }, [dispatch, postsPerPage, offset]);
 
   // Infinite Scroll logic
@@ -29,7 +25,7 @@ const CategoryListing = ({ setShowCategoryModal, setPage }) => {
     loadingNext,
     next,
     getNext: getNextCategory,
-    setPostsPerPage,
+    postsPerPage,
     setPage,
   });
 

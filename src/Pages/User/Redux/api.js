@@ -1,6 +1,6 @@
 import axiosInstance from "../../../Utils/axios";
 
-const userModURL = "auth/list-user/";
+const userModURL = "https://da4a-45-123-222-20.ngrok-free.app/auth/list-user/";
 
 // Obtaining the paginated data
 export const getUser = (postsPerPage, page) => axiosInstance.get(`${userModURL}?limit=${postsPerPage}&page=${page}`);

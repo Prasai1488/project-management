@@ -4,8 +4,8 @@ import CommonCreateButton from "../../../Components/CommonCreateButton/CommonCre
 import CommonPageHeader from "../../../Components/CommonPageHeader/CommonPageHeader";
 import ListingSkeleton from "../../../Components/Skeleton/ListingSkeleton";
 import useDebounce from "../../../Utils/Hooks/useDebounce";
-// import { clearAllProduct, clearEditProduct } from "../Redux/productSlice";
-// import { getAllProducts, handleSearch } from "../Redux/thunk";
+import { clearAllProduct, clearEditProduct } from "../Redux/ProductSlice";
+import { getAllProducts, handleSearch } from "../Redux/thunk";
 import ProductListing from "./ProductListing";
 import CreateProduct from "./CreateProduct";
 import "./product.css";
@@ -18,10 +18,10 @@ const types = "Products";
 const Products = () => {
   const dispatch = useDispatch();
   const { permissions, isSuperuser } = useSelector((state) => state.auth);
-  // const loadingProduct = useSelector((state) => state.product.loadingProduct);
-  // const products = useSelector((state) => state.product.products);
-  // const count = useSelector((state) => state.product.count);
-  // const edit = useSelector((state) => state.product.edit);
+  const loadingProduct = useSelector((state) => state.product.loadingProduct);
+  const products = useSelector((state) => state.product.products);
+  const count = useSelector((state) => state.product.count);
+  const edit = useSelector((state) => state.product.edit);
   const [showProductModal, setShowProductModal] = useState(false);
 
   const handleCloseModal = () => {
@@ -59,11 +59,11 @@ const Products = () => {
           dispatch={dispatch}
           search={search}
           setSearch={setSearch}
-          // loading={loadingProduct}
+          loading={loadingProduct}
           data={Products}
-          // count={count}
-          // types={types}
-          // setStatus={setStatus}
+          count={count}
+          types={types}
+          setStatus={setStatus}
           // status={status}
           // setPriroity={setPriroity}
           // priority={priority}
@@ -95,12 +95,11 @@ const Products = () => {
         <Modal
           showModal={showProductModal}
           setShowModal={setShowProductModal}
-          // header={edit ? "Update Product" : "Add Product"}
-          header={"Add Product"}
+          header={edit ? "Update Product" : "Add Product"}
           types={types}
-          // edit={edit}
+          edit={edit}
           size={"modal-md"}
-          // clearAction={clearEditProduct}
+          clearAction={clearEditProduct}
         >
           <CreateProduct dispatch={dispatch} postsPerPage={postsPerPage} handleClose={handleCloseModal} />
         </Modal>

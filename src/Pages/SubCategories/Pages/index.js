@@ -26,7 +26,7 @@ const SubCategory = () => {
 
   const [search, setSearch] = useState("");
   const [postsPerPage, setPostsPerPage] = useState(20);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
 
   const debouncedSearch = useDebounce(search, 500);
 
@@ -34,12 +34,12 @@ const SubCategory = () => {
     if (search === "") {
       dispatch(
         getAllSubCategories({
-          postsPerPage,
           page,
+          postsPerPage,
         })
       );
     } else {
-      dispatch(handleSubCategorySearch({ search, postsPerPage }));
+      dispatch(handleSubCategorySearch({ page, postsPerPage, search }));
     }
   }, [postsPerPage, debouncedSearch, page, dispatch]);
 

@@ -79,11 +79,7 @@ const rootReducer = combineReducers({
   // sale: salesReducer,
   // saledetail: saledetailReducer,
   category: categoryReducer,
-
-
   product: productReducer,
-
-
   //ranjer
   offer: offerReducer,
   subCategory: subCategoryReducer,

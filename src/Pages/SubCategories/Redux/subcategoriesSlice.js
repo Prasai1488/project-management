@@ -28,7 +28,7 @@ export const subCategories = createSlice({
   reducers: {
     subCategoriesEditSuccess: (state, action) => {
       state.edit = true;
-      state.subCategory = action.payload;
+      // state.subCategory = action.payload;
     },
     clearAllSubCategory: (state) => {
       Object.assign(state, initialState);
@@ -63,7 +63,29 @@ export const subCategories = createSlice({
       .addCase(apiCreateSubCategory.rejected, (state) => {
         state.loading = false;
       })
+      .addCase(getSpecificSubCategory.pending, (state) => {
+        state.loading = true;
+      })
 
+      .addCase(getNextSubCategory.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getNextSubCategory.fulfilled, (state, action) => {
+        state.loadingNext = false;
+        state.subCategories = [...state.subCategories, ...action.payload?.subCategories];
+        state.next = action.payload.next;
+      })
+      .addCase(getNextSubCategory.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(getSpecificSubCategory.fulfilled, (state, action) => {
+        state.loading = false;
+        state.subCategory = action.payload.data;
+      })
+
+      .addCase(getSpecificSubCategory.rejected, (state) => {
+        state.loading = false;
+      })
       .addCase(apiUpdateSubCategory.pending, (state) => {
         state.loadingUpdated = true;
         console.log("Update subCategory pending...");
