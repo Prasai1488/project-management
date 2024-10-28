@@ -1,11 +1,9 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ColumnResize from "react-table-column-resizer";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
 import { getNext, getSpecificOrders } from "../Redux/thunk";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
-import { ordersEditSuccess } from "../Redux/ordersSlice";
 import Modal from "../../../Components/Modal/Modal";
 import OrderDetails from "./OrderDetails";
 
@@ -18,75 +16,79 @@ const OrdersListing = ({
   postsPerPage,
 }) => {
   const dispatch = useDispatch();
-  useState(false);
   const listRef = useRef(null);
-  const next = useSelector((state) => state.order.next);
-  const loadingNext = useSelector((state) => state.order?.loadingNext);
-  const orders = useSelector((state) => state?.order?.orders);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
+  // Redux state selectors
+  const next = useSelector((state) => state?.order?.next);
+  const loadingNext = useSelector((state) => state?.order?.loadingNext);
+  const orders = useSelector((state) => state?.order?.orders || []);
+
+  // Infinite scroll hook
   const { handleScroll } = useInfinteScroll({
-    loadingNext: loadingNext,
+    loadingNext,
     next,
     getNext,
     setPostsPerPage,
     setPage,
   });
 
-  const ordersData = [
-    {
-      order: "order1",
-      customer: "Hemant",
-      orderno: "2024-09-01",
-      packedon: "2024-09-01",
-      approvedno: "2024-09-01",
-      dispatchno: "2024-09-01",
-      status: "Resolved",
-    },
-  ];
+  // Fetch order details and open the modal
+  const handleEdit = async (orders) => {
+    // if (!orderId) {
+    //   console.error("Invalid orderId:", orderId);
+    //   return;
+    // }
 
-  const handleEdit = async (order) => {
-    dispatch(ordersEditSuccess(order));
-    setShowOrderDetailsModal(true);
+    dispatch(getSpecificOrders(orders));
+    await setShowOrderDetailsModal(true);
+    // .unwrap()
+    // .then((data) => {
+    //   setSelectedOrder(data);
+    //   setShowOrderDetailsModal(true);
+    // })
+    // .catch((error) => {
+    //   console.error("Error fetching order details:", error);
+    // });
   };
 
-  const handleInspection = async () => {
-    await dispatch(getSpecificOrders());
-    setShowOrderDetailsModal(true);
+  // Double-click handler for inspection
+  const handleInspection = (order) => {
+    if (!order || !order.id) {
+      console.error("Invalid order or order ID");
+      return;
+    }
+    handleEdit(order.id);
   };
 
   return (
     <>
-      {ordersData && ordersData?.length > 0 ? (
+      {orders.length > 0 ? (
         <div className="row">
           <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}>
             <table className="listing-table">
               <thead>
                 <tr>
                   <th>S.N</th>
-                  <th>ORDER</th>
-                  <th>CUSTOMER</th>
-                  <th>ORDERED ON</th>
-                  <th>PACKED ON</th>
-                  <th>APPROVED ON</th>
-                  <th>DISPATCHED ON</th>
-                  <th>STATUS</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {ordersData.map((order, index) => {
+                {orders.map((order, index) => {
+                  const { id, userDetails, price, quantity, status, shippingAddress } = order;
                   return (
-                    <tr key={index} onDoubleClick={() => handleInspection(order)} style={{ cursor: "pointer" }}>
+                    <tr key={id} onDoubleClick={() => handleInspection(order)} style={{ cursor: "pointer" }}>
                       <td>{index + 1}</td>
-                      <td>{order.order}</td>
-                      <td>{order.customer}</td>
-                      <td>{order.orderno}</td>
-                      <td>{order.approvedno}</td>
-                      <td>{order.packedon}</td>
-                      <td>{order.dispatchno}</td>
-                      <td>{order.status}</td>
+                      <td>{shippingAddress?.name}</td>
+                      <td>{price}</td>
+                      <td>{quantity}</td>
+                      <td>{status}</td>
                       <td>
-                        <DetailActionButton type={"edit"} onClick={() => handleEdit(order)} />
+                        <DetailActionButton type="edit" onClick={() => handleEdit(order.id)} />
                       </td>
                     </tr>
                   );
@@ -105,14 +107,15 @@ const OrdersListing = ({
       ) : (
         <NoData />
       )}
+
       {showOrderDetailsModal && (
         <Modal
           showModal={showOrderDetailsModal}
           setShowModal={setShowOrderDetailsModal}
-          header={"Orders"}
-          size={"modal-lg"}
+          header="Order Details"
+          size="modal-lg"
         >
-          <OrderDetails dispatch={dispatch} setShowModal={setShowOrderDetailsModal} onScroll={handleScroll} />
+          <OrderDetails order={selectedOrder} />
         </Modal>
       )}
     </>

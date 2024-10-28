@@ -11,19 +11,20 @@
   margin: 10px;
 }
 
-.conatiner-logout {
+.container-logout {
   display: flex;
   margin-bottom: 5px;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   align-items: center;
 }
-/* .logout-btn {
+.logout-btn {
   border: none;
   background: var(--blue-primary);
   color: white;
   border-radius: 10px;
-} */
+}
 
 .ps-submenu-expand-icon.css-viw5ch {
   display: none !important;

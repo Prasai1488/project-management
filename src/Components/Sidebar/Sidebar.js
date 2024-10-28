@@ -601,7 +601,11 @@ const CrmSidebar = () => {
                 style={{ pointerEvents: disablePointerEvents ? "none" : "auto" }}
                 onClick={() => history.push("/change-password")}
               >
-                <Button btnType="submit" className="passwordchange-button" title="Change Password" />
+                <Button
+                  btnType="submit"
+                  className="passwordchange-button d-flex justify-content-center align-items-center ml-0"
+                  title="Change Password"
+                />
               </div>
               <div style={{ pointerEvents: disablePointerEvents ? "none" : "auto" }} onClick={handleLogout}>
                 <Button btnType="submit" className="logout-button" title="Logout" />

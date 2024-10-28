@@ -21,6 +21,7 @@ import Units from "../Pages/Unit/Page";
 import Sales from "../Pages/Sales/Pages";
 
 import Category from "../Pages/Category/Page";
+import SubCategories from "../Pages/SubCategories/Pages";
 
 import Orders from "../Pages/Orders/Pages";
 
@@ -67,7 +68,7 @@ const OtherActivities = lazyWithReload(() => import("../Pages/OtherActivities/Pa
 
 const PrivateRoute = () => {
   const { isSetupDone } = useSelector((state) => state.auth);
-  console.log("dfghjk",isSetupDone)
+  console.log("dfghjk", isSetupDone);
 
   const ErrorFallback = ({ error }) => {
     return (
@@ -100,7 +101,7 @@ const PrivateRoute = () => {
             <ProtectedRoute exact path="/user" component={UserListing} permission={""} />
             <ProtectedRoute exact path="/roles" component={RoleListing} permission={""} />
             {/* <ProtectedRoute exact path="/tickets" component={Issues} permission={""} /> */}
-            <ProtectedRoute exact path = "/offer" component={Offer} permission={""} />
+            <ProtectedRoute exact path="/offer" component={Offer} permission={""} />
             <ProtectedRoute exact path="/products" component={Products} permission={""} />
             <ProtectedRoute exact path="/ticket" component={Tickets} permission={""} />
             <ProtectedRoute exact path="/sales" component={Sales} permission={""} />
@@ -113,6 +114,7 @@ const PrivateRoute = () => {
             <ProtectedRoute exact path="/unit" component={Units} permission={""} />
             <ProtectedRoute exact path="/organization" component={Organization} permission={""} />
             <ProtectedRoute exact path="/category" component={Category} permission={""} />
+            <ProtectedRoute exact path="/sub-category" component={SubCategories} permission={""} />
             <ProtectedRoute exact path="/orders" component={Orders} permission={""} />
             <Route path="*" component={PageNotFound} />
           </Switch>

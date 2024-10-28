@@ -5,7 +5,7 @@ import { IoFilter } from "react-icons/io5";
 import { MdNotificationsNone } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import { loadOptionsItem, loadOptionsPermissionCategory } from "../../Pages/Questionnaire/Page/asyncFunction";
 import { statusList } from "../../Utils/constants";
 import { priorityOption, levelOptions, itemTypes } from "../../Utils/constants";
@@ -14,7 +14,7 @@ import AsyncSelect from "../CommonAsyncSelectField/AsyncSelect";
 import "../CommonDatePicker/DatePicker.css";
 import "./CommonPageHeader.css";
 import Notification from "./Notification";
-import { socketNotification } from "./redux/notificationSlice";
+// import { socketNotification } from "./redux/notificationSlice";
 import { getAllNotifications } from "./redux/thunk";
 const DatePicker = lazy(() => import("react-datepicker"));
 // cust
@@ -54,7 +54,7 @@ const CommonPageHeader = ({
   const unreadNotificationsCount = unreadNotifications?.length;
 
   const [showParentAnimation] = useState(false);
-  const [socket, setSocket] = useState(null);
+  // const [socket, setSocket] = useState(null);
 
   const [showFilter, setShowFilter] = useState(false);
   const [postsPerPage, setPostsPerPage] = useState(20);
@@ -185,27 +185,27 @@ const CommonPageHeader = ({
     setShowFilter((prev) => !prev);
   }, []);
 
-  useEffect(() => {
-    const URL = process.env.REACT_APP_BASE_URL;
-    const newSocket = io(URL, {
-      autoConnect: false,
-    });
-    newSocket.connect();
-    newSocket.on("connect", () => {});
+  // useEffect(() => {
+  //   const URL = process.env.REACT_APP_BASE_URL;
+  //   const newSocket = io(URL, {
+  //     autoConnect: false,
+  //   });
+  //   newSocket.connect();
+  //   newSocket.on("connect", () => {});
 
-    newSocket.on("notification", (data) => {
-      if (userName !== data?.user?.username || isAdmin) {
-        successFunction(`${data.user.username} ${data.action} ${data.instance}  `);
-      }
-      dispatch(socketNotification(data));
-    });
+  //   newSocket.on("notification", (data) => {
+  //     if (userName !== data?.user?.username || isAdmin) {
+  //       successFunction(`${data.user.username} ${data.action} ${data.instance}  `);
+  //     }
+  //     dispatch(socketNotification(data));
+  //   });
 
-    // return () => {
-    //   newSocket.disconnect();
-    // };
-  }, [dispatch, postsPerPage, socket]);
+  //   // return () => {
+  //   //   newSocket.disconnect();
+  //   // };
+  // }, [dispatch, postsPerPage, socket]);
   useEffect(() => {
-    dispatch(getAllNotifications(postsPerPage));
+    // dispatch(getAllNotifications(postsPerPage));
   }, [dispatch, postsPerPage]);
   return (
     <>

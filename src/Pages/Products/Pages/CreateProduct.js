@@ -10,13 +10,14 @@ import { createProduct, updateProduct, getProduct } from "../Redux/thunk";
 import { renderTextField } from "../../../Utils/customFields";
 import Dropzone from "../../../Components/CommonDropzone/Dropzone";
 import { renderAsyncSelectField } from "../../../Utils/customFields";
-
+import AsyncSelect from "../../../Components/CommonAsyncSelectField/AsyncSelect";
 import { loadOptionsCategory } from "../../../Utils/asyncFunction";
-
+import { loadCategoryOptions } from "../../../Utils/asyncFunction";
+import { loadOptionsSubCategory } from "../../../Utils/asyncFunction";
 const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
   const formRef = useRef();
   const product = useSelector((state) => state.product.product);
- 
+
   const loading = useSelector((state) => state.product.loading);
   const loadingUpdated = useSelector((state) => state.product.loadingUpdated);
   const edit = useSelector((state) => state.product.edit);
@@ -30,6 +31,7 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
 
     price: edit ? product?.price : "",
     category: edit ? product?.category : "",
+    subCategory: edit ? product?.subCategory : "",
     image: edit && product?.image ? product.image : null, // Set initial image for edit mode
   };
 
@@ -41,6 +43,8 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
 
     price: Yup.number().required("Price is required").positive("Price must be a positive number"),
     category: Yup.mixed().required("Category is required"),
+    subCategory: Yup.mixed().required("Sub-Category is required"),
+
     image: Yup.mixed().test("image", "Product image is required", function (value) {
       // Only require image if in create mode or if no existing image is present
       return edit ? Boolean(imagePreview || value) : Boolean(value);
@@ -51,7 +55,7 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
     if (!submit) {
       setShowAlert(true);
     } else {
-      const { name,  price, category, image } = values;
+      const { name, price, category, image, subCategory } = values;
 
       // Create a FormData object to handle multipart/form-data
       const formData = new FormData();
@@ -59,6 +63,7 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
 
       formData.append("price", price);
       formData.append("category", category?.id);
+      formData.append("category", subCategory?.id);
 
       // Only append image if it's a new file (not an existing URL)
       if (image instanceof File) {
@@ -132,7 +137,6 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
                       onChange={handleImageChange}
                       removePhoto={removeImage}
                       displayImage={imagePreview}
-                      
                     />
                     {formik.touched.image && formik.errors.image ? (
                       <div className="invalid-feedback">{formik.errors.image}</div>
@@ -146,15 +150,25 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
                       <div className="col-12 mb-2">
                         {renderTextField(formik, 12, "name", "text", "Product Name", true)}
                       </div>
-
                       
+                        <div className="col-12 mb-2">
+                          {renderAsyncSelectField(formik, 12, "category", "Category", loadOptionsCategory, true, false)}
+                        </div>
+                    
 
-                      {/* Category and Price in same row */}
-                      <div className="col-6">
-                        {renderAsyncSelectField(formik, 12, "category", "Category", loadOptionsCategory, true, false)}
+                      <div className="col-12 mb-2">
+                        {renderAsyncSelectField(
+                          formik,
+                          12,
+                          "subCategory",
+                          "Sub-Category",
+                          loadOptionsSubCategory,
+                          true,
+                          false
+                        )}
                       </div>
 
-                      <div className="col-6">{renderTextField(formik, 12, "price", "number", "Price", true)}</div>
+                      {/* <div className="col-6">{renderTextField(formik, 12, "price", "number", "Price", true)}</div> */}
                     </div>
                   </div>
                 </div>
@@ -178,8 +192,3 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
 };
 
 export default CreateProduct;
-
-
-
-
-

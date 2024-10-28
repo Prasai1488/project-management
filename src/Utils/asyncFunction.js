@@ -12,7 +12,7 @@ export const loadOptionsItem = async (search, loadOptions) => {
 };
 export const loadOptionsCategory = async (search, loadOptions) => {
   const data = await axiosInstance(`api/v1/product/category/`);
-console.log(data.data.data,"dfdfdfdfdf")
+
   return {
     options: data?.data.data,
     additional: {
@@ -20,6 +20,18 @@ console.log(data.data.data,"dfdfdfdfdf")
     },
   };
 };
+
+export const loadOptionsSubCategory = async (search, loadOptions) => {
+  const data = await axiosInstance(`api/v1/product/sub-category/`);
+
+  return {
+    options: data?.data.data,
+    additional: {
+      limit: 10,
+    },
+  };
+};
+
 export const loadOptionsClient = async (search, loadOptions) => {
   const data = await axiosInstance(`api/v1/client-app/client`);
 
@@ -63,7 +75,7 @@ export const loadOptionsCustomer = async (search, loadOptions, { limit, offset }
 };
 
 export const loadOptionsUser = async (search, loadOptions, { limit, offset }) => {
-  const data = await axiosInstance(`api/v1/auth-app/users?offset=${offset}&limit=${limit}&search=${search}`);
+  const data = await axiosInstance(`/api/v1/auth-app/users?offset=${offset}&limit=${limit}&search=${search}`);
   return {
     options: data?.data.users,
     additional: {
@@ -71,4 +83,52 @@ export const loadOptionsUser = async (search, loadOptions, { limit, offset }) =>
       limit: 10,
     },
   };
+};
+
+// export const loadCategoryOptions = async (search, loadOptions, { limit, offset }) => {
+//   const response = await axiosInstance.get(`/api/v1/product/category/`);
+//   console.log(response.data, "data from loadCategoryOptions");
+//   return {
+//     options: response.data.categories,
+//     additional: {
+//       offset: offset + limit,
+//       limit: limit,
+//     },
+//   };
+// };
+
+// Load categories from API for AsyncSelect
+export const loadCategoryOptions = async (inputValue, { limit = 10, offset = 1 }) => {
+  try {
+    const response = await axiosInstance.get(`/api/v1/product/category/`, {
+      params: {
+        search: inputValue || "",
+        limit: limit, 
+        offset: offset, 
+      },
+    });
+
+    // Extract categories and pagination details from the API response
+    const { data: categories, pagination } = response.data;
+
+    return {
+      options: categories.map((category) => ({
+        value: category.id,
+        label: category.name, 
+      })),
+      hasMore: pagination.currentPage < pagination.totalPages, 
+      additional: {
+        offset: offset + limit, 
+      },
+    };
+  } catch (error) {
+    console.error("Error loading category options:", error);
+    return {
+      options: [], 
+      hasMore: false, 
+      additional: {
+        offset,
+      },
+    };
+  }
 };

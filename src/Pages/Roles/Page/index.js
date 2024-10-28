@@ -34,7 +34,7 @@ const RoleListing = () => {
     } else {
       dispatch(handleSearch({ search, postsPerPage }));
     }
-  
+    // eslint-disable-next-line
   }, [postsPerPage, debouncedSearch]);
   const createPermission = isSuperuser || permissions?.includes("add_user_group");
   return (
@@ -58,8 +58,7 @@ const RoleListing = () => {
               types={types}
               showModal={showRoleModal}
               setShowModal={setShowRoleModal}
-              tyes={types}
-              createPermission={true}
+              createPermission={createPermission}
             />
           </>
         )}
@@ -81,7 +80,7 @@ const RoleListing = () => {
             header={edit ? "Update Role" : "Add Role"}
             types={types}
             edit={edit}
-            size={"modal-lx"}
+            size={"modal-lg"}
             clearAction={clearEditRole}
           >
             <CreateRole dispatch={dispatch} setShowModal={setShowRoleModal} postsPerPage={postsPerPage} />

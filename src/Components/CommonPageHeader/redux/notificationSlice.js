@@ -15,9 +15,9 @@ export const notificationSlice = createSlice({
     clearNotification: (state) => {
       state.notification = null;
     },
-    socketNotification: (state, action) => {
-      state.notifications = [action.payload, ...state.notifications];
-    },
+    // socketNotification: (state, action) => {
+    //   state.notifications = [action.payload, ...state.notifications];
+    // },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllNotifications.pending, (state) => {

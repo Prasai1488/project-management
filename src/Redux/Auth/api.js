@@ -1,13 +1,13 @@
 import axiosInstance, { publicAxiosInstance } from "../../Utils/axios";
 
-const BASE_URL = "http://192.168.1.91:8000"
+const BASE_URL = "/auth";
 
 //for login
-export const login = (body) => publicAxiosInstance.post(`${BASE_URL}/auth/login/`, body);
+export const login = (body) => publicAxiosInstance.post(`${BASE_URL}/login/`, body);
 // for checking setup
 export const checkSetup = () => axiosInstance.get(`api/v1/organization/issetup`);
 //for logout
-export const logout = (body) => axiosInstance.post(`/api/v1/auth-app/logout`, body);
+export const logout = (body) => axiosInstance.post(`${BASE_URL}/logout/`, body);
 
 //for reset password
 

@@ -4,25 +4,25 @@ import CommonCreateButton from "../../../Components/CommonCreateButton/CommonCre
 import CommonPageHeader from "../../../Components/CommonPageHeader/CommonPageHeader";
 import ListingSkeleton from "../../../Components/Skeleton/ListingSkeleton";
 import useDebounce from "../../../Utils/Hooks/useDebounce";
-import { clearEditCategory } from "../Redux/categorySlice"; // Adjust action to match Category slice
-import { getAllCategories, handleCategorySearch } from "../Redux/thunk";
-import CreateCategory from "./CreateCategory";
-import "./category.css";
-import CategoryListing from "./CategoryListing";
+import { clearEditSubCategory } from "../Redux/subcategoriesSlice"; //
+import { getAllSubCategories, handleSubCategorySearch } from "../Redux/thunk";
+// import "./subcategory.css";
+import SubCategoryListing from "./SubCategoriesListing";
+import CreateSubCategory from "./CreateSubCategories";
 
 const Modal = lazy(() => import("../../../Components/Modal/Modal"));
 
-const title = "Category";
-const types = "Category";
+const title = "SubCategory";
+const types = "SubCategory";
 
-const Category = () => {
+const SubCategory = () => {
   const dispatch = useDispatch();
   const { permissions, isSuperuser } = useSelector((state) => state.auth);
-  const loadingCategory = useSelector((state) => state.category.loadingCategory);
-  const categories = useSelector((state) => state.category.categories);
-  const count = useSelector((state) => state.category.count);
-  const edit = useSelector((state) => state.category.edit);
-  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const loadingSubCategory = useSelector((state) => state.subCategory.loadingSubCategory);
+  const subCategories = useSelector((state) => state.subCategory.subCategories);
+  const count = useSelector((state) => state.subCategory.count);
+  const edit = useSelector((state) => state.subCategory.edit);
+  const [showSubCategoryModal, setShowSubCategoryModal] = useState(false);
 
   const [search, setSearch] = useState("");
   const [postsPerPage, setPostsPerPage] = useState(20);
@@ -33,15 +33,15 @@ const Category = () => {
   useEffect(() => {
     if (search === "") {
       dispatch(
-        getAllCategories({
+        getAllSubCategories({
           page,
           postsPerPage,
         })
       );
     } else {
+      dispatch(handleSubCategorySearch({ page, postsPerPage, search }));
     }
-      dispatch(handleCategorySearch({ page, postsPerPage , search}));
-  }, [postsPerPage, debouncedSearch, page, dispatch,]);
+  }, [postsPerPage, debouncedSearch, page, dispatch]);
 
   const createPermission = isSuperuser || permissions?.includes("") || true;
 
@@ -53,17 +53,17 @@ const Category = () => {
           dispatch={dispatch}
           search={search}
           setSearch={setSearch}
-          loading={loadingCategory}
-          data={categories}
+          loading={loadingSubCategory}
+          data={subCategories}
           count={count}
           types={types}
         />
 
-        {loadingCategory && <ListingSkeleton />}
-        {!loadingCategory && (
-          <CategoryListing
+        {loadingSubCategory && <ListingSkeleton />}
+        {!loadingSubCategory && (
+          <SubCategoryListing
             dispatch={dispatch}
-            setShowCategoryModal={setShowCategoryModal}
+            setShowSubCategoryModal={setShowSubCategoryModal}
             setPostsPerPage={setPostsPerPage}
             setPage={setPage}
             postsPerPage={postsPerPage}
@@ -74,22 +74,22 @@ const Category = () => {
       <CommonCreateButton
         types={types}
         title={title}
-        showModal={showCategoryModal}
-        setShowModal={setShowCategoryModal}
+        showModal={showSubCategoryModal}
+        setShowModal={setShowSubCategoryModal}
         createPermission={createPermission}
       />
-      {showCategoryModal && (
+      {showSubCategoryModal && (
         <Suspense fallback={<div></div>}>
           <Modal
-            showModal={showCategoryModal}
-            setShowModal={setShowCategoryModal}
-            header={edit ? "Update Category" : "Category"}
+            showModal={showSubCategoryModal}
+            setShowModal={setShowSubCategoryModal}
+            header={edit ? "Update SubCategory" : "SubCategory"}
             types={types}
             edit={edit}
             size={"modal-lx"}
-            clearAction={clearEditCategory}
+            clearAction={clearEditSubCategory}
           >
-            <CreateCategory dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowCategoryModal} />
+            <CreateSubCategory dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowSubCategoryModal} />
           </Modal>
         </Suspense>
       )}
@@ -97,4 +97,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default SubCategory;

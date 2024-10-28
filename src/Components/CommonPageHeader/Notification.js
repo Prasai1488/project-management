@@ -60,7 +60,7 @@ const Notification = ({ setPostsPerPage }) => {
                           id: notification?._id,
                         })
                       );
-                      dispatch(getAllNotifications());
+                      // dispatch(getAllNotifications());
                     }}
                   >
                     <img src={notification?.user?.photo || avatarImg} alt="notifier-logo" />
@@ -90,7 +90,7 @@ const Notification = ({ setPostsPerPage }) => {
             <button
               onClick={() => {
                 dispatch(markAllNotificationRead());
-                dispatch(getAllNotifications());
+                // dispatch(getAllNotifications());
               }}
               className="btn "
               style={{

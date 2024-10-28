@@ -57,3 +57,8 @@ export const checkRedundantData = (e, cancelToken) =>
 
 // Deleting the image
 export const deletePhoto = (id, body) => axiosInstance.patch(`${ProductModURL}/${id}`, body);
+
+
+
+
+

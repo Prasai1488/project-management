@@ -1,43 +1,44 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
-import { getNextCategory, getAllCategories } from "../Redux/thunk";
-import { categoriesEditSuccess } from "../Redux/categorySlice";
+import { getNextSubCategory, getAllSubCategories, getSpecificSubCategory } from "../Redux/thunk";
+import { subCategoriesEditSuccess } from "../Redux/subcategoriesSlice";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
+import { getSpecificCategory } from "../../Category/Redux/thunk";
 
-const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page }) => {
+const SubCategoryListing = ({ setShowSubCategoryModal, PostsPerPage, page }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
-  // Redux selectors to get state
-  const next = useSelector((state) => state?.category?.next);
-  const loadingNext = useSelector((state) => state?.category?.loadingNext);
-  const categories = useSelector((state) => state?.category?.categories || []);
-  const [postsPerPage, setPostsPerPage] = useState(20);
 
-  // Fetch all categories on component mount
+  // Redux selectors to get state
+  const next = useSelector((state) => state?.subCategory?.next);
+  const loadingNext = useSelector((state) => state?.subCategory?.loadingNext);
+  const subCategories = useSelector((state) => state?.subCategory?.subCategories || []);
+
+  // Fetch all subcategories on component mount
   useEffect(() => {
-    dispatch(getAllCategories({ postsPerPage, offset }));
-  }, [dispatch, postsPerPage, offset]);
+    dispatch(getAllSubCategories({ PostsPerPage, page }));
+  }, [dispatch]);
 
   // Infinite Scroll logic
   const { handleScroll } = useInfinteScroll({
     loadingNext,
     next,
-    getNext: getNextCategory,
-    postsPerPage,
-    setPage,
+    getNext: getNextSubCategory,
+    PostsPerPage,
+    page,
   });
 
   // Handle edit button click
-  const handleEdit = (category) => {
-    dispatch(categoriesEditSuccess(category));
-    setShowCategoryModal(true);
+  const handleEdit = async (subCategory) => {
+    dispatch(getSpecificSubCategory(subCategory));
+    await setShowSubCategoryModal(true);
   };
 
   return (
     <>
-      {categories?.length > 0 ? (
+      {subCategories.length > 0 ? (
         <div className="row">
           <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}>
             <table className="listing-table">
@@ -50,8 +51,8 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page }) => {
                 </tr>
               </thead>
               <tbody>
-                {categories.map((category, index) => {
-                  const { id, name, status } = category;
+                {subCategories.map((subCategory, index) => {
+                  const { id, name, status } = subCategory;
                   return (
                     <tr key={id} style={{ cursor: "pointer" }}>
                       <td>{index + 1}</td>
@@ -60,7 +61,7 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page }) => {
                         <span className={`status ${status?.toLowerCase() || "unknown"}`}>{status || "N/A"}</span>
                       </td>
                       <td>
-                        <DetailActionButton type="edit" onClick={() => handleEdit(category)} />
+                        <DetailActionButton type="edit" onClick={() => handleEdit(id)} />
                       </td>
                     </tr>
                   );
@@ -84,4 +85,4 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page }) => {
   );
 };
 
-export default CategoryListing;
+export default SubCategoryListing;
