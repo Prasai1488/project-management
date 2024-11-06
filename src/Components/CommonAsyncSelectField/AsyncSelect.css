@@ -1,5 +1,5 @@
-.common-async-select-wrapper .form-label {
-  /* ; */
+ .common-async-select-wrapper .form-label {
+
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -20,4 +20,9 @@
 
 .common-async-select-wrapper .async-select-field.required-field {
   border: 1px solid #bf202f;
-}
+} 
+
+
+
+
+

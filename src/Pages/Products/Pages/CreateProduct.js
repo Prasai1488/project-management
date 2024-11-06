@@ -192,3 +192,13 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
 };
 
 export default CreateProduct;
+
+
+
+
+
+
+
+
+
+

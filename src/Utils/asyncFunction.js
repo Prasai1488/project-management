@@ -21,6 +21,42 @@ export const loadOptionsCategory = async (search, loadOptions) => {
   };
 };
 
+// export const loadOptionsCategory = async (inputValue, { limit = 10, offset = 1 }) => {
+//   try {
+//     // Make a request to the API with search, limit, and offset parameters
+//     const response = await axiosInstance.get(`api/v1/product/category/`, {
+//       params: {
+//         search: inputValue || "",
+//         limit: limit,
+//         offset: offset,
+//       },
+//     });
+
+//     // Extract categories and pagination details from the API response
+//     const { data: categories, pagination } = response.data;
+
+//     return {
+//       options: categories.map((category) => ({
+//         value: category.id,
+//         label: category.name,
+//       })),
+//       hasMore: pagination.currentPage < pagination.totalPages,
+//       additional: {
+//         offset: offset + limit,
+//       },
+//     };
+//   } catch (error) {
+//     console.error("Error loading category options:", error);
+//     return {
+//       options: [],
+//       hasMore: false,
+//       additional: {
+//         offset,
+//       },
+//     };
+//   }
+// };
+
 export const loadOptionsSubCategory = async (search, loadOptions) => {
   const data = await axiosInstance(`api/v1/product/sub-category/`);
 
