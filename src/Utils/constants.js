@@ -12,12 +12,28 @@ export const genders = [
 export const statusList = [
   {
     id: 1,
-    value: "PENDING",
+    value: "pending",
   },
-  { id: 2, value: "CREATED" },
+  { id: 2, value: "approved" },
   {
     id: 3,
-    value: "CANCELLED",
+    value: "packed",
+  },
+  {
+    id: 4,
+    value: "cancelled",
+  },
+  {
+    id: 5,
+    value: "dispatched",
+  },
+  {
+    id: 6,
+    value: "delivered",
+  },
+  {
+    id: 7,
+    value: "self_picked",
   },
 ];
 

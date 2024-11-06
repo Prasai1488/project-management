@@ -1,33 +1,59 @@
+
 import axiosInstance from "../../../Utils/axios";
 
-const RANGER_URL = "api/v1/product";
+const ProductModURL = "api/v1/product/";
 
-// Get all products
-export const getAllProducts = () => axiosInstance.get(`${RANGER_URL}/`);
+// Obtaining the paginated data
+export const getProduct = (postsPerPage, page) =>
+  axiosInstance.get(`${ProductModURL}?limit=${postsPerPage}&page=${page}`);
 
-// Get a specific product by ID
-export const getSpecificProduct = (id) => axiosInstance.get(`${RANGER_URL}/${id}/`);
+// Obtaining all data
+export const getAllProduct = () => axiosInstance.get(`${ProductModURL}`);
 
-// Get products with pagination and optional search
-export const getProducts = (postsPerPage, search = "") =>
-  axiosInstance.get(`${RANGER_URL}/?offset=0&limit=${postsPerPage}&orderby=id&search=${search}`);
+// Get current product
+export const getCurrentProduct = (decoded) => axiosInstance.get(`${ProductModURL}/${decoded.product_id}`);
 
-// Create a new product
-export const createProduct = (body) => axiosInstance.post(`${RANGER_URL}/`, body);
+// Obtaining the previous page data from paginated data
+export const getPrevious = (previous) => axiosInstance.get(previous);
 
-// Update an existing product
-export const updateProduct = (id, body) => axiosInstance.patch(`${RANGER_URL}/${id}/`, body);
+// Obtaining the next page data from paginated data
+export const getNext = (next) => axiosInstance.get(next);
 
-// Get the previous page of products
-export const getPreviousProductPage = (previous) => axiosInstance.get(previous);
+// Obtaining the particular page data from paginated data
+export const getPageProduct = (number, postsPerPage) =>
+  axiosInstance.get(`${ProductModURL}?offset=${(number - 1) * postsPerPage}&limit=${postsPerPage}`);
 
-// Get the next page of products
-export const getNextProductPage = (next) => axiosInstance.get(next);
+// Creating function
+export const createProduct = (formData) => {
+  return axiosInstance.post("api/v1/product/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
 
-// Get paginated products
-export const getPageProducts = (number, postsPerPage) =>
-  axiosInstance.get(`${RANGER_URL}/?offset=${(number - 1) * postsPerPage}&limit=${postsPerPage}&ordering=-id`);
+// Deleting function
+export const deleteProduct = (id) => axiosInstance.delete(`${ProductModURL}/${id}`);
 
-// Search products with pagination
-export const handleProductSearch = (search, postsPerPage) =>
-  axiosInstance.get(`${RANGER_URL}/?offset=0&limit=${postsPerPage}&search=${search}`);
+// Update function
+export const updateProduct = (id, formData) => {
+  return axiosInstance.patch(`api/v1/product/${id}/`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+// Get specific user
+export const getSpecificProduct = (id) => axiosInstance.get(`auth/user/${id}`);
+
+// **Adjusted** Searching function
+export const handleSearch = (searchTerm, postsPerPage, page) =>
+  axiosInstance.get(`${ProductModURL}?search=${encodeURIComponent(searchTerm)}&limit=${postsPerPage}&page=${page}`);
+// Checking redundant data
+export const checkRedundantData = (e, cancelToken) =>
+  axiosInstance.get(`${ModURL}?user_name=${e.target.value.trim()}`, {
+    cancelToken: cancelToken.token,
+  });
+
+// Deleting the image
+export const deletePhoto = (id, body) => axiosInstance.patch(`${ProductModURL}/${id}`, body);

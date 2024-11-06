@@ -47,14 +47,15 @@ const Modal = ({
   };
 
   const handleMouseMove = (e) => {
-    if (isDragging) {
+    if (isDragging && ref.current) {
       e.preventDefault();
       const modal = ref.current;
-      modal.style.left = e.clientX - offset.x + "px";
-      modal.style.top = e.clientY - offset.y + "px";
+      if (modal) { // Ensure modal is not null before accessing style
+        modal.style.left = e.clientX - offset.x + "px";
+        modal.style.top = e.clientY - offset.y + "px";
+      }
     }
   };
-
   const handleMouseUp = () => {
     setIsDragging(false);
   };
@@ -87,7 +88,7 @@ const Modal = ({
         tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
+        // aria-hidden="true"
         id={id}
       >
         <div className={`modal-dialog modal-dialog-centered ${size ? size : ""}`} style={{ maxWidth: customSize }}>
@@ -116,3 +117,5 @@ const Modal = ({
 };
 
 export default Modal;
+
+

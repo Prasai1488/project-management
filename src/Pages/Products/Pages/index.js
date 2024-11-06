@@ -1,55 +1,56 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CommonCreateButton from "../../../Components/CommonCreateButton/CommonCreateButton";
+import { clearEditProduct } from "../Redux/ProductSlice";
+import { getProduct, handleSearch } from "../Redux/thunk";
+import useDebounce from "../../../Utils/Hooks/useDebounce";
 import CommonPageHeader from "../../../Components/CommonPageHeader/CommonPageHeader";
 import ListingSkeleton from "../../../Components/Skeleton/ListingSkeleton";
-import useDebounce from "../../../Utils/Hooks/useDebounce";
-import { clearAllProduct, clearEditProduct } from "../Redux/ProductSlice";
-import { getAllProducts, handleSearch } from "../Redux/thunk";
 import ProductListing from "./ProductListing";
 import CreateProduct from "./CreateProduct";
 import "./product.css";
+import CommonCreateButton from "../../../Components/CommonCreateButton/CommonCreateButton";
+import { setShowModal } from "../../../Redux/Layout/layoutSlice";
 
 const Modal = lazy(() => import("../../../Components/Modal/Modal"));
 
-const title = "Products";
-const types = "Products";
+const title = "Product";
+const types = "product";
 
-const Products = () => {
+const Product = () => {
   const dispatch = useDispatch();
-  const { permissions, isSuperuser } = useSelector((state) => state.auth);
   const loadingProduct = useSelector((state) => state.product.loadingProduct);
+
+  // const { permissions, isSuperuser, users } = useSelector((state) => state.auth);
   const products = useSelector((state) => state.product.products);
   const count = useSelector((state) => state.product.count);
   const edit = useSelector((state) => state.product.edit);
+  const { showModal } = useSelector((state) => state.layout);
   const [showProductModal, setShowProductModal] = useState(false);
-
-  const handleCloseModal = () => {
-    setShowProductModal(false);
-  };
-
-  const [status, setStatus] = useState([]);
-  const [priority, setPriroity] = useState([]);
-  const [level, setLevel] = useState([]);
-
   const [search, setSearch] = useState("");
-  const [postsPerPage, setPostsPerPage] = useState(20);
   const [page, setPage] = useState(1);
-
-  const [showFilter, setShowFilter] = useState(false);
+  const [postsPerPage, setPostsPerPage] = useState(20);
   const debouncedSearch = useDebounce(search, 500);
 
-  // useEffect(() => {
-  //   if (search === "") {
-  //     dispatch(
-  //       getAllProducts({ postsPerPage, page, status: status?.value, priroity: priority?.value, level: level?.value })
-  //     );
-  //   } else {
-  //     dispatch(handleSearch({ search, postsPerPage }));
-  //   }
-  // }, [postsPerPage, debouncedSearch, page, status, priority, level]);
+  // Handle modal close
+  const handleCloseModal = () => {
+    setShowProductModal(false);
+    dispatch(clearEditProduct()); // Clear edit state when modal is closed
+  };
 
-  const createPermission = isSuperuser || permissions?.includes("") || true;
+  // Handle create button click
+  const handleCreateClick = () => {
+    dispatch(clearEditProduct()); // Clear edit state before opening create modal
+    setShowProductModal(true);
+  };
+
+  useEffect(() => {
+    if (debouncedSearch === "") {
+      dispatch(getProduct({ postsPerPage, page }));
+    } else {
+      dispatch(handleSearch({ search: debouncedSearch, postsPerPage, page }));
+    }
+    // eslint-disable-next-line
+  }, [postsPerPage, debouncedSearch, page, dispatch]);
 
   return (
     <>
@@ -57,56 +58,42 @@ const Products = () => {
         <CommonPageHeader
           title={title}
           dispatch={dispatch}
+          showModal={showModal}
           search={search}
           setSearch={setSearch}
           loading={loadingProduct}
-          data={Products}
+          data={products}
           count={count}
-          types={types}
-          setStatus={setStatus}
-          // status={status}
-          // setPriroity={setPriroity}
-          // priority={priority}
-          // setLevel={setLevel}
-          // level={level}
         />
 
-        {/* {loadingProduct && <ListingSkeleton />}
-        {!loadingProduct && ( */}
-        <ProductListing
-          dispatch={dispatch}
-          setShowProductModal={setShowProductModal}
-          setPostsPerPage={setPostsPerPage}
-          setPage={setPage}
-          postsPerPage={postsPerPage}
-          page={page}
-        />
-        {/* )} */}
-      </div>
-      <CommonCreateButton
-        types={types}
-        title={title}
-        showModal={showProductModal}
-        setShowModal={setShowProductModal}
-        createPermission={createPermission}
-      />
-      {/* {showProductModal && */}(
-      <Suspense fallback={<div></div>}>
-        <Modal
-          showModal={showProductModal}
-          setShowModal={setShowProductModal}
-          header={edit ? "Update Product" : "Add Product"}
+        {loadingProduct && <ListingSkeleton />}
+        {!loadingProduct && <ProductListing dispatch={dispatch} setShowProductModal={setShowProductModal} />}
+
+        <CommonCreateButton
           types={types}
-          edit={edit}
-          size={"modal-md"}
-          clearAction={clearEditProduct}
-        >
-          <CreateProduct dispatch={dispatch} postsPerPage={postsPerPage} handleClose={handleCloseModal} />
-        </Modal>
-      </Suspense>
-      )
+          showModal={showProductModal}
+          setShowModal={handleCreateClick}
+          createPermission={true}
+        />
+      </div>
+      {showProductModal && (
+        <Suspense fallback={<div></div>}>
+          <Modal
+            dispatch={setShowModal}
+            showModal={showProductModal}
+            setShowModal={handleCloseModal}
+            header={edit ? "Update Product" : "Product Details"}
+            types={types}
+            edit={edit}
+            size={"modal-md"}
+            clearAction={clearEditProduct}
+          >
+            <CreateProduct dispatch={dispatch} setShowModal={handleCloseModal} postsPerPage={postsPerPage} />
+          </Modal>
+        </Suspense>
+      )}
     </>
   );
 };
 
-export default Products;
+export default Product;

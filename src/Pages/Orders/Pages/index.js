@@ -27,19 +27,31 @@ const Orders = () => {
 
   const [showFilter, setShowFilter] = useState(false);
   const debouncedSearch = useDebounce(search, 500);
-
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [status, setStatus] = useState(null);
   useEffect(() => {
     if (search === "") {
-      dispatch(
-        getAllOrders({
-          postsPerPage,
-          page,
-        })
-      );
+      let value = {
+        postsPerPage,
+        page,
+        startDate,
+        endDate,
+        status: status === null ? "" : status?.value,
+      };
+      dispatch(getAllOrders(value));
     } else {
-      dispatch(handleSearch({ search, postsPerPage }));
+      let value = {
+        search: debouncedSearch,
+        postsPerPage,
+        startDate,
+        endDate,
+        status,
+      };
+
+      dispatch(handleSearch(value));
     }
-  }, [postsPerPage, debouncedSearch, page]);
+  }, [dispatch, postsPerPage, debouncedSearch, page, startDate, endDate, status]);
 
   return (
     <>
@@ -53,6 +65,12 @@ const Orders = () => {
           data={orders}
           count={count}
           types={types}
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+          status={status}
+          setStatus={setStatus}
         />
 
         {loadingOrder && <ListingSkeleton />}

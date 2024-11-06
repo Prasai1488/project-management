@@ -130,34 +130,30 @@ export const createUser = createAsyncThunk("user/createUser", async (data, { rej
 });
 
 // update user
-export const updateUser = createAsyncThunk(
-  "user/updateUser",
-  async (data, { rejectWithValue }) => {
-    const { id, values } = data;
-    const { fullName, email, phone, userType } = values;
+export const updateUser = createAsyncThunk("user/updateUser", async (data, { rejectWithValue }) => {
+  const { id, values } = data;
+  const { fullName, email, phone, userType } = values;
 
-    try {
-      const userData = {
-        email,
-        fullName,
-        userType,
-        phone,
-      };
+  try {
+    const userData = {
+      email,
+      full_name: fullName,
+      user_type: userType,
+      phone,
+    };
 
-      const response = await API.updateUser(id, userData);
-      return response.data;
-    } catch (error) {
-      console.error("Error updating user:", error);
-      if (error.response) {
-        console.error("Server response:", error.response.data);
-      }
-      return rejectWithValue(
-        error?.response?.data?.errors?.[0]?.error || error.message || "An error occurred while updating the user."
-      );
+    const response = await API.updateUser(id, userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    if (error.response) {
+      console.error("Server response:", error.response.data);
     }
+    return rejectWithValue(
+      error?.response?.data?.errors?.[0]?.error || error.message || "An error occurred while updating the user."
+    );
   }
-);
-
+});
 
 // get specific user
 export const getSpecificUser = createAsyncThunk("user/getSpecificUser", async (id, { rejectWithValue, dispatch }) => {

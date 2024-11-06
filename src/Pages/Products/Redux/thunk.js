@@ -1,105 +1,215 @@
+// import * as API from "./api";
+
+// // get paginated products
+// export const getProducts = createAsyncThunk("products/getProducts", async ({ page = 1 }, { rejectWithValue }) => {
+//   try {
+//     const { products, pagination } = await API.getPaginatedProducts(page);
+
+//     // Return the products and pagination information
+//     return { products, pagination };
+//   } catch (error) {
+//     return rejectWithValue(error?.response?.data?.errors?.[0]?.error || "Something went wrong"); // Added fallback error message
+//   }
+// });
+
+// // create product
+// export const createProduct = createAsyncThunk("products/createProduct", async (productData, { rejectWithValue }) => {
+//   try {
+//     const { data } = await API.createProduct(productData); // Use the API.createProduct function from api.js
+//     return data; // Return the newly created product data
+//   } catch (error) {
+//     // Handle error by returning a detailed error message or a fallback error message
+//     return rejectWithValue(error?.response?.data?.errors || "Something went wrong");
+//   }
+// });
+
+// // update product
+// export const updateProduct = createAsyncThunk(
+//   "products/updateProduct", // Unique action type
+//   async ({ productId, productData }, { rejectWithValue }) => {
+//     try {
+//       const { data } = await API.updateProduct(productId, productData); // Call the API's updateProduct function
+//       return data; // Return the updated product data
+//     } catch (error) {
+//       // Handle error by returning a detailed error message or a fallback error message
+//       return rejectWithValue(error?.response?.data?.errors || "Something went wrong");
+//     }
+//   }
+// );
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import jwt_decode from "jwt-decode";
 import * as API from "./api";
 
-// Get products with pagination
-export const getProducts = createAsyncThunk("product/getProducts", async (postsPerPage, { rejectWithValue }) => {
-  try {
-    const { data } = await API.getProducts(postsPerPage);
-    return data;
-  } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
-  }
-});
-
-// Get a specific product by ID
-export const getSpecificProduct = createAsyncThunk("product/getSpecificProduct", async (id, { rejectWithValue }) => {
-  try {
-    const { data } = await API.getSpecificProduct(id);
-    return data;
-  } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
-  }
-});
-
-// Get all products with filters
-export const getAllProducts = createAsyncThunk(
-  "product/getAllProducts",
-  async ({ postsPerPage, offset, search, order_by, createdAt }, { rejectWithValue }) => {
+// get product
+export const getProduct = createAsyncThunk(
+  "product/getProduct",
+  async ({ postsPerPage, page }, { rejectWithValue }) => {
     try {
-      const { data } = await API.getAllProducts(postsPerPage, offset, search, order_by, createdAt);
-      return data;
+      const response = await API.getProduct(postsPerPage, page);
+      const data = response.data;
+      const productsArray = data.data || [];
+      return {
+        results: productsArray,
+        count: data.pagination.count,
+        currentPage: data.pagination.currentPage,
+        totalPages: data.pagination.totalPages,
+        next: data.pagination.next,
+        previous: data.pagination.previous,
+      };
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
+      return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching products.");
     }
   }
 );
 
-// Get the previous page of products
-export const getPreviousProductPage = createAsyncThunk(
-  "product/getPreviousProductPage",
-  async (previous, { rejectWithValue }) => {
-    try {
-      const { data } = await API.getPreviousProductPage(previous);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
-    }
-  }
-);
-
-// Get the next page of products
-export const getNextProductPage = createAsyncThunk("product/getNextProductPage", async (next, { rejectWithValue }) => {
+// get all products
+export const getAllProduct = createAsyncThunk("product/getAllProduct", async (_, { rejectWithValue }) => {
   try {
-    const { data } = await API.getNextProductPage(next);
+    const response = await API.getAllProduct();
+    const data = response.data;
+
+    const productsArray = data.data || [];
+    const filteredData = productsArray;
+
+    return {
+      results: filteredData,
+      count: data.pagination.count,
+      next: data.pagination.next,
+      previous: data.pagination.previous,
+    };
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching all products.");
+  }
+});
+
+// get previous
+export const getPrevious = createAsyncThunk("product/getPrevious", async (previous, { rejectWithValue }) => {
+  try {
+    const { data } = await API.getPrevious(previous);
+    const filteredData = data.results.filter((user) => user.isSuperuser === false);
+    return { ...data, results: filteredData, count: filteredData?.length };
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+  }
+});
+// get next
+export const getNext = createAsyncThunk("product/getNext", async ({ postsPerPage, page }, { rejectWithValue }) => {
+  try {
+    const response = await API.getProduct(postsPerPage, page);
+    const data = response.data;
+    const productsArray = data.data || [];
+    return {
+      results: productsArray,
+      count: data.pagination.count,
+      next: data.pagination.next,
+      previous: data.pagination.previous,
+    };
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching next products.");
+  }
+});
+
+// get particular page
+export const getPageProduct = createAsyncThunk("product/getPageProduct", async (data, { rejectWithValue }) => {
+  const { number, postsPerPage } = data;
+  try {
+    const { data } = await API.getPageProduct(number, postsPerPage);
+    const filteredData = data.results.filter((user) => user.isSuperuser === false);
+    return { ...data, results: filteredData, count: filteredData?.length };
+  } catch (error) {
+    rejectWithValue(error?.response?.data?.errors[0]?.error);
+  }
+});
+
+// get current product
+export const getCurrentProduct = createAsyncThunk("product/getCurrentProduct", async (token, { rejectWithValue }) => {
+  try {
+    const decoded = token && jwt_decode(token);
+    const { data } = await API.getCurrentProduct(decoded);
     return data;
   } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
 });
 
-// Get a specific page of products with pagination
-export const getPageProducts = createAsyncThunk(
-  "product/getPageProducts",
-  async ({ number, postsPerPage }, { rejectWithValue }) => {
+// create product
+export const createProduct = createAsyncThunk("product/createProduct", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await API.createProduct(formData);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error?.response?.data || "An error occurred while creating the product.");
+  }
+});
+
+// update product
+
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  async ({ id, formData }, { rejectWithValue }) => {
     try {
-      const { data } = await API.getPageProducts(number, postsPerPage);
-      return data;
+      const response = await API.updateProduct(id, formData);
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
+      return rejectWithValue(error?.response?.data || "An error occurred while updating the product.");
     }
   }
 );
 
-// Create a new product
-export const createProduct = createAsyncThunk("product/createProduct", async (data, { rejectWithValue }) => {
-  try {
-    const { data: responseData } = await API.createProduct(data);
-    return responseData;
-  } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
+// get specific product
+export const getSpecificProduct = createAsyncThunk(
+  "product/getSpecificProduct",
+  async (id, { rejectWithValue, dispatch }) => {
+    try {
+      const { data } = await API.getSpecificProduct(id);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    }
   }
-});
+);
 
-// Update an existing product
-export const updateProduct = createAsyncThunk("product/updateProduct", async ({ id, values }, { rejectWithValue }) => {
+// delete product
+export const deleteProduct = createAsyncThunk("product/deleteProduct", async (id, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await API.updateProduct(id, values);
+    const { data } = await API.deleteProduct(id);
+    dispatch(getProduct(10));
     return data;
   } catch (error) {
-    const errorMessage = error?.response?.data?.errors?.[0]?.error || error.message || "Something went wrong";
-    return rejectWithValue(errorMessage);
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
 });
 
-// Search products with pagination
-export const handleProductSearch = createAsyncThunk(
-  "product/handleProductSearch",
-  async ({ search, postsPerPage }, { rejectWithValue }) => {
+// handle search
+export const handleSearch = createAsyncThunk(
+  "product/handleSearch",
+  async ({ search, postsPerPage, page }, { rejectWithValue }) => {
     try {
-      const { data } = await API.handleProductSearch(search, postsPerPage);
-      return data;
+      const response = await API.handleSearch(search, postsPerPage, page);
+      const data = response.data;
+
+      const productsArray = data.data || [];
+      return {
+        results: productsArray,
+        count: data.pagination.count,
+        currentPage: data.pagination.currentPage,
+        totalPages: data.pagination.totalPages,
+        next: data.pagination.next,
+        previous: data.pagination.previous,
+      };
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
+      return rejectWithValue(error?.response?.data?.message || "An error occurred while searching products.");
     }
   }
 );
+// delete photo
+export const deletePhoto = createAsyncThunk("product/deletePhoto", async (id, { rejectWithValue }) => {
+  try {
+    const body = JSON.stringify({ photo: "" });
+    const { data } = await API.deletePhoto(id, body);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+  }
+});

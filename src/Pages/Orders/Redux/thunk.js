@@ -3,12 +3,24 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as API from "./api";
 
 // get orders
-export const getOrders = createAsyncThunk("orders/getOrders", async (postsPerPage, { rejectWithValue }) => {
+export const getOrders = createAsyncThunk("orders/getOrders", async (value, { rejectWithValue }) => {
+  console.log(value, "value");
+  const { postsPerPage, startDate, endDate } = value;
   try {
-    const { data } = await API.getOrders(postsPerPage);
+    const data = await API.getOrders(postsPerPage, startDate, endDate);
     return data;
   } catch (error) {
     return rejectWithValue(error?.response?.data?.errors[0]?.error);
+  }
+});
+export const handleSearch = createAsyncThunk("orders/handleSearch", async (value, { rejectWithValue }) => {
+  const { search, postsPerPage, startDate, endDate } = value;
+
+  try {
+    const data = await API.handleSearch(search, postsPerPage, startDate, endDate);
+    return data;
+  } catch (error) {
+    rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
 });
 // get SpecificOrders
@@ -32,13 +44,14 @@ export const getSpecificOrders = createAsyncThunk("orders/getSpecificOrders", as
 });
 
 // get all orders
-export const getAllOrders = createAsyncThunk("orders/getAllOrders", async ({ rejectWithValue }) => {
+export const getAllOrders = createAsyncThunk("orders/getAllOrders", async (value, { rejectWithValue }) => {
+  const { postsPerPage, startDate, endDate, status } = value;
+  console.log(status, "status");
+
   try {
-    const { data } = await API.getAllOrders();
-    console.log("Fetched orders data:", data);
+    const { data } = await API.getAllOrders(postsPerPage, startDate, endDate, status);
     return data;
   } catch (error) {
-    console.error("Error fetching orders:", error);
     return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
 });
@@ -95,16 +108,20 @@ export const updateOrders = createAsyncThunk("orders/updateOrders", async (data,
   }
 });
 
-// handle search
-export const handleSearch = createAsyncThunk("orders/handleSearch", async (data, { rejectWithValue }) => {
-  const { search, postsPerPage } = data;
-  try {
-    const { data } = await API.handleSearch(search, postsPerPage);
-    return data;
-  } catch (error) {
-    rejectWithValue(error?.response?.data?.errors[0]?.error);
+export const updateOrderByStatus = createAsyncThunk(
+  "orders/updateOrderByStatus",
+  async (values, { rejectWithValue }) => {
+    const { orderno, status } = values;
+    try {
+      const body = JSON.stringify({ status: status });
+
+      const { data } = await API.updateOrderByStatus(orderno, body);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.errors[0]?.error);
+    }
   }
-});
+);
 
 export const getStatus = createAsyncThunk("orders/getStatus", async (status, { rejectWithValue }) => {
   try {

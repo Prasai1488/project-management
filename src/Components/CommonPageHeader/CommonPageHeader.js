@@ -60,10 +60,10 @@ const CommonPageHeader = ({
   const [postsPerPage, setPostsPerPage] = useState(20);
   const parent = useRef(null);
   const notificationAnimate = useRef(null);
-  const statusFilter = ["Tickets"];
+  const statusFilter = ["Orders"];
   const priroityFilter = ["Tickets"];
   const levelFilter = ["Tickets"];
-  const dateFilter = ["lead", "inspection", "Sales"];
+  const dateFilter = ["lead", "inspection", "Sales", "Orders"];
   const itemFilter = ["Questionnaires"];
   const itemtypeFilter = ["Items"];
   const priceFilter = ["Items"];
@@ -260,7 +260,7 @@ const CommonPageHeader = ({
                   aria-label="Search"
                   aria-describedby="basic-addon1"
                 />
-                <div ref={parent}>
+                <div>
                   {showFilter && (
                     <div
                       className={" "}
@@ -422,6 +422,7 @@ const CommonPageHeader = ({
                               endDate={endDate}
                               selectsRange
                               isClearable={true}
+                       
                             />
                           </div>
                         )}

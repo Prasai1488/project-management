@@ -1,131 +1,184 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import {
-  createProduct as apiCreateProduct,
-  updateProduct as apiUpdateProduct,
-  getProducts,
-  getAllProducts,
-  getNextProductPage,
-  handleProductSearch,
+  createProduct,
+  deletePhoto,
+  deleteProduct,
+  getCurrentProduct,
+  getNext,
   getSpecificProduct,
+  getProduct,
+  handleSearch,
+  updateProduct,
 } from "./thunk";
 
 const initialState = {
-  products: [], 
-  product: null, 
+  products: [],
   edit: false,
+  product: null,
+  productInfo: null,
   count: null,
+  currentPage: 1,
+  totalPages: 1,
   next: null,
   previous: null,
   loading: false,
-  loadingUpdated: false,
+  loadingCurrent: false,
   loadingProduct: false,
+  loadingUpdated: false,
+  loadingSpecific: true,
   loadingNext: false,
 };
 
-export const products = createSlice({
+export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    productsEditSuccess: (state, action) => {
-      // state.product = action.payload;
+    productEditSuccess: (state, action) => {
       state.edit = true;
-    },
-    clearAllProduct: (state) => {
-      Object.assign(state, initialState);
+      state.product = action.payload;
+      state.loading = false;
+      state.loadingUpdated = false;
     },
     clearEditProduct: (state) => {
       state.edit = false;
       state.product = null;
-    },
-    addProduct: (state, action) => {
-      state.products.push(action.payload);
-    },
-    updateProductState: (state, action) => {
-      const index = state.products.findIndex((product) => product.id === action.payload.id);
-      if (index !== -1) {
-        state.products[index] = { ...state.products[index], ...action.payload.updatedProduct };
-      }
-    },
-    deleteProduct: (state, action) => {
-      state.products = state.products.filter((product) => product.id !== action.payload);
+      state.loading = false;
+      state.loadingProduct = false;
+      state.loadingUpdated = false;
     },
   },
+
   extraReducers: (builder) => {
+    // First, handle all individual cases
     builder
-      // Create product
-      .addCase(apiCreateProduct.pending, (state) => {
-        state.loading = true;
+      // getNext cases
+      .addCase(getNext.pending, (state) => {
+        state.loadingNext = true;
       })
-      .addCase(apiCreateProduct.fulfilled, (state, action) => {
-        state.loading = false;
-        state.edit = false;
-        state.products.push(action.payload);
+      .addCase(getNext.fulfilled, (state, action) => {
+        state.loadingNext = false;
+        state.products = [...state.products, ...action.payload.results];
+        state.count = action.payload.count;
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
+        state.next = action.payload.next;
+        state.previous = action.payload.previous;
       })
-      .addCase(apiCreateProduct.rejected, (state) => {
-        state.loading = false;
+      .addCase(getNext.rejected, (state) => {
+        state.loadingNext = false;
       })
 
-      // Get specific product
+      // getCurrentProduct cases
+      .addCase(getCurrentProduct.pending, (state) => {
+        state.loadingCurrent = true;
+      })
+      .addCase(getCurrentProduct.fulfilled, (state, action) => {
+        state.loadingCurrent = false;
+        state.productInfo = action.payload.data;
+      })
+      .addCase(getCurrentProduct.rejected, (state) => {
+        state.loadingCurrent = false;
+      })
+
+      // updateProduct cases
+      .addCase(updateProduct.pending, (state) => {
+        state.loadingUpdated = true;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.loadingUpdated = false;
+        state.edit = false;
+
+        const updatedProduct = action.payload.data;
+        const index = state.products.findIndex((product) => product.id === updatedProduct.id);
+
+        if (index !== -1) {
+          state.products[index] = updatedProduct;
+        } else {
+          state.products = [updatedProduct, ...state.products];
+        }
+      })
+      .addCase(updateProduct.rejected, (state) => {
+        state.loadingUpdated = false;
+      })
+
+      // getSpecificProduct cases
       .addCase(getSpecificProduct.pending, (state) => {
-        state.loading = true;
+        state.loadingSpecific = true;
       })
       .addCase(getSpecificProduct.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loadingSpecific = false;
         state.product = action.payload.data;
       })
       .addCase(getSpecificProduct.rejected, (state) => {
-        state.loading = false;
+        state.loadingSpecific = false;
       })
 
-      // Update product
-      .addCase(apiUpdateProduct.pending, (state) => {
+      // deletePhoto cases
+      .addCase(deletePhoto.pending, (state) => {
         state.loadingUpdated = true;
-        console.log("Update product pending...");
       })
-      .addCase(apiUpdateProduct.fulfilled, (state, action) => {
+      .addCase(deletePhoto.fulfilled, (state, action) => {
         state.loadingUpdated = false;
+        state.product = action.payload;
+      })
+      .addCase(deletePhoto.rejected, (state) => {
+        state.loadingUpdated = false;
+      })
+
+      // createProduct cases
+      .addCase(createProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        state.loading = false;
         state.edit = false;
 
-        console.log("Update product fulfilled:", action.payload);
-        const index = state.products.findIndex((product) => product.id === action.payload.id);
-
-        console.log("Looking for product with ID:", action.payload.id);
-
-        if (index !== -1) {
-          console.log("Product found at index:", index);
-          state.products[index] = { ...state.products[index], ...action.payload };
-          console.log("Updated product:", state.products[index]);
+        const newProduct = action.payload.data;
+        if (newProduct) {
+          state.products = [newProduct, ...state.products];
         } else {
-          console.log("Product not found for ID:", action.payload.id);
+          console.error("New product data is invalid:", action.payload);
         }
       })
-      .addCase(apiUpdateProduct.rejected, (state, action) => {
-        state.loadingUpdated = false;
-        console.error("Update product failed:", action.error);
-      });
+      .addCase(createProduct.rejected, (state) => {
+        state.loading = false;
+        state.edit = false;
+      })
 
-    // Use addMatcher for handling multiple actions with similar logic
-    builder
-      .addMatcher(isAnyOf(getProducts.pending, handleProductSearch.pending), (state) => {
+      // deleteProduct cases
+      .addCase(deleteProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.edit = false;
+        const deletedProductId = action.meta.arg;
+        state.products = state.products.filter((product) => product.id !== deletedProductId);
+      })
+      .addCase(deleteProduct.rejected, (state) => {
+        state.loading = false;
+        state.edit = false;
+      })
+
+      // Then, add all matchers after all cases
+      .addMatcher(isAnyOf(getProduct.pending, handleSearch.pending), (state) => {
         state.loadingProduct = true;
       })
-      .addMatcher(
-        isAnyOf(getProducts.fulfilled, getAllProducts.fulfilled, handleProductSearch.fulfilled),
-        (state, action) => {
-          state.loadingProduct = false;
-          state.products = action.payload?.data || [];
-          state.count = action.payload?.totalCount || 0;
-          state.previous = action.payload?.previous || null;
-          state.next = action.payload?.next || null;
-        }
-      )
-      .addMatcher(isAnyOf(getProducts.rejected, getAllProducts.rejected, handleProductSearch.rejected), (state) => {
+      .addMatcher(isAnyOf(getProduct.fulfilled, handleSearch.fulfilled), (state, action) => {
+        state.loadingProduct = false;
+        state.products = action.payload.results;
+        state.count = action.payload.count;
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
+        state.previous = action.payload.previous;
+        state.next = action.payload.next;
+      })
+      .addMatcher(isAnyOf(getProduct.rejected, handleSearch.rejected), (state) => {
         state.loadingProduct = false;
       });
   },
 });
 
-export const { productsEditSuccess, clearAllProduct, clearEditProduct, addProduct, updateProductState, deleteProduct } =
-  products.actions;
+export const { productEditSuccess, clearEditProduct } = productSlice.actions;
 
-export default products.reducer;
+export default productSlice.reducer;

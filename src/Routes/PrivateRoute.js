@@ -68,7 +68,6 @@ const OtherActivities = lazyWithReload(() => import("../Pages/OtherActivities/Pa
 
 const PrivateRoute = () => {
   const { isSetupDone } = useSelector((state) => state.auth);
-  console.log("dfghjk", isSetupDone);
 
   const ErrorFallback = ({ error }) => {
     return (

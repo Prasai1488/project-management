@@ -6,7 +6,7 @@ import Button from "../../../Components/Buttons/Button";
 import Loader from "../../../Components/Loader";
 import Dropzone from "../../../Components/CommonDropzone/Dropzone";
 import Thumb from "../../../Components/Thumb"; // For image preview
-import { createCategory, updateCategory, getAllCategories } from "../Redux/thunk";
+import { createCategory, updateCategory, getAllCategories, getCategories } from "../Redux/thunk";
 import { errorFunction, successFunction } from "../../../Components/Alert/Alert";
 import { renderTextField } from "../../../Utils/customFields";
 
@@ -24,14 +24,12 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
   // Form initial state
   const initialState = {
     name: edit ? currentCategory?.name : "",
-    status: edit ? currentCategory?.status === "Active" : false,
     image: null,
   };
 
   // Validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required!"),
-    status: Yup.boolean(),
     image: Yup.mixed()
       .test("fileSize", "File must be less than 500kb", (value) => !value || value.size <= 500 * 1024)
       .nullable(),
@@ -41,7 +39,6 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
   const onSubmit = (values, { resetForm }) => {
     const formData = new FormData();
     formData.append("name", values.name);
-    formData.append("status", values.status ? "Active" : "Inactive");
     if (values.image) {
       formData.append("image", values.image); // Add image file to FormData
     }
@@ -52,7 +49,7 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
       .unwrap()
       .then(() => {
         successFunction(edit ? "Category updated successfully." : "Category created successfully.");
-        dispatch(getAllCategories(postsPerPage));
+        dispatch(getCategories({ postsPerPage }));
         setShowModal(false);
         resetForm();
         setImgPreview(null);
@@ -95,19 +92,6 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
                 />
               </div>
               <div className="form-group">{renderTextField(formik, 12, "name", "text", "Name", true)}</div>
-
-              <div className="d-flex justify-content-center align-items-center">
-                <input
-                  type="checkbox"
-                  id="status"
-                  name="status"
-                  onChange={formik.handleChange}
-                  checked={formik.values.status}
-                />
-                <label htmlFor="status" className="p-2 custom-margin">
-                  Active
-                </label>
-              </div>
             </div>
 
             <div className="d-flex justify-content-end align-items-center mt-3">

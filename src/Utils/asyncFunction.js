@@ -10,6 +10,16 @@ export const loadOptionsItem = async (search, loadOptions) => {
     },
   };
 };
+export const loadOptionsCategory = async (search, loadOptions) => {
+  const data = await axiosInstance(`api/v1/product/category/`);
+console.log(data.data.data,"dfdfdfdfdf")
+  return {
+    options: data?.data.data,
+    additional: {
+      limit: 10,
+    },
+  };
+};
 export const loadOptionsClient = async (search, loadOptions) => {
   const data = await axiosInstance(`api/v1/client-app/client`);
 

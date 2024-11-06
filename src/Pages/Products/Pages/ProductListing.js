@@ -1,51 +1,33 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
+import ColumnResize from "react-table-column-resizer";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
-import { getNextProductPage, getAllProducts, getSpecificProduct } from "../Redux/thunk"; // Assuming you have thunks for products
-import { clearEditProduct, productsEditSuccess } from "../Redux/ProductSlice";
-import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
-
-const ProductListing = ({ setShowProductModal, setPage }) => {
-  const dispatch = useDispatch();
+import { getNext } from "../Redux/thunk";
+import { productEditSuccess } from "../Redux/ProductSlice";
+const ProductListing = ({ dispatch, setShowProductModal, postsPerPage }) => {
+  const [page, setPage] = useState(1);
   const listRef = useRef(null);
-
-  // Redux selectors to get state
   const next = useSelector((state) => state?.product?.next);
   const loadingNext = useSelector((state) => state?.product?.loadingNext);
-  const products = useSelector((state) => state?.product?.products || []);
-  console.log(products, "this is products");
-
-  const [postsPerPage, setPostsPerPage] = useState(20);
-  const [offset, setOffset] = useState(1);
-  const [orderBy, setOrderBy] = useState("-id");
-
-  // Fetch all products on component mount
-  useEffect(() => {
-    dispatch(getAllProducts({ limit: postsPerPage, offset }));
-  }, [dispatch, postsPerPage, offset]);
-
-  // Infinite Scroll logic
-  const { handleScroll } = useInfinteScroll({
-    loadingNext,
-    next,
-    getNext: getNextProductPage,
-    setPostsPerPage,
-    setPage,
-  });
-
-  // Handle edit button click
-  // const handleEdit = async (product) => {
-  //   dispatch(productsEditSuccess(product));
-  //   await setShowProductModal(true);
-  // };
-
-  const handleEdit = async (product) => {
-    dispatch(productsEditSuccess());
-    dispatch(getSpecificProduct(product));
-    await setShowProductModal(true);
+  const products = useSelector((state) => state?.product?.products);
+  console.log(next, loadingNext);
+  const scrollToEnd = () => {
+    setPage((prevPage) => prevPage + 1);
+    dispatch(getNext({ postsPerPage, page: page + 1 }));
   };
-
+  const handleScroll = (event) => {
+    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight === event.currentTarget.scrollHeight) {
+      // if (!loadingNext && next !== null) {
+      //   scrollToEnd(next);
+      // }
+      scrollToEnd(next);
+    }
+  };
+  const handleEdit = async (product) => {
+    dispatch(productEditSuccess(product));
+    setShowProductModal(true);
+  };
   return (
     <>
       {products?.length > 0 ? (
@@ -54,35 +36,49 @@ const ProductListing = ({ setShowProductModal, setPage }) => {
             <table className="listing-table">
               <thead>
                 <tr>
-                  <th>S.N</th>
-                  <th>NAME</th>
-                  <th>CATEGORY</th>
-                  <th>PRICE</th>
-                  <th>STATUS</th>
+                  <th>SN</th>
+                  <ColumnResize id={1} className="columnResizer" />
+                  <th>Image</th>
+                  <ColumnResize id={2} className="columnResizer" minWidth={120} />
+                  <th>Code</th>
+                  <ColumnResize id={3} className="columnResizer" minWidth={120} />
+                  <th>Name</th>
+                  <ColumnResize id={4} className="columnResizer" minWidth={120} />
+                  <th>Category</th>
+                  <ColumnResize id={5} className="columnResizer" minWidth={120} />
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {products.map((product, index) => {
-                  const { id, name, category, price, status } = product;
+                {products?.map((product, i) => {
+                  const { id, name, code, category, image } = product;
+                  const categoryName = category?.name || "N/A";
                   return (
-                    <tr key={id} style={{ cursor: "pointer" }}>
-                      <td>{index + 1}</td>
-                      <td>{name || "N/A"}</td>
-                      <td>{category?.name || "N/A"}</td>
-                      <td>{price ? `$${price}` : "N/A"}</td>
+                    <tr key={id} onDoubleClick={() => handleEdit(product)} style={{ cursor: "pointer" }}>
+                      <td>{i + 1}</td>
+                      <td className="column_resizer_body" />
                       <td>
-                        <span className={`status ${status?.toLowerCase() || "unknown"}`}>{status || "N/A"}</span>
+                        {image ? (
+                          <img src={image} alt={name} style={{ objectFit: "contain", width: "50px", height: "50px" }} />
+                        ) : (
+                          "N/A"
+                        )}
                       </td>
+                      <td className="column_resizer_body" />
+                      <td>{code || "N/A"}</td>
+                      <td className="column_resizer_body" />
+                      <td>{name}</td>
+                      <td className="column_resizer_body" />
+                      <td>{categoryName}</td>
+                      <td className="column_resizer_body" />
                       <td>
-                        <DetailActionButton type="edit" onClick={() => handleEdit(id)} />
+                        <DetailActionButton type={"edit"} onClick={() => handleEdit(product)} />
                       </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
-
             {loadingNext && (
               <div className="w-100 d-flex justify-content-center align-items-center py-4">
                 <div className="spinner-border text-danger" role="status">
@@ -98,5 +94,4 @@ const ProductListing = ({ setShowProductModal, setPage }) => {
     </>
   );
 };
-
 export default ProductListing;

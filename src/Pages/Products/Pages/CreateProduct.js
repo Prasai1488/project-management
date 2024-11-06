@@ -1,194 +1,188 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "../../../Components/Buttons/Button";
-import Dropzone from "../../../Components/CommonDropzone/Dropzone";
-import Thumb from "../../../Components/Thumb";
-import AsyncSelect from "../../../Components/CommonAsyncSelectField/AsyncSelect";
-import { loadCategoryOptions } from "../../../Utils/asyncFunction";
-import TextField from "../../../Components/TextField/TextField";
-import { createProduct, updateProduct, getAllProducts } from "../Redux/thunk";
-import Loader from "../../../Components/Loader";
 import { errorFunction, successFunction } from "../../../Components/Alert/Alert";
-import "./product.css";
+import CreateAlert from "../../../Components/Alert/CreateAlert";
+import Button from "../../../Components/Buttons/Button";
+import Loader from "../../../Components/Loader";
+import { createProduct, updateProduct, getProduct } from "../Redux/thunk";
+import { renderTextField } from "../../../Utils/customFields";
+import Dropzone from "../../../Components/CommonDropzone/Dropzone";
+import { renderAsyncSelectField } from "../../../Utils/customFields";
 
-const CreateProduct = ({ setShowModal, postsPerPage = 10 }) => {
-  const dispatch = useDispatch();
-  const [img, setImg] = useState(null);
-  const specificProduct = useSelector((state) => state?.product?.product || null);
-  console.log(specificProduct, "specific product");
-  const loadingProduct = useSelector((state) => state.product.loading);
+import { loadOptionsCategory } from "../../../Utils/asyncFunction";
+
+const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
+  const formRef = useRef();
+  const product = useSelector((state) => state.product.product);
+ 
+  const loading = useSelector((state) => state.product.loading);
   const loadingUpdated = useSelector((state) => state.product.loadingUpdated);
+  const edit = useSelector((state) => state.product.edit);
+  const [submit, setSubmit] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
-  // Set the image preview if a product photo is available
-  useEffect(() => {
-    if (specificProduct && specificProduct.image) {
-      setImg(specificProduct.image);
-    } else {
-      setImg(null);
-    }
-  }, [specificProduct]);
+  const [imagePreview, setImagePreview] = useState(edit && product?.image ? product.image : "");
 
-  // Initial values setup based on whether it's an update or create mode
   const initialState = {
-    name: specificProduct ? specificProduct.name : "",
-    category: specificProduct ? { label: specificProduct.category?.name, value: specificProduct.category?.id } : null,
-    capacity: specificProduct ? specificProduct.capacity : "",
-    price: specificProduct ? specificProduct.price : "",
-    photo: specificProduct ? specificProduct.image : null,
+    name: edit ? product?.name : "",
+
+    price: edit ? product?.price : "",
+    category: edit ? product?.category : "",
+    image: edit && product?.image ? product.image : null, // Set initial image for edit mode
   };
 
   console.log(initialState, "initialState");
 
   // Validation schema using Yup
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    category: Yup.object().required("Category is required"),
-    capacity: Yup.string().required("Capacity is required"),
-    price: Yup.number().required("Price is required").typeError("Price must be a number"),
-    photo: Yup.mixed().test("fileSize", "File must be less than 500KB", (value) => !value || value.size <= 500 * 1024),
+    name: Yup.string()
+      .required("Product name is required")
+      .min(2, "Must be at least 2 characters")
+      .max(100, "Must be less than 100 characters"),
+
+    price: Yup.number().required("Price is required").positive("Price must be a positive number"),
+    category: Yup.mixed().required("Category is required"),
+    image: Yup.mixed().test("image", "Product image is required", function (value) {
+      // Only require image if in create mode or if no existing image is present
+      return edit ? Boolean(imagePreview || value) : Boolean(value);
+    }),
   });
 
-  // Form submission handler
-  const onSubmit = (values, { setSubmitting, resetForm }) => {
-    const productData = new FormData();
-    productData.append("name", values.name);
-    productData.append("category", values.category.value);
-    productData.append("capacity", values.capacity);
-    productData.append("price", values.price);
-
-    if (values.photo) {
-      productData.append("image", values.photo);
-    }
-
-    console.log("Submitting Product Data:", productData); // Debugging Log
-
-    if (specificProduct) {
-      // Update mode
-      dispatch(updateProduct({ id: specificProduct.id, values: productData }))
-        .unwrap()
-        .then(() => {
-          successFunction("Product updated successfully.");
-          dispatch(getAllProducts(postsPerPage));
-          setShowModal(false);
-          resetForm();
-        })
-        .catch((error) => errorFunction(error))
-        .finally(() => setSubmitting(false));
+  const onSubmit = (values) => {
+    if (!submit) {
+      setShowAlert(true);
     } else {
-      // Create mode
-      dispatch(createProduct(productData))
-        .unwrap()
-        .then(() => {
-          successFunction("Product created successfully.");
-          dispatch(getAllProducts(postsPerPage));
-          setShowModal(false);
-          resetForm();
-        })
-        .catch((error) => errorFunction(error))
-        .finally(() => setSubmitting(false));
+      const { name,  price, category, image } = values;
+
+      // Create a FormData object to handle multipart/form-data
+      const formData = new FormData();
+      formData.append("name", name);
+
+      formData.append("price", price);
+      formData.append("category", category?.id);
+
+      // Only append image if it's a new file (not an existing URL)
+      if (image instanceof File) {
+        formData.append("image", image);
+      }
+
+      if (edit) {
+        const id = product?.id;
+        dispatch(updateProduct({ id, formData }))
+          .unwrap()
+          .then(() => {
+            successFunction("Product updated successfully.");
+            dispatch(getProduct({ postsPerPage, page: 1 }));
+            setShowModal(false);
+          })
+          .catch((error) => {
+            setSubmit(false);
+            setShowAlert(false);
+            errorFunction(error?.response?.data?.message || "An error occurred while updating the product.");
+          });
+      } else {
+        dispatch(createProduct(formData))
+          .unwrap()
+          .then(() => {
+            successFunction("Product created successfully.");
+            dispatch(getProduct({ postsPerPage, page: 1 }));
+            setShowModal(false);
+          })
+          .catch((error) => {
+            setSubmit(false);
+            setShowAlert(false);
+            errorFunction(error?.response?.data?.message || "An error occurred while creating the product.");
+          });
+      }
     }
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+      formRef.current.setFieldValue("image", file);
+    }
+  };
+
+  const removeImage = () => {
+    setImagePreview("");
+    formRef.current.setFieldValue("image", null);
+  };
+
+  useEffect(() => {
+    if (submit && formRef.current) {
+      formRef.current.submitForm();
+    }
+  }, [submit]);
+
   return (
     <>
-      {(loadingProduct || loadingUpdated) && <Loader />}
-      <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} enableReinitialize>
-        {(formik) => (
-          <Form autoComplete="off">
-            <div className="create-product-wrapper p-3">
-              <div className="row" style={{ justifyContent: "space-between" }}>
-                <div className="col-4">
-                  <Dropzone
-                    name="photo"
-                    label="Photo"
-                    removePhoto={() => {
-                      formik.setFieldValue("photo", null);
-                      setImg(null);
-                    }}
-                    onChange={(event) => {
-                      const file = event.target.files[0];
-                      formik.setFieldValue("photo", file);
-                      const reader = new FileReader();
-                      reader.readAsDataURL(file);
-                      reader.onloadend = () => setImg(reader.result);
-                    }}
-                    displayImage={img ? <Thumb thumb={img} /> : ""}
-                    error={formik.errors.photo && formik.touched.photo ? formik.errors.photo : ""}
-                  />
-                </div>
-                <div className="col-8">
-                  <div className="row">
-                    <div className="col-12 mb-3 p-0">
-                      <TextField
-                        label="Name"
-                        name="name"
-                        type="text"
-                        value={formik.values.name}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={formik.errors.name && formik.touched.name ? formik.errors.name : ""}
-                      />
-                    </div>
-                    <div className="col-12 mb-3 p-0">
-                      <AsyncSelect
-                        label="Category"
-                        name="category"
-                        cacheOptions
-                        defaultOptions
-                        loadOptions={loadCategoryOptions}
-                        onChange={(selectedOption) => formik.setFieldValue("category", selectedOption)}
-                        value={formik.values.category}
-                        getOptionLabel={(option) => option.label}
-                        getOptionValue={(option) => option.value}
-                      />
-                      {formik.touched.category && formik.errors.category && (
-                        <div className="invalid-feedback">
-                          {formik.errors.category?.label || formik.errors.category}
-                        </div>
-                      )}
-                    </div>
-                    <div className="col-6 mb-2 pl-0">
-                      <TextField
-                        label="Price"
-                        name="price"
-                        type="text"
-                        value={formik.values.price}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={formik.errors.price && formik.touched.price ? formik.errors.price : ""}
-                      />
-                    </div>
-                    <div className="col-6 pr-0">
-                      <TextField
-                        label="Capacity"
-                        name="capacity"
-                        type="text"
-                        value={formik.values.capacity}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={formik.errors.capacity && formik.touched.capacity ? formik.errors.capacity : ""}
-                      />
+      {(loading || loadingUpdated) && <Loader />}
+      <div className="create-product-wrapper">
+        <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
+          {(formik) => (
+            <Form autoComplete="off">
+              <div className="create-department-wrapper">
+                <div className="row">
+                  {/* Left column with image upload - matches first component */}
+                  <div className="col-4">
+                    <Dropzone
+                      name="image"
+                      label="Product Image"
+                      onChange={handleImageChange}
+                      removePhoto={removeImage}
+                      displayImage={imagePreview}
+                      text="Select an image file"
+                    />
+                    {formik.touched.image && formik.errors.image ? (
+                      <div className="invalid-feedback">{formik.errors.image}</div>
+                    ) : null}
+                  </div>
+
+                  {/* Right column with form fields - matches first component */}
+                  <div className="col-8">
+                    <div className="row">
+                      {/* Product Name */}
+                      <div className="col-12 mb-2">
+                        {renderTextField(formik, 12, "name", "text", "Product Name", true)}
+                      </div>
+
+                      
+
+                      {/* Category and Price in same row */}
+                      <div className="col-6">
+                        {renderAsyncSelectField(formik, 12, "category", "Category", loadOptionsCategory, true, false)}
+                      </div>
+
+                      <div className="col-6">{renderTextField(formik, 12, "price", "number", "Price", true)}</div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-end align-items-center mt-3">
-              <Button
-                btnType="submit"
-                className="btn create-button"
-                title={specificProduct ? "Update" : "Save"}
-                content={specificProduct ? "Update" : "Save"}
-                disabled={formik.isSubmitting || loadingProduct || loadingUpdated}
-              />
-            </div>
-          </Form>
-        )}
-      </Formik>
+
+              <div className="d-flex justify-content-end align-items-center">
+                <Button
+                  btnType="submit"
+                  className="btn create-button"
+                  title={edit ? "Update" : "Save"}
+                  content={edit ? "Update" : "Save"}
+                />
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
+      {showAlert && <CreateAlert showAlert={showAlert} setShowAlert={setShowAlert} setSubmit={setSubmit} />}
     </>
   );
 };
 
 export default CreateProduct;
+
+
+
+
+
