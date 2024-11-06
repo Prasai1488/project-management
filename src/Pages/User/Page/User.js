@@ -1,12 +1,16 @@
-import React, {useState, useRef } from "react";
+
+
+
+
+
+import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import ColumnResize from "react-table-column-resizer";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
-import Status from "../../../Components/Status";
+import Status from "../../../Components/Status"; // Import Status component
 import { getNext, getSpecificUser } from "../Redux/thunk";
 import { userEditSuccess } from "../Redux/userSlice";
-
 
 const UserListing = ({ dispatch, setShowUserModal }) => {
   const [page, setPage] = useState(1);
@@ -14,10 +18,12 @@ const UserListing = ({ dispatch, setShowUserModal }) => {
   const next = useSelector((state) => state.user.next);
   const loadingNext = useSelector((state) => state.user.loadingNext);
   const users = useSelector((state) => state.user.users);
+
   const scrollToEnd = () => {
     setPage((prevPage) => prevPage + 1);
     dispatch(getNext({ postsPerPage, page: page + 1 }));
   };
+
   const handleScroll = (event) => {
     if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight === event.currentTarget.scrollHeight) {
       if (!loadingNext && next !== null) {
@@ -51,17 +57,15 @@ const UserListing = ({ dispatch, setShowUserModal }) => {
                   <ColumnResize id={5} className="columnResizer" minWidth={120} />
                   <th>Status</th>
                   <ColumnResize id={6} className="columnResizer" minWidth={120} />
-                  <th>Action</th> {/* For the action buttons */}
+                  <th>Action</th>
                 </tr>
               </thead>
 
               <tbody>
-             
                 {users?.map((user, i) => {
                   const { id, email, userType, isActive, userProfile } = user;
                   const fullName = userProfile?.fullName || "N/A";
                   const phone = userProfile?.phone || "N/A";
-                  const status = isActive ? "Active" : "Inactive";
 
                   return (
                     <tr key={id} onDoubleClick={() => handleEdit(user)} style={{ cursor: "pointer" }}>
@@ -86,7 +90,7 @@ const UserListing = ({ dispatch, setShowUserModal }) => {
                       <td className="column_resizer_body" />
 
                       {/* Status */}
-                      <td>{status}</td>
+                      <td><Status active={isActive} /></td> {/* Updated status cell */}
                       <td className="column_resizer_body" />
 
                       {/* Action Button */}
