@@ -12,7 +12,7 @@ export const getSpecificSubCategory = (id) => axiosInstance.get(`${RANGER_URL}/s
 // Get subcategories with pagination and optional search
 export const getSubCategories = (postsPerPage, search = "") =>
   axiosInstance.get(
-    `${RANGER_URL}/api/v1/product/sub-category/?offset=0&limit=${postsPerPage}&orderby=id&search=${search}`
+    `${RANGER_URL}/sub-category/?limit=${postsPerPage}&orderby=id&search=${search}`
   );
 
 // Create a new subcategory

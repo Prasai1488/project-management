@@ -23,10 +23,10 @@ export const getPreviousCategory = (previous) => axiosInstance.get(previous);
 export const getNextCategory = (next) => axiosInstance.get(next);
 
 export const getPageCategories = (number, postsPerPage) =>
-  axiosInstance.get(`${RANGER_URL}/category/?offset=${(number - 1) * postsPerPage}&limit=${postsPerPage}&ordering=-id`);
+  axiosInstance.get(`${RANGER_URL}/category/?limit=${postsPerPage}&ordering=-id`);
 
 export const handleCategorySearch = (postsPerPage, search) =>
-  axiosInstance.get(`${RANGER_URL}/category/?offset=1&limit=${postsPerPage}&search=${search}`);
+  axiosInstance.get(`${RANGER_URL}/category/?limit=${postsPerPage}&search=${search}`);
 
 export const getSpecificCategory = (id) => axiosInstance.get(`${RANGER_URL}category/${id}/`);
 
@@ -37,13 +37,13 @@ export const getSpecificCategory = (id) => axiosInstance.get(`${RANGER_URL}categ
 
 export const getAllCategories = (page, postsPerPage) => {
   return axiosInstance.get(
-    `/api/v1/product/category/sub-category/?offset=${page - 1}&limit=${postsPerPage}&orderby=-id`
+    `/api/v1/product/category/?limit=${postsPerPage}&orderby=-id`
   );
 };
 
 // Search categories
 export const searchCategories = (postsPerPage, search) => {
   return axiosInstance.get(
-    `${RANGER_URL}/category/?limit=${postsPerPage}&order_by=${order_by}&offset=1&search=${search}`
+    `${RANGER_URL}/category/?limit=${postsPerPage}&order_by=${order_by}&search=${search}`
   );
 };

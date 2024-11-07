@@ -67,7 +67,9 @@ const Product = () => {
         />
 
         {loadingProduct && <ListingSkeleton />}
-        {!loadingProduct && <ProductListing dispatch={dispatch} setShowProductModal={setShowProductModal} />}
+        {!loadingProduct && (
+          <ProductListing dispatch={dispatch} setShowProductModal={setShowProductModal} postsPerPage={postsPerPage} />
+        )}
 
         <CommonCreateButton
           types={types}

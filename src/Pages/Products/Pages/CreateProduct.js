@@ -10,13 +10,14 @@ import { createProduct, updateProduct, getProduct } from "../Redux/thunk";
 import { renderTextField } from "../../../Utils/customFields";
 import Dropzone from "../../../Components/CommonDropzone/Dropzone";
 import { renderAsyncSelectField } from "../../../Utils/customFields";
-
+import AsyncSelect from "../../../Components/CommonAsyncSelectField/AsyncSelect";
 import { loadOptionsCategory } from "../../../Utils/asyncFunction";
-
+import { loadCategoryOptions } from "../../../Utils/asyncFunction";
+import { loadOptionsSubCategory } from "../../../Utils/asyncFunction";
 const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
   const formRef = useRef();
   const product = useSelector((state) => state.product.product);
- 
+
   const loading = useSelector((state) => state.product.loading);
   const loadingUpdated = useSelector((state) => state.product.loadingUpdated);
   const edit = useSelector((state) => state.product.edit);
@@ -30,12 +31,11 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
 
     price: edit ? product?.price : "",
     category: edit ? product?.category : "",
+    subCategory: edit ? product?.subCategory : "",
     image: edit && product?.image ? product.image : null, // Set initial image for edit mode
   };
+  console.log(product, "product");
 
-  console.log(initialState, "initialState");
-
-  // Validation schema using Yup
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Product name is required")
@@ -44,6 +44,8 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
 
     price: Yup.number().required("Price is required").positive("Price must be a positive number"),
     category: Yup.mixed().required("Category is required"),
+    subCategory: Yup.mixed().required("Sub-Category is required"),
+
     image: Yup.mixed().test("image", "Product image is required", function (value) {
       // Only require image if in create mode or if no existing image is present
       return edit ? Boolean(imagePreview || value) : Boolean(value);
@@ -54,14 +56,15 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
     if (!submit) {
       setShowAlert(true);
     } else {
-      const { name,  price, category, image } = values;
+      const { name, price, category, image, subCategory } = values;
 
       // Create a FormData object to handle multipart/form-data
       const formData = new FormData();
       formData.append("name", name);
 
       formData.append("price", price);
-      formData.append("category", category?.id);
+      formData.append("category", category?.value);
+      formData.append("subCategory", subCategory?.id);
 
       // Only append image if it's a new file (not an existing URL)
       if (image instanceof File) {
@@ -123,56 +126,95 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
       {(loading || loadingUpdated) && <Loader />}
       <div className="create-product-wrapper">
         <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
-          {(formik) => (
-            <Form autoComplete="off">
-              <div className="create-department-wrapper">
-                <div className="row">
-                  {/* Left column with image upload - matches first component */}
-                  <div className="col-4">
-                    <Dropzone
-                      name="image"
-                      label="Product Image"
-                      onChange={handleImageChange}
-                      removePhoto={removeImage}
-                      displayImage={imagePreview}
-                      text="Select an image file"
-                    />
-                    {formik.touched.image && formik.errors.image ? (
-                      <div className="invalid-feedback">{formik.errors.image}</div>
-                    ) : null}
-                  </div>
+          {(formik) => {
+            console.log(formik.values);
+            return (
+              <Form autoComplete="off">
+                <div className="create-department-wrapper">
+                  <div className="row">
+                    {/* Left column with image upload - matches first component */}
+                    <div className="col-4">
+                      <Dropzone
+                        name="image"
+                        label="Product Image"
+                        onChange={handleImageChange}
+                        removePhoto={removeImage}
+                        displayImage={imagePreview}
+                      />
+                      {formik.touched.image && formik.errors.image ? (
+                        <div className="invalid-feedback">{formik.errors.image}</div>
+                      ) : null}
+                    </div>
 
-                  {/* Right column with form fields - matches first component */}
-                  <div className="col-8">
-                    <div className="row">
-                      {/* Product Name */}
-                      <div className="col-12 mb-2">
-                        {renderTextField(formik, 12, "name", "text", "Product Name", true)}
+                    {/* Right column with form fields - matches first component */}
+                    <div className="col-8">
+                      <div className="row">
+                        {/* Product Name */}
+                        <div className="col-12 mb-2">{renderTextField(formik, 12, "name", "text", "Name", true)}</div>
+                        <div className="col-12 mb-2">{renderTextField(formik, 12, "price", "text", "Price", true)}</div>
+
+                        <div className="form-group">
+                          <AsyncSelect
+                            label="Category"
+                            name="category"
+                            cacheOptions
+                            defaultOptions
+                            loadOptions={loadCategoryOptions}
+                            onChange={(selectedOption) => formik.setFieldValue("category", selectedOption)}
+                            value={formik?.values?.category}
+                            getOptionLabel={(option) => option.label || option.name}
+                            getOptionValue={(option) => option.value}
+                          />
+                          {formik?.touched?.category && formik?.errors?.category && (
+                            <div className="invalid-feedback">
+                              {formik?.errors?.category?.label || formik?.errors?.category}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="form-group">
+                          <AsyncSelect
+                            parent={JSON.stringify(formik?.values?.category)}
+                            label="Sub Category"
+                            name="subCategory"
+                            // cacheOptions
+                            // defaultOptions
+                            loadOptions={loadOptionsSubCategory}
+                            additional={{
+                              offset: 0,
+                              limit: 10,
+                              category: formik?.values?.category ? formik?.values?.category?.value : null,
+                            }}
+                            onChange={(selectedOption) => formik?.setFieldValue("subCategory", selectedOption)}
+                            value={formik?.values?.subCategory}
+                            getOptionLabel={(option) => option.name}
+                            getOptionValue={(option) => option.name}
+                            disabled={!formik?.values?.category}
+                          />
+                          {formik.touched.subCategory && formik.errors.subCategory && (
+                            <div className="invalid-feedback">
+                              {formik?.errors?.subCategory?.name || formik?.errors?.subCategory}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* <div className="col-6">{renderTextField(formik, 12, "price", "number", "Price", true)}</div> */}
                       </div>
-
-                      
-
-                      {/* Category and Price in same row */}
-                      <div className="col-6">
-                        {renderAsyncSelectField(formik, 12, "category", "Category", loadOptionsCategory, true, false)}
-                      </div>
-
-                      <div className="col-6">{renderTextField(formik, 12, "price", "number", "Price", true)}</div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="d-flex justify-content-end align-items-center">
-                <Button
-                  btnType="submit"
-                  className="btn create-button"
-                  title={edit ? "Update" : "Save"}
-                  content={edit ? "Update" : "Save"}
-                />
-              </div>
-            </Form>
-          )}
+                <div className="d-flex justify-content-end align-items-center">
+                  <Button
+                    btnType="submit"
+                    className="btn create-button"
+                    title={edit ? "Update" : "Save"}
+                    content={edit ? "Update" : "Save"}
+                  />
+                </div>
+              </Form>
+            );
+          }}
         </Formik>
       </div>
       {showAlert && <CreateAlert showAlert={showAlert} setShowAlert={setShowAlert} setSubmit={setSubmit} />}
@@ -181,8 +223,3 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
 };
 
 export default CreateProduct;
-
-
-
-
-

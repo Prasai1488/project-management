@@ -5,6 +5,7 @@ import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
 import { getNext } from "../Redux/thunk";
 import { productEditSuccess } from "../Redux/ProductSlice";
+import { v4 as uuidv4 } from "uuid";
 const ProductListing = ({ dispatch, setShowProductModal, postsPerPage }) => {
   const [page, setPage] = useState(1);
   const listRef = useRef(null);
@@ -12,22 +13,23 @@ const ProductListing = ({ dispatch, setShowProductModal, postsPerPage }) => {
   const loadingNext = useSelector((state) => state?.product?.loadingNext);
   const products = useSelector((state) => state?.product?.products);
   console.log(next, loadingNext);
+  console.log(postsPerPage, "postsPerPage");
   const scrollToEnd = () => {
     setPage((prevPage) => prevPage + 1);
     dispatch(getNext({ postsPerPage, page: page + 1 }));
   };
   const handleScroll = (event) => {
     if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight === event.currentTarget.scrollHeight) {
-      // if (!loadingNext && next !== null) {
-      //   scrollToEnd(next);
-      // }
-      scrollToEnd(next);
+      if (!loadingNext && next !== null) {
+        scrollToEnd(next);
+      }
     }
   };
   const handleEdit = async (product) => {
     dispatch(productEditSuccess(product));
     setShowProductModal(true);
   };
+
   return (
     <>
       {products?.length > 0 ? (
@@ -54,7 +56,7 @@ const ProductListing = ({ dispatch, setShowProductModal, postsPerPage }) => {
                   const { id, name, code, category, image } = product;
                   const categoryName = category?.name || "N/A";
                   return (
-                    <tr key={id} onDoubleClick={() => handleEdit(product)} style={{ cursor: "pointer" }}>
+                    <tr key={uuidv4} onDoubleClick={() => handleEdit(product)} style={{ cursor: "pointer" }}>
                       <td>{i + 1}</td>
                       <td className="column_resizer_body" />
                       <td>

@@ -12,7 +12,7 @@ export const loadOptionsItem = async (search, loadOptions) => {
 };
 export const loadOptionsCategory = async (search, loadOptions) => {
   const data = await axiosInstance(`api/v1/product/category/`);
-console.log(data.data.data,"dfdfdfdfdf")
+
   return {
     options: data?.data.data,
     additional: {
@@ -20,6 +20,59 @@ console.log(data.data.data,"dfdfdfdfdf")
     },
   };
 };
+
+// export const loadOptionsCategory = async (inputValue, { limit = 10, offset = 1 }) => {
+//   try {
+//     // Make a request to the API with search, limit, and offset parameters
+//     const response = await axiosInstance.get(`api/v1/product/category/`, {
+//       params: {
+//         search: inputValue || "",
+//         limit: limit,
+//         offset: offset,
+//       },
+//     });
+
+//     // Extract categories and pagination details from the API response
+//     const { data: categories, pagination } = response.data;
+
+//     return {
+//       options: categories.map((category) => ({
+//         value: category.id,
+//         label: category.name,
+//       })),
+//       hasMore: pagination.currentPage < pagination.totalPages,
+//       additional: {
+//         offset: offset + limit,
+//       },
+//     };
+//   } catch (error) {
+//     console.error("Error loading category options:", error);
+//     return {
+//       options: [],
+//       hasMore: false,
+//       additional: {
+//         offset,
+//       },
+//     };
+//   }
+// };
+
+export const loadOptionsSubCategory = async (search, loadOptions, { limit, offset, category }) => {
+  console.log(category, "search");
+  const categoryQuery = category !== null ? `sub-category-by-category/${category}/` : "sub-category/";
+  console.log(categoryQuery, "categoryQuery");
+  const data = await axiosInstance(`api/v1/product/${categoryQuery}`);
+  console.log(data, "data");
+  return {
+    options: data?.data.data,
+    hasNext: data?.data?.pagination?.next !== null ? true : false,
+    additional: {
+      offset: data?.data?.pagination?.next ? offset + 10 : offset,
+      limit: 10,
+    },
+  };
+};
+
 export const loadOptionsClient = async (search, loadOptions) => {
   const data = await axiosInstance(`api/v1/client-app/client`);
 
@@ -91,8 +144,8 @@ export const loadCategoryOptions = async (inputValue, { limit = 10, offset = 1 }
     const response = await axiosInstance.get(`/api/v1/product/category/`, {
       params: {
         search: inputValue || "",
-        limit: limit, 
-        offset: offset, 
+        limit: limit,
+        offset: offset,
       },
     });
 
@@ -102,18 +155,18 @@ export const loadCategoryOptions = async (inputValue, { limit = 10, offset = 1 }
     return {
       options: categories.map((category) => ({
         value: category.id,
-        label: category.name, 
+        label: category.name,
       })),
-      hasMore: pagination.currentPage < pagination.totalPages, 
+      hasMore: pagination.currentPage < pagination.totalPages,
       additional: {
-        offset: offset + limit, 
+        offset: offset + limit,
       },
     };
   } catch (error) {
     console.error("Error loading category options:", error);
     return {
-      options: [], 
-      hasMore: false, 
+      options: [],
+      hasMore: false,
       additional: {
         offset,
       },
