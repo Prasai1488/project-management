@@ -10,10 +10,8 @@ const RANGER_URL = "api/v1/product";
 
 // src/your/api/file.js
 
-export const getCategories = (postsPerPage) => axiosInstance.get(`${RANGER_URL}/category/`);
-
-// export const getCategories = (postsPerPage) =>
-//   axiosInstance.get(`${RANGER_URL}/api/v1/product/category/?offset=0&limit=${postsPerPage}&orderby=id`);
+export const getCategories = (postsPerPage) =>
+  axiosInstance.get(`${RANGER_URL}/category/?limit=${postsPerPage}&orderby=-id`);
 
 export const createCategory = (body) => axiosInstance.post(`${RANGER_URL}/category/`, body);
 

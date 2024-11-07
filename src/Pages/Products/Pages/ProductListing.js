@@ -5,19 +5,19 @@ import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
 import { getNext } from "../Redux/thunk";
 import { productEditSuccess } from "../Redux/ProductSlice";
-
-const ProductListing = ({ dispatch, setShowProductModal }) => {
+import { v4 as uuidv4 } from "uuid";
+const ProductListing = ({ dispatch, setShowProductModal, postsPerPage }) => {
   const [page, setPage] = useState(1);
   const listRef = useRef(null);
-  const next = useSelector((state) => state.product.next);
-  const loadingNext = useSelector((state) => state.product.loadingNext);
-  const products = useSelector((state) => state.product.products);
-
+  const next = useSelector((state) => state?.product?.next);
+  const loadingNext = useSelector((state) => state?.product?.loadingNext);
+  const products = useSelector((state) => state?.product?.products);
+  console.log(next, loadingNext);
+  console.log(postsPerPage, "postsPerPage");
   const scrollToEnd = () => {
     setPage((prevPage) => prevPage + 1);
     dispatch(getNext({ postsPerPage, page: page + 1 }));
   };
-
   const handleScroll = (event) => {
     if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight === event.currentTarget.scrollHeight) {
       if (!loadingNext && next !== null) {
@@ -25,7 +25,6 @@ const ProductListing = ({ dispatch, setShowProductModal }) => {
       }
     }
   };
-
   const handleEdit = async (product) => {
     dispatch(productEditSuccess(product));
     setShowProductModal(true);
@@ -52,37 +51,28 @@ const ProductListing = ({ dispatch, setShowProductModal }) => {
                   <th>Action</th>
                 </tr>
               </thead>
-
               <tbody>
                 {products?.map((product, i) => {
                   const { id, name, code, category, image } = product;
                   const categoryName = category?.name || "N/A";
-
                   return (
-                    <tr key={id} onDoubleClick={() => handleEdit(product)} style={{ cursor: "pointer" }}>
-                      {/* SN */}
+                    <tr key={uuidv4} onDoubleClick={() => handleEdit(product)} style={{ cursor: "pointer" }}>
                       <td>{i + 1}</td>
                       <td className="column_resizer_body" />
-
-                      {/* Image */}
                       <td>
-                        {image ? <img src={image} alt={name} style={{ width: "50px", height: "50px" }} /> : "N/A"}
+                        {image ? (
+                          <img src={image} alt={name} style={{ objectFit: "contain", width: "50px", height: "50px" }} />
+                        ) : (
+                          "N/A"
+                        )}
                       </td>
                       <td className="column_resizer_body" />
-
-                      {/* Code */}
                       <td>{code || "N/A"}</td>
                       <td className="column_resizer_body" />
-
-                      {/* Name */}
                       <td>{name}</td>
                       <td className="column_resizer_body" />
-
-                      {/* Category */}
                       <td>{categoryName}</td>
                       <td className="column_resizer_body" />
-
-                      {/* Action Button */}
                       <td>
                         <DetailActionButton type={"edit"} onClick={() => handleEdit(product)} />
                       </td>
@@ -106,5 +96,4 @@ const ProductListing = ({ dispatch, setShowProductModal }) => {
     </>
   );
 };
-
 export default ProductListing;

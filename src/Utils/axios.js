@@ -52,9 +52,11 @@ axiosInstance.interceptors.request.use(
 
           config.data = bodyFormData;
         } else if (typeof config.data === "string") {
+          console.log("object");
           let bodyData = JSON.parse(config.data);
           config.data = { ...bodyData, appType: 1, deviceType: 2 };
         } else {
+          
         }
       }
 

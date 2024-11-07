@@ -46,20 +46,19 @@ const SubCategoryListing = ({ setShowSubCategoryModal, PostsPerPage, page }) => 
                 <tr>
                   <th>S.N</th>
                   <th>NAME</th>
-                  <th>STATUS</th>
+                  <th>PARENT</th>
+
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {subCategories.map((subCategory, index) => {
-                  const { id, name, status } = subCategory;
+                  const { id, name, status, category } = subCategory;
                   return (
                     <tr key={id} style={{ cursor: "pointer" }}>
                       <td>{index + 1}</td>
                       <td>{name || "N/A"}</td>
-                      <td>
-                        <span className={`status ${status?.toLowerCase() || "unknown"}`}>{status || "N/A"}</span>
-                      </td>
+                      <td>{category?.name}</td>
                       <td>
                         <DetailActionButton type="edit" onClick={() => handleEdit(id)} />
                       </td>

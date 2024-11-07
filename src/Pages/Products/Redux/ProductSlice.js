@@ -89,7 +89,7 @@ export const productSlice = createSlice({
         state.loadingUpdated = false;
         state.edit = false;
 
-        const updatedProduct = action.payload.data; 
+        const updatedProduct = action.payload.data;
         const index = state.products.findIndex((product) => product.id === updatedProduct.id);
 
         if (index !== -1) {
@@ -134,7 +134,7 @@ export const productSlice = createSlice({
         state.loading = false;
         state.edit = false;
 
-        const newProduct = action.payload.data; 
+        const newProduct = action.payload.data;
         if (newProduct) {
           state.products = [newProduct, ...state.products];
         } else {
@@ -162,30 +162,21 @@ export const productSlice = createSlice({
       })
 
       // Then, add all matchers after all cases
-      .addMatcher(
-        isAnyOf(getProduct.pending, handleSearch.pending),
-        (state) => {
-          state.loadingProduct = true;
-        }
-      )
-      .addMatcher(
-        isAnyOf(getProduct.fulfilled, handleSearch.fulfilled),
-        (state, action) => {
-          state.loadingProduct = false;
-          state.products = action.payload.results;
-          state.count = action.payload.count;
-          state.currentPage = action.payload.currentPage;
-          state.totalPages = action.payload.totalPages;
-          state.previous = action.payload.previous;
-          state.next = action.payload.next;
-        }
-      )
-      .addMatcher(
-        isAnyOf(getProduct.rejected, handleSearch.rejected),
-        (state) => {
-          state.loadingProduct = false;
-        }
-      );
+      .addMatcher(isAnyOf(getProduct.pending, handleSearch.pending), (state) => {
+        state.loadingProduct = true;
+      })
+      .addMatcher(isAnyOf(getProduct.fulfilled, handleSearch.fulfilled), (state, action) => {
+        state.loadingProduct = false;
+        state.products = action.payload.results;
+        state.count = action.payload.count;
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
+        state.previous = action.payload.previous;
+        state.next = action.payload.next;
+      })
+      .addMatcher(isAnyOf(getProduct.rejected, handleSearch.rejected), (state) => {
+        state.loadingProduct = false;
+      });
   },
 });
 

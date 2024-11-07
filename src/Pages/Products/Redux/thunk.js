@@ -1,4 +1,3 @@
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import jwt_decode from "jwt-decode";
 import * as API from "./api";
@@ -10,7 +9,6 @@ export const getProduct = createAsyncThunk(
     try {
       const response = await API.getProduct(postsPerPage, page);
       const data = response.data;
-      console.log("getProduct response data:", data);
       const productsArray = data.data || [];
       return {
         results: productsArray,
@@ -21,7 +19,6 @@ export const getProduct = createAsyncThunk(
         previous: data.pagination.previous,
       };
     } catch (error) {
-      console.error("Error fetching products:", error);
       return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching products.");
     }
   }
@@ -34,7 +31,7 @@ export const getAllProduct = createAsyncThunk("product/getAllProduct", async (_,
     const data = response.data;
 
     const productsArray = data.data || [];
-    const filteredData = productsArray; 
+    const filteredData = productsArray;
 
     return {
       results: filteredData,
@@ -43,7 +40,6 @@ export const getAllProduct = createAsyncThunk("product/getAllProduct", async (_,
       previous: data.pagination.previous,
     };
   } catch (error) {
-    console.error("Error fetching all products:", error);
     return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching all products.");
   }
 });
@@ -71,7 +67,6 @@ export const getNext = createAsyncThunk("product/getNext", async ({ postsPerPage
       previous: data.pagination.previous,
     };
   } catch (error) {
-    console.error("Error fetching next products:", error);
     return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching next products.");
   }
 });
@@ -165,7 +160,6 @@ export const handleSearch = createAsyncThunk(
         previous: data.pagination.previous,
       };
     } catch (error) {
-      console.error("Error searching products:", error);
       return rejectWithValue(error?.response?.data?.message || "An error occurred while searching products.");
     }
   }

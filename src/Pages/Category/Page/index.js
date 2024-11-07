@@ -5,10 +5,10 @@ import CommonPageHeader from "../../../Components/CommonPageHeader/CommonPageHea
 import ListingSkeleton from "../../../Components/Skeleton/ListingSkeleton";
 import useDebounce from "../../../Utils/Hooks/useDebounce";
 import { clearEditCategory } from "../Redux/categorySlice"; // Adjust action to match Category slice
-import { getAllCategories, handleCategorySearch } from "../Redux/thunk";
 import CreateCategory from "./CreateCategory";
 import "./category.css";
 import CategoryListing from "./CategoryListing";
+import { getCategories } from "../Redux/thunk";
 
 const Modal = lazy(() => import("../../../Components/Modal/Modal"));
 
@@ -26,22 +26,30 @@ const Category = () => {
 
   const [search, setSearch] = useState("");
   const [postsPerPage, setPostsPerPage] = useState(20);
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
 
   const debouncedSearch = useDebounce(search, 500);
 
+  // useEffect(() => {
+  //   if (search === "") {
+  //     dispatch(
+  //       getAllCategories({
+  //         page,
+  //         postsPerPage,
+  //       })
+  //     );
+  //   } else {
+  //     dispatch(handleCategorySearch({ page, postsPerPage, search }));
+  //   }
+  // }, [postsPerPage, debouncedSearch, page, dispatch]);
+
   useEffect(() => {
     if (search === "") {
-      dispatch(
-        getAllCategories({
-          page,
-          postsPerPage,
-        })
-      );
+      dispatch(getCategories({ postsPerPage }));
     } else {
+      dispatch(handleCategorySearch({ page, postsPerPage, search }));
     }
-      dispatch(handleCategorySearch({ page, postsPerPage , search}));
-  }, [postsPerPage, debouncedSearch, page, dispatch,]);
+  }, [postsPerPage, debouncedSearch, page, dispatch]);
 
   const createPermission = isSuperuser || permissions?.includes("") || true;
 
@@ -68,6 +76,7 @@ const Category = () => {
             setPage={setPage}
             postsPerPage={postsPerPage}
             page={page}
+            offset={page * postsPerPage}
           />
         )}
       </div>
@@ -86,7 +95,7 @@ const Category = () => {
             header={edit ? "Update Category" : "Category"}
             types={types}
             edit={edit}
-            size={"modal-lx"}
+            size={"modal-md"}
             clearAction={clearEditCategory}
           >
             <CreateCategory dispatch={dispatch} postsPerPage={postsPerPage} setShowModal={setShowCategoryModal} />

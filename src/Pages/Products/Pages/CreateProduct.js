@@ -34,6 +34,7 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
     subCategory: edit ? product?.subCategory : "",
     image: edit && product?.image ? product.image : null, // Set initial image for edit mode
   };
+  console.log(product, "product");
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -62,8 +63,8 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
       formData.append("name", name);
 
       formData.append("price", price);
-      formData.append("category", category?.id);
-      formData.append("category", subCategory?.id);
+      formData.append("category", category?.value);
+      formData.append("subCategory", subCategory?.id);
 
       // Only append image if it's a new file (not an existing URL)
       if (image instanceof File) {
@@ -125,65 +126,95 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
       {(loading || loadingUpdated) && <Loader />}
       <div className="create-product-wrapper">
         <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
-          {(formik) => (
-            <Form autoComplete="off">
-              <div className="create-department-wrapper">
-                <div className="row">
-                  {/* Left column with image upload - matches first component */}
-                  <div className="col-4">
-                    <Dropzone
-                      name="image"
-                      label="Product Image"
-                      onChange={handleImageChange}
-                      removePhoto={removeImage}
-                      displayImage={imagePreview}
-                    />
-                    {formik.touched.image && formik.errors.image ? (
-                      <div className="invalid-feedback">{formik.errors.image}</div>
-                    ) : null}
-                  </div>
+          {(formik) => {
+            console.log(formik.values);
+            return (
+              <Form autoComplete="off">
+                <div className="create-department-wrapper">
+                  <div className="row">
+                    {/* Left column with image upload - matches first component */}
+                    <div className="col-4">
+                      <Dropzone
+                        name="image"
+                        label="Product Image"
+                        onChange={handleImageChange}
+                        removePhoto={removeImage}
+                        displayImage={imagePreview}
+                      />
+                      {formik.touched.image && formik.errors.image ? (
+                        <div className="invalid-feedback">{formik.errors.image}</div>
+                      ) : null}
+                    </div>
 
-                  {/* Right column with form fields - matches first component */}
-                  <div className="col-8">
-                    <div className="row">
-                      {/* Product Name */}
-                      <div className="col-12 mb-2">
-                        {renderTextField(formik, 12, "name", "text", "Product Name", true)}
-                      </div>
-                      
-                        <div className="col-12 mb-2">
-                          {renderAsyncSelectField(formik, 12, "category", "Category", loadOptionsCategory, true, false)}
+                    {/* Right column with form fields - matches first component */}
+                    <div className="col-8">
+                      <div className="row">
+                        {/* Product Name */}
+                        <div className="col-12 mb-2">{renderTextField(formik, 12, "name", "text", "Name", true)}</div>
+                        <div className="col-12 mb-2">{renderTextField(formik, 12, "price", "text", "Price", true)}</div>
+
+                        <div className="form-group">
+                          <AsyncSelect
+                            label="Category"
+                            name="category"
+                            cacheOptions
+                            defaultOptions
+                            loadOptions={loadCategoryOptions}
+                            onChange={(selectedOption) => formik.setFieldValue("category", selectedOption)}
+                            value={formik?.values?.category}
+                            getOptionLabel={(option) => option.label || option.name}
+                            getOptionValue={(option) => option.value}
+                          />
+                          {formik?.touched?.category && formik?.errors?.category && (
+                            <div className="invalid-feedback">
+                              {formik?.errors?.category?.label || formik?.errors?.category}
+                            </div>
+                          )}
                         </div>
-                    
 
-                      <div className="col-12 mb-2">
-                        {renderAsyncSelectField(
-                          formik,
-                          12,
-                          "subCategory",
-                          "Sub-Category",
-                          loadOptionsSubCategory,
-                          true,
-                          false
-                        )}
+                        <div className="form-group">
+                          <AsyncSelect
+                            parent={JSON.stringify(formik?.values?.category)}
+                            label="Sub Category"
+                            name="subCategory"
+                            // cacheOptions
+                            // defaultOptions
+                            loadOptions={loadOptionsSubCategory}
+                            additional={{
+                              offset: 0,
+                              limit: 10,
+                              category: formik?.values?.category ? formik?.values?.category?.value : null,
+                            }}
+                            onChange={(selectedOption) => formik?.setFieldValue("subCategory", selectedOption)}
+                            value={formik?.values?.subCategory}
+                            getOptionLabel={(option) => option.name}
+                            getOptionValue={(option) => option.name}
+                            disabled={!formik?.values?.category}
+                          />
+                          {formik.touched.subCategory && formik.errors.subCategory && (
+                            <div className="invalid-feedback">
+                              {formik?.errors?.subCategory?.name || formik?.errors?.subCategory}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* <div className="col-6">{renderTextField(formik, 12, "price", "number", "Price", true)}</div> */}
                       </div>
-
-                      {/* <div className="col-6">{renderTextField(formik, 12, "price", "number", "Price", true)}</div> */}
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="d-flex justify-content-end align-items-center">
-                <Button
-                  btnType="submit"
-                  className="btn create-button"
-                  title={edit ? "Update" : "Save"}
-                  content={edit ? "Update" : "Save"}
-                />
-              </div>
-            </Form>
-          )}
+                <div className="d-flex justify-content-end align-items-center">
+                  <Button
+                    btnType="submit"
+                    className="btn create-button"
+                    title={edit ? "Update" : "Save"}
+                    content={edit ? "Update" : "Save"}
+                  />
+                </div>
+              </Form>
+            );
+          }}
         </Formik>
       </div>
       {showAlert && <CreateAlert showAlert={showAlert} setShowAlert={setShowAlert} setSubmit={setSubmit} />}
@@ -192,13 +223,3 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
 };
 
 export default CreateProduct;
-
-
-
-
-
-
-
-
-
-

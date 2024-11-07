@@ -34,10 +34,8 @@ export const getAllSubCategories = createAsyncThunk(
   async ({ page, postsPerPage }, { rejectWithValue }) => {
     try {
       const { data } = await API.getAllSubCategories(page, postsPerPage);
-      console.log(data, "this is subcategory datafdghjk");
       return data;
     } catch (error) {
-      console.error("Error fetching subcategories:", error.response);
       return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
     }
   }

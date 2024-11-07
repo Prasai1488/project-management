@@ -57,12 +57,17 @@ export const loadOptionsCategory = async (search, loadOptions) => {
 //   }
 // };
 
-export const loadOptionsSubCategory = async (search, loadOptions) => {
-  const data = await axiosInstance(`api/v1/product/sub-category/`);
-
+export const loadOptionsSubCategory = async (search, loadOptions, { limit, offset, category }) => {
+  console.log(category, "search");
+  const categoryQuery = category !== null ? `sub-category-by-category/${category}/` : "sub-category/";
+  console.log(categoryQuery, "categoryQuery");
+  const data = await axiosInstance(`api/v1/product/${categoryQuery}`);
+  console.log(data, "data");
   return {
     options: data?.data.data,
+    hasNext: data?.data?.pagination?.next !== null ? true : false,
     additional: {
+      offset: data?.data?.pagination?.next ? offset + 10 : offset,
       limit: 10,
     },
   };
@@ -139,8 +144,8 @@ export const loadCategoryOptions = async (inputValue, { limit = 10, offset = 1 }
     const response = await axiosInstance.get(`/api/v1/product/category/`, {
       params: {
         search: inputValue || "",
-        limit: limit, 
-        offset: offset, 
+        limit: limit,
+        offset: offset,
       },
     });
 
@@ -150,18 +155,18 @@ export const loadCategoryOptions = async (inputValue, { limit = 10, offset = 1 }
     return {
       options: categories.map((category) => ({
         value: category.id,
-        label: category.name, 
+        label: category.name,
       })),
-      hasMore: pagination.currentPage < pagination.totalPages, 
+      hasMore: pagination.currentPage < pagination.totalPages,
       additional: {
-        offset: offset + limit, 
+        offset: offset + limit,
       },
     };
   } catch (error) {
     console.error("Error loading category options:", error);
     return {
-      options: [], 
-      hasMore: false, 
+      options: [],
+      hasMore: false,
       additional: {
         offset,
       },

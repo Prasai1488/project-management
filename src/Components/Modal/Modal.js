@@ -88,7 +88,7 @@ const Modal = ({
         tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
+        // aria-hidden="true"
         id={id}
       >
         <div className={`modal-dialog modal-dialog-centered ${size ? size : ""}`} style={{ maxWidth: customSize }}>

@@ -6,7 +6,7 @@ import { getNextCategory, getAllCategories } from "../Redux/thunk";
 import { categoriesEditSuccess } from "../Redux/categorySlice";
 import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 
-const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page }) => {
+const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page, offset }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
   // Redux selectors to get state
@@ -16,18 +16,11 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page }) => {
   const [postsPerPage, setPostsPerPage] = useState(20);
 
   // Fetch all categories on component mount
-  useEffect(() => {
-    dispatch(getAllCategories({ postsPerPage, offset }));
-  }, [dispatch, postsPerPage, offset]);
+  // useEffect(() => {
+  //   dispatch(getAllCategories({ postsPerPage, offset }));
+  // }, [dispatch, postsPerPage, offset]);
 
   // Infinite Scroll logic
-  const { handleScroll } = useInfinteScroll({
-    loadingNext,
-    next,
-    getNext: getNextCategory,
-    postsPerPage,
-    setPage,
-  });
 
   // Handle edit button click
   const handleEdit = (category) => {
@@ -39,13 +32,13 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page }) => {
     <>
       {categories?.length > 0 ? (
         <div className="row">
-          <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}>
+          <div className="col-12 table-scrollable">
             <table className="listing-table">
               <thead>
                 <tr>
                   <th>S.N</th>
                   <th>NAME</th>
-                  <th>STATUS</th>
+
                   <th>Action</th>
                 </tr>
               </thead>
@@ -56,9 +49,7 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page }) => {
                     <tr key={id} style={{ cursor: "pointer" }}>
                       <td>{index + 1}</td>
                       <td>{name || "N/A"}</td>
-                      <td>
-                        <span className={`status ${status?.toLowerCase() || "unknown"}`}>{status || "N/A"}</span>
-                      </td>
+
                       <td>
                         <DetailActionButton type="edit" onClick={() => handleEdit(category)} />
                       </td>

@@ -3,7 +3,8 @@ import * as API from "./api";
 import { post } from "jquery";
 
 // Get categories
-export const getCategories = createAsyncThunk("category/getCategories", async (postsPerPage, { rejectWithValue }) => {
+export const getCategories = createAsyncThunk("category/getCategories", async (value, { rejectWithValue }) => {
+  const { postsPerPage } = value;
   try {
     const { data } = await API.getCategories(postsPerPage);
     return data;
@@ -51,15 +52,18 @@ export const getSpecificCategory = createAsyncThunk("category/getSpecificCategor
 //   }
 // );
 
-export const getAllCategories = createAsyncThunk("category/getAllCategories", async ({page, postsPerPage}, { rejectWithValue }) => {
-  try {
-    const { data } = await API.getAllCategories(page, postsPerPage);
-    return data;
-  } catch (error) {
-    // Handle error
-    return rejectWithValue(error?.response?.data || error.message);
+export const getAllCategories = createAsyncThunk(
+  "category/getAllCategories",
+  async ({ page, postsPerPage }, { rejectWithValue }) => {
+    try {
+      const { data } = await API.getAllCategories(page, postsPerPage);
+      return data;
+    } catch (error) {
+      // Handle error
+      return rejectWithValue(error?.response?.data || error.message);
+    }
   }
-});
+);
 
 // Fetch all categories with limit, offset, and ordering
 // export const getAllCategories = createAsyncThunk(

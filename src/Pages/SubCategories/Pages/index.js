@@ -29,7 +29,7 @@ const SubCategory = () => {
   const [page, setPage] = useState(2);
 
   const debouncedSearch = useDebounce(search, 500);
-
+  console.log(subCategories);
   useEffect(() => {
     if (search === "") {
       dispatch(

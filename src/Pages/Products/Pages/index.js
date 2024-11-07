@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearEditProduct } from "../Redux/ProductSlice";
@@ -12,7 +10,6 @@ import CreateProduct from "./CreateProduct";
 import "./product.css";
 import CommonCreateButton from "../../../Components/CommonCreateButton/CommonCreateButton";
 import { setShowModal } from "../../../Redux/Layout/layoutSlice";
-
 
 const Modal = lazy(() => import("../../../Components/Modal/Modal"));
 
@@ -31,21 +28,20 @@ const Product = () => {
   const [showProductModal, setShowProductModal] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(5);
+  const [postsPerPage, setPostsPerPage] = useState(20);
   const debouncedSearch = useDebounce(search, 500);
 
-  
   // Handle modal close
   const handleCloseModal = () => {
     setShowProductModal(false);
     dispatch(clearEditProduct()); // Clear edit state when modal is closed
   };
 
-    // Handle create button click
-    const handleCreateClick = () => {
-      dispatch(clearEditProduct()); // Clear edit state before opening create modal
-      setShowProductModal(true);
-    };
+  // Handle create button click
+  const handleCreateClick = () => {
+    dispatch(clearEditProduct()); // Clear edit state before opening create modal
+    setShowProductModal(true);
+  };
 
   useEffect(() => {
     if (debouncedSearch === "") {
@@ -71,7 +67,9 @@ const Product = () => {
         />
 
         {loadingProduct && <ListingSkeleton />}
-        {!loadingProduct && <ProductListing dispatch={dispatch}  setShowProductModal={setShowProductModal}  />}
+        {!loadingProduct && (
+          <ProductListing dispatch={dispatch} setShowProductModal={setShowProductModal} postsPerPage={postsPerPage} />
+        )}
 
         <CommonCreateButton
           types={types}
@@ -80,7 +78,7 @@ const Product = () => {
           createPermission={true}
         />
       </div>
-       {showProductModal && (
+      {showProductModal && (
         <Suspense fallback={<div></div>}>
           <Modal
             dispatch={setShowModal}

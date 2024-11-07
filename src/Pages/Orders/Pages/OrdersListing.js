@@ -32,27 +32,11 @@ const OrdersListing = ({
     setPostsPerPage,
     setPage,
   });
-
-  // Fetch order details and open the modal
   const handleEdit = async (orders) => {
-    // if (!orderId) {
-    //   console.error("Invalid orderId:", orderId);
-    //   return;
-    // }
-
     dispatch(getSpecificOrders(orders));
     await setShowOrderDetailsModal(true);
-    // .unwrap()
-    // .then((data) => {
-    //   setSelectedOrder(data);
-    //   setShowOrderDetailsModal(true);
-    // })
-    // .catch((error) => {
-    //   console.error("Error fetching order details:", error);
-    // });
   };
 
-  // Double-click handler for inspection
   const handleInspection = (order) => {
     if (!order || !order.id) {
       console.error("Invalid order or order ID");
@@ -60,7 +44,12 @@ const OrdersListing = ({
     }
     handleEdit(order.id);
   };
-
+  function capitalize(str) {
+    if (typeof str !== "string") {
+      throw new TypeError("Expected a string");
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
   return (
     <>
       {orders.length > 0 ? (
@@ -72,21 +61,41 @@ const OrdersListing = ({
                   <th>S.N</th>
                   <th>Name</th>
                   <th>Price</th>
-                  <th>Quantity</th>
+                  <th>Product</th>
+                  <th>Net Quantity</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((order, index) => {
-                  const { id, userDetails, price, quantity, status, shippingAddress } = order;
+                  const { id, userDetails, price, cartItem, quantity, status, shippingAddress } = order;
                   return (
                     <tr key={id} onDoubleClick={() => handleInspection(order)} style={{ cursor: "pointer" }}>
                       <td>{index + 1}</td>
                       <td>{shippingAddress?.name}</td>
-                      <td>{price}</td>
+                      <td>{parseFloat(price).toFixed(2)}</td>
+                      <td>{cartItem.length}</td>
                       <td>{quantity}</td>
-                      <td>{status}</td>
+                      <td>
+                        <span
+                          className={
+                            status === "delivered" || status === "self_picked"
+                              ? "badge bg-success"
+                              : status === "pending"
+                              ? "badge bg-warning"
+                              : status === "approved"
+                              ? "badge bg-primary"
+                              : status === "dispatched"
+                              ? "badge bg-secondary"
+                              : status === "cancelled"
+                              ? "badge bg-danger"
+                              : "badge bg-dark" // Default for unknown statuses
+                          }
+                        >
+                          {capitalize(status)}
+                        </span>
+                      </td>
                       <td>
                         <DetailActionButton type="edit" onClick={() => handleEdit(order.id)} />
                       </td>
@@ -115,7 +124,12 @@ const OrdersListing = ({
           header="Order Details"
           size="modal-lg"
         >
-          <OrderDetails order={selectedOrder} />
+          <OrderDetails
+            order={selectedOrder}
+            setShowModal={setShowOrderDetailsModal}
+            postsPerPage={postsPerPage}
+            page={page}
+          />
         </Modal>
       )}
     </>
