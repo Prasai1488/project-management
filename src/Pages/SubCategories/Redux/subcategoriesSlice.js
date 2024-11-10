@@ -71,7 +71,7 @@ export const subCategories = createSlice({
       })
 
       .addCase(getNextSubCategory.pending, (state) => {
-        state.loading = true;
+        state.loadingNext = true;
       })
       .addCase(getNextSubCategory.fulfilled, (state, action) => {
         state.loadingNext = false;
@@ -83,7 +83,7 @@ export const subCategories = createSlice({
         state.totalPages = action.payload.totalPages;
       })
       .addCase(getNextSubCategory.rejected, (state) => {
-        state.loading = false;
+        state.loadingNext = false;
       })
       .addCase(getSpecificSubCategory.fulfilled, (state, action) => {
         state.loading = false;

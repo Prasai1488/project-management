@@ -30,18 +30,7 @@ const Category = () => {
 
   const debouncedSearch = useDebounce(search, 500);
 
-  // useEffect(() => {
-  //   if (search === "") {
-  //     dispatch(
-  //       getAllCategories({
-  //         page,
-  //         postsPerPage,
-  //       })
-  //     );
-  //   } else {
-  //     dispatch(handleCategorySearch({ page, postsPerPage, search }));
-  //   }
-  // }, [postsPerPage, debouncedSearch, page, dispatch]);
+
 
   useEffect(() => {
     if (debouncedSearch === "") {

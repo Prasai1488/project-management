@@ -17,11 +17,6 @@ const SubCategoryListing = ({ setShowSubCategoryModal, postsPerPage }) => {
   const loadingNext = useSelector((state) => state?.subCategory?.loadingNext);
   const subCategories = useSelector((state) => state?.subCategory?.subCategories || []);
 
-  // Fetch all subcategories on component mount
-  // useEffect(() => {
-  //   dispatch(getAllSubCategories({ PostsPerPage, page }));
-  // }, [dispatch]);
-
   // Infinite Scroll logic
   const scrollToEnd = () => {
 
@@ -36,11 +31,10 @@ const SubCategoryListing = ({ setShowSubCategoryModal, postsPerPage }) => {
     }
   };
 
-
   // Handle edit button click
-  const handleEdit = async (subCategory) => {
-    dispatch(getSpecificSubCategory(subCategory));
-    await setShowSubCategoryModal(true);
+  const handleEdit = (subCategory) => {
+    dispatch(subCategoriesEditSuccess(subCategory));
+     setShowSubCategoryModal(true);
   };
 
   return (
@@ -59,15 +53,15 @@ const SubCategoryListing = ({ setShowSubCategoryModal, postsPerPage }) => {
                 </tr>
               </thead>
               <tbody>
-                {subCategories.map((subCategory, index) => {
-                  const { id, name, status, category } = subCategory;
+                {subCategories.map((subCategory, i) => {
+                  const { id, name,  category } = subCategory;
                   return (
                     <tr key={id} style={{ cursor: "pointer" }}>
-                      <td>{index + 1}</td>
+                      <td>{i + 1}</td>
                       <td>{name || "N/A"}</td>
                       <td>{category?.name}</td>
                       <td>
-                        <DetailActionButton type="edit" onClick={() => handleEdit(id)} />
+                        <DetailActionButton type="edit" onClick={() => handleEdit(subCategory)} />
                       </td>
                     </tr>
                   );
@@ -92,3 +86,4 @@ const SubCategoryListing = ({ setShowSubCategoryModal, postsPerPage }) => {
 };
 
 export default SubCategoryListing;
+
