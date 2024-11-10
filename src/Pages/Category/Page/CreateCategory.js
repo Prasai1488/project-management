@@ -1,11 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import Button from "../../../Components/Buttons/Button";
 import Loader from "../../../Components/Loader";
 import Dropzone from "../../../Components/CommonDropzone/Dropzone";
-import Thumb from "../../../Components/Thumb"; // For image preview
 import { createCategory, updateCategory, getAllCategories } from "../Redux/thunk";
 import { errorFunction, successFunction } from "../../../Components/Alert/Alert";
 import { renderTextField } from "../../../Utils/customFields";
@@ -19,28 +18,42 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
   const loadingUpdated = useSelector((state) => state?.category?.loadingUpdated);
   const edit = useSelector((state) => state?.category?.edit);
 
-  const [imgPreview, setImgPreview] = useState(edit ? currentCategory?.image : null);
+  const [imagePreview, setImagePreview] = useState(edit && currentCategory?.image ? currentCategory.image : "");
 
   // Form initial state
   const initialState = {
     name: edit ? currentCategory?.name : "",
-    image: null,
+    image: edit && currentCategory?.image ? currentCategory.image : null,
   };
 
   // Validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required!"),
-    image: Yup.mixed()
-      .test("fileSize", "File must be less than 500kb", (value) => !value || value.size <= 500 * 1024)
-      .nullable(),
+    image: Yup.mixed().test("image", "Category image is required", function (value) {
+      return edit ? Boolean(imagePreview || value) : Boolean(value);
+    }),
   });
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+      formRef.current.setFieldValue("image", file);
+    }
+  };
+
+  const removeImage = () => {
+    setImagePreview("");
+    formRef.current.setFieldValue("image", null);
+  };
+
   // Form submission logic
-  const onSubmit = (values, { resetForm }) => {
+  const onSubmit = (values) => {
     const formData = new FormData();
     formData.append("name", values.name);
-    if (values.image) {
-      formData.append("image", values.image); // Add image file to FormData
+
+    if (values.image instanceof File) {
+      formData.append("image", values.image);
     }
 
     const action = edit ? updateCategory({ id: currentCategory?.id, values: formData }) : createCategory(formData);
@@ -51,11 +64,9 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
         successFunction(edit ? "Category updated successfully." : "Category created successfully.");
         dispatch(getAllCategories({ postsPerPage }));
         setShowModal(false);
-        resetForm();
-        setImgPreview(null);
       })
       .catch((error) => {
-        errorFunction(error);
+        errorFunction(error?.response?.data?.message || "An error occurred while saving the category.");
       });
   };
 
@@ -73,25 +84,21 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
           <Form autoComplete="off">
             <div className="create-category-wrapper">
               <div className="col-12  d-flex justify-content-center">
-                <Dropzone
-                  name="image"
-                  label="Category Image"
-                  removePhoto={() => {
-                    formik.setFieldValue("image", null);
-                    setImgPreview(null);
-                  }}
-                  onChange={(event) => {
-                    const file = event.target.files[0];
-                    formik.setFieldValue("image", file);
-                    let reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onloadend = () => setImgPreview(reader.result); // Set image preview
-                  }}
-                  displayImage={imgPreview ? <Thumb thumb={imgPreview} /> : ""}
-                  error={formik.errors.image && formik.touched.image ? formik.errors.image : ""}
-                />
+                <div>
+                  <Dropzone
+                    name="image"
+                    label="Category Image"
+                    onChange={handleImageChange}
+                    removePhoto={removeImage}
+                    displayImage={imagePreview}
+                  />
+                  {formik.touched.image && formik.errors.image ? (
+                    <div className="invalid-feedback">{formik.errors.image}</div>
+                  ) : null}
+                </div>
               </div>
-              <div className="form-group">{renderTextField(formik, 12, "name", "text", "Name", true)}</div>
+
+              {renderTextField(formik, 12, "name", "text", "Name", true)}
             </div>
 
             <div className="d-flex justify-content-end align-items-center mt-3">

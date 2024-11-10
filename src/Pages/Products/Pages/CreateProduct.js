@@ -1,7 +1,3 @@
-
-
-
-
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -56,12 +52,14 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
       formData.append("name", name);
       formData.append("price", price);
       formData.append("category", category?.value);
-      formData.append("subCategory", subCategory?.id);
-  
+      if (subCategory) {
+        formData.append("subCategory", subCategory?.id);
+      }
+
       if (image instanceof File) {
         formData.append("image", image);
       }
-  
+
       try {
         if (edit) {
           const id = product?.id;
@@ -103,93 +101,92 @@ const CreateProduct = ({ dispatch, setShowModal, postsPerPage }) => {
   return (
     <>
       {(loading || loadingUpdated) && <Loader />}
-      
-        <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
-          {(formik) => (
-            <Form className="space-y-4">
-             < div className="create-product-wrapper">
-                <div className="photo-part">
-               
-                  <div>
-                    <Dropzone
-                      name="image"
-                      label="Product Image"
-                      onChange={handleImageChange}
-                      removePhoto={removeImage}
-                      displayImage={imagePreview}
-                    />
-                    {formik.touched.image && formik.errors.image ? (
-                      <div className="invalid-feedback">{formik.errors.image}</div>
-                    ) : null}
-                  </div>
 
-                  <div className="middle-part">
-                    <div className="row">
-                      {renderTextField(formik, 12, "name", "text", "Name", true)}
-                      {renderTextField(formik, 12, "price", "text", "Price", true)}
-                    </div>
-                  </div>
+      <Formik initialValues={initialState} validationSchema={validationSchema} onSubmit={onSubmit} innerRef={formRef}>
+        {(formik) => (
+          <Form className="space-y-4">
+            <div className="create-product-wrapper">
+              <div className="photo-part">
+                <div>
+                  <Dropzone
+                    name="image"
+                    label="Product Image"
+                    onChange={handleImageChange}
+                    removePhoto={removeImage}
+                    displayImage={imagePreview}
+                  />
+                  {formik.touched.image && formik.errors.image ? (
+                    <div className="invalid-feedback">{formik.errors.image}</div>
+                  ) : null}
                 </div>
 
-                <div className="last-part">
+                <div className="middle-part">
                   <div className="row">
-                    <div className="col-6">
-                      <AsyncSelect
-                        label="Category"
-                        name="category"
-                        cacheOptions
-                        defaultOptions
-                        loadOptions={loadCategoryOptions}
-                        onChange={(selectedOption) => formik.setFieldValue("category", selectedOption)}
-                        value={formik?.values?.category}
-                        getOptionLabel={(option) => option.label || option.name}
-                        getOptionValue={(option) => option.value}
-                      />
-                      {formik?.touched?.category && formik?.errors?.category && (
-                        <div className="invalid-feedback">
-                          {formik?.errors?.category?.label || formik?.errors?.category}
-                        </div>
-                      )}
-                    </div>
-                    <div className="col-6">
-                      <AsyncSelect
-                        parent={JSON.stringify(formik?.values?.category)}
-                        label="Sub Category"
-                        name="subCategory"
-                        loadOptions={loadOptionsSubCategory}
-                        additional={{
-                          offset: 0,
-                          limit: 10,
-                          category: formik?.values?.category ? formik?.values?.category?.value : null,
-                        }}
-                        onChange={(selectedOption) => formik?.setFieldValue("subCategory", selectedOption)}
-                        value={formik?.values?.subCategory}
-                        getOptionLabel={(option) => option.name}
-                        getOptionValue={(option) => option.name}
-                        disabled={!formik?.values?.category}
-                      />
-                      {formik.touched.subCategory && formik.errors.subCategory && (
-                        <div className="invalid-feedback">
-                          {formik?.errors?.subCategory?.name || formik?.errors?.subCategory}
-                        </div>
-                      )}
-                    </div>
+                    {renderTextField(formik, 12, "name", "text", "Name", true)}
+                    {renderTextField(formik, 12, "price", "text", "Price", true)}
                   </div>
                 </div>
-                </div>
-
-              <div className="d-flex justify-content-end align-items-center">
-                <Button
-                  btnType="submit"
-                  className="btn create-button"
-                  title={edit ? "Update" : "Save"}
-                  content={edit ? "Update" : "Save"}
-                />
               </div>
-            </Form>
-          )}
-        </Formik>
-      
+
+              <div className="last-part">
+                <div className="row">
+                  <div className="col-6">
+                    <AsyncSelect
+                      label="Category"
+                      name="category"
+                      cacheOptions
+                      defaultOptions
+                      loadOptions={loadCategoryOptions}
+                      onChange={(selectedOption) => formik.setFieldValue("category", selectedOption)}
+                      value={formik?.values?.category}
+                      getOptionLabel={(option) => option.label || option.name}
+                      getOptionValue={(option) => option.value}
+                    />
+                    {formik?.touched?.category && formik?.errors?.category && (
+                      <div className="invalid-feedback">
+                        {formik?.errors?.category?.label || formik?.errors?.category}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-6">
+                    <AsyncSelect
+                      parent={JSON.stringify(formik?.values?.category)}
+                      label="Sub Category"
+                      name="subCategory"
+                      loadOptions={loadOptionsSubCategory}
+                      additional={{
+                        offset: 0,
+                        limit: 10,
+                        category: formik?.values?.category ? formik?.values?.category?.value : null,
+                      }}
+                      onChange={(selectedOption) => formik?.setFieldValue("subCategory", selectedOption)}
+                      value={formik?.values?.subCategory}
+                      getOptionLabel={(option) => option.name}
+                      getOptionValue={(option) => option.name}
+                      disabled={!formik?.values?.category}
+                    />
+                    {formik.touched.subCategory && formik.errors.subCategory && (
+                      <div className="invalid-feedback">
+                        {formik?.errors?.subCategory?.name || formik?.errors?.subCategory}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-end align-items-center">
+              <Button
+                btnType="submit"
+                className="btn create-button"
+                title={edit ? "Update" : "Save"}
+                content={edit ? "Update" : "Save"}
+              />
+            </div>
+          </Form>
+        )}
+      </Formik>
+
       {showAlert && <CreateAlert showAlert={showAlert} setShowAlert={setShowAlert} setSubmit={setSubmit} />}
     </>
   );

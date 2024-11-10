@@ -3,7 +3,6 @@ import {
   createCategory as apiCreateCategory,
   updateCategory as apiUpdateCategory,
   getAllCategories,
-
   getNextCategory,
   handleCategorySearch,
   getSpecificCategory,
@@ -31,6 +30,8 @@ export const categories = createSlice({
     categoriesEditSuccess: (state, action) => {
       state.edit = true;
       state.category = action.payload;
+      state.loading = false;
+      state.loadingUpdated = false;
     },
     clearAllCategory: (state) => {
       Object.assign(state, initialState);
@@ -38,16 +39,11 @@ export const categories = createSlice({
     clearEditCategory: (state) => {
       state.edit = false;
       state.category = null;
+      state.loading = false;
+      state.loadingCategory = false;
+      state.loadingUpdated = false;
     },
-    addCategory: (state, action) => {
-      state.categories.push(action.payload);
-    },
-    updateCategoryState: (state, action) => {
-      const index = state.categories.findIndex((category) => category.id === action.payload.id);
-      if (index !== -1) {
-        state.categories[index] = { ...state.categories[index], ...action.payload.updatedCategory };
-      }
-    },
+
     deleteCategory: (state, action) => {
       state.categories = state.categories.filter((category) => category.id !== action.payload);
     },
@@ -61,7 +57,12 @@ export const categories = createSlice({
       .addCase(apiCreateCategory.fulfilled, (state, action) => {
         state.loading = false;
         state.edit = false;
-        state.categories.push(action.payload);
+        const newCategory = action.payload.data;
+        if (newCategory) {
+          state.categories = [newCategory, ...state.categories];
+        } else {
+          console.log("new category data is invalid:", action.payload);
+        }
       })
       .addCase(apiCreateCategory.rejected, (state) => {
         state.loading = false;
@@ -75,11 +76,21 @@ export const categories = createSlice({
       .addCase(apiUpdateCategory.fulfilled, (state, action) => {
         state.loadingUpdated = false;
         state.edit = false;
-        const index = state.categories.findIndex((category) => category.id === action.payload.id);
+
+        const categoryData = action.payload.data;
+        console.log("Received action payload:", action.payload);
+        console.log("looking for category with ID:", categoryData.id);
+
+        const index = state.categories.findIndex((category) => category.id === categoryData.id);
+
         if (index !== -1) {
-          state.categories[index] = { ...state.categories[index], ...action.payload };
+          console.log("category found at index:", index);
+          state.categories[index] = { ...state.categories[index], ...categoryData };
+        } else {
+          console.log("category not found for ID:", categoryData.id);
         }
       })
+
       .addCase(apiUpdateCategory.rejected, (state) => {
         state.loadingUpdated = false;
       });
@@ -107,24 +118,18 @@ export const categories = createSlice({
       .addMatcher(isAnyOf(getAllCategories.pending, handleCategorySearch.pending), (state) => {
         state.loadingCategory = true;
       })
-      .addMatcher(
-        isAnyOf( getAllCategories.fulfilled, handleCategorySearch.fulfilled),
-        (state, action) => {
-          state.loadingCategory = false;
-          state.categories = action.payload?.results;
-          state.count = action.payload?.count;
-          state.currentPage = action.payload.currentPage;
-          state.totalPages = action.payload.totalPages
-          state.previous = action.payload?.previous || null;
-          state.next = action.payload?.next || null;
-        }
-      )
-      .addMatcher(
-        isAnyOf( getAllCategories.rejected, handleCategorySearch.rejected),
-        (state) => {
-          state.loadingCategory = false;
-        }
-      );
+      .addMatcher(isAnyOf(getAllCategories.fulfilled, handleCategorySearch.fulfilled), (state, action) => {
+        state.loadingCategory = false;
+        state.categories = action.payload?.results;
+        state.count = action.payload?.count;
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
+        state.previous = action.payload?.previous || null;
+        state.next = action.payload?.next || null;
+      })
+      .addMatcher(isAnyOf(getAllCategories.rejected, handleCategorySearch.rejected), (state) => {
+        state.loadingCategory = false;
+      });
   },
 });
 

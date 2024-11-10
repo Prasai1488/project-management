@@ -11,10 +11,10 @@ const RANGER_URL = "api/v1/product/category/";
 // export const getCategories = (postsPerPage, page) =>
 //   axiosInstance.get(`${RANGER_URL}/category/?limit=${postsPerPage}&orderby=-id`);
 
-export const createCategory = (body) => axiosInstance.post(`${RANGER_URL}/category/`, body);
+export const createCategory = (body) => axiosInstance.post(`${RANGER_URL}`, body);
 
 // API function for updating a category
-export const updateCategory = (id, body) => axiosInstance.patch(`${RANGER_URL}/category/${id}/`, body);
+export const updateCategory = (id, body) => axiosInstance.patch(`${RANGER_URL}${id}/`, body);
 
 export const getPreviousCategory = (previous) => axiosInstance.get(previous);
 
@@ -28,7 +28,7 @@ export const handleCategorySearch = (searchTerm, postsPerPage, page) =>
 
 export const getSpecificCategory = (id) => axiosInstance.get(`${RANGER_URL}category/${id}/`);
 
-export const getAllCategories = (page, postsPerPage) => {
+export const getAllCategories = (postsPerPage, page) => {
   return axiosInstance.get(`api/v1/product/category/?limit=${postsPerPage}&page=${page}`);
 };
 

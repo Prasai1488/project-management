@@ -94,7 +94,7 @@ export const subCategories = createSlice({
         state.loadingUpdated = false;
         state.edit = false;
 
-        console.log("Update subCategory fulfilled:", action.payload);
+        // console.log("Update subCategory fulfilled:", action.payload);
         const index = state.subCategories.findIndex((subCategory) => subCategory.id === action.payload.id);
 
         console.log("Looking for subCategory with ID:", action.payload.id);

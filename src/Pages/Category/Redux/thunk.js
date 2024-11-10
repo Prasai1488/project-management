@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as API from "./api";
 
-
 // // Get categories
 // export const getCategories = createAsyncThunk("category/getCategories", async (value, { rejectWithValue }) => {
 //   const { postsPerPage } = value;
@@ -37,7 +36,6 @@ export const getSpecificCategory = createAsyncThunk("category/getSpecificCategor
 //   }
 // );
 
-
 // export const getAllCategories = createAsyncThunk(
 //   "category/getAllCategories",
 //   async ({ limit = 20, offset = 1, order_by }, { rejectWithValue }) => {
@@ -54,6 +52,7 @@ export const getSpecificCategory = createAsyncThunk("category/getSpecificCategor
 export const getAllCategories = createAsyncThunk(
   "category/getCategory",
   async ({ postsPerPage, page }, { rejectWithValue }) => {
+    console.log(postsPerPage, page,"pcateg");
     try {
       const response = await API.getAllCategories(postsPerPage, page);
       const data = response.data;
@@ -71,7 +70,6 @@ export const getAllCategories = createAsyncThunk(
     }
   }
 );
-
 
 // Fetch all categories with limit, offset, and ordering
 // export const getAllCategories = createAsyncThunk(

@@ -6,12 +6,12 @@ import { getNextCategory } from "../Redux/thunk";
 import { categoriesEditSuccess } from "../Redux/categorySlice";
 
 
-const CategoryListing = ({ setShowCategoryModal, postsPerPage,  offset }) => {
+const CategoryListing = ({ setShowCategoryModal, postsPerPage }) => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
 
   const listRef = useRef(null);
-  // Redux selectors to get state
+
   const next = useSelector((state) => state?.category?.next);
   const loadingNext = useSelector((state) => state?.category?.loadingNext);
   const categories = useSelector((state) => state?.category?.categories || []);
