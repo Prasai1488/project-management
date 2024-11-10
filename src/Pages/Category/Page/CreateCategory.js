@@ -6,7 +6,7 @@ import Button from "../../../Components/Buttons/Button";
 import Loader from "../../../Components/Loader";
 import Dropzone from "../../../Components/CommonDropzone/Dropzone";
 import Thumb from "../../../Components/Thumb"; // For image preview
-import { createCategory, updateCategory, getAllCategories, getCategories } from "../Redux/thunk";
+import { createCategory, updateCategory, getAllCategories } from "../Redux/thunk";
 import { errorFunction, successFunction } from "../../../Components/Alert/Alert";
 import { renderTextField } from "../../../Utils/customFields";
 
@@ -49,7 +49,7 @@ const CreateCategory = ({ setShowModal, postsPerPage = 10 }) => {
       .unwrap()
       .then(() => {
         successFunction(edit ? "Category updated successfully." : "Category created successfully.");
-        dispatch(getCategories({ postsPerPage }));
+        dispatch(getAllCategories({ postsPerPage }));
         setShowModal(false);
         resetForm();
         setImgPreview(null);

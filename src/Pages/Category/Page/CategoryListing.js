@@ -2,18 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
-import { getNextCategory, getAllCategories } from "../Redux/thunk";
+import { getNextCategory } from "../Redux/thunk";
 import { categoriesEditSuccess } from "../Redux/categorySlice";
-import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
 
-const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page, offset }) => {
+
+const CategoryListing = ({ setShowCategoryModal, postsPerPage,  offset }) => {
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
+
   const listRef = useRef(null);
   // Redux selectors to get state
   const next = useSelector((state) => state?.category?.next);
   const loadingNext = useSelector((state) => state?.category?.loadingNext);
   const categories = useSelector((state) => state?.category?.categories || []);
-  const [postsPerPage, setPostsPerPage] = useState(20);
+
 
   // Fetch all categories on component mount
   // useEffect(() => {
@@ -21,6 +23,18 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page, offset }) =
   // }, [dispatch, postsPerPage, offset]);
 
   // Infinite Scroll logic
+  const scrollToEnd = () => {
+    console.log("srcoll");
+    setPage((prevPage) => prevPage + 1);
+    dispatch(getNextCategory({ postsPerPage, page: page + 1 }));
+  };
+  const handleScroll = (event) => {
+    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight <= event.currentTarget.scrollHeight) {
+      if (!loadingNext && next !== null) {
+        scrollToEnd(next);
+      }
+    }
+  };
 
   // Handle edit button click
   const handleEdit = (category) => {
@@ -32,7 +46,7 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page, offset }) =
     <>
       {categories?.length > 0 ? (
         <div className="row">
-          <div className="col-12 table-scrollable">
+          <div className="col-12 table-scrollable" onScroll={handleScroll} ref={listRef}> 
             <table className="listing-table">
               <thead>
                 <tr>
@@ -43,11 +57,11 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page, offset }) =
                 </tr>
               </thead>
               <tbody>
-                {categories.map((category, index) => {
-                  const { id, name, status } = category;
+                {categories.map((category, i) => {
+                  const { id, name } = category;
                   return (
                     <tr key={id} style={{ cursor: "pointer" }}>
-                      <td>{index + 1}</td>
+                      <td>{i + 1}</td>
                       <td>{name || "N/A"}</td>
 
                       <td>
@@ -76,3 +90,5 @@ const CategoryListing = ({ setShowCategoryModal, PostsPerPage, page, offset }) =
 };
 
 export default CategoryListing;
+
+

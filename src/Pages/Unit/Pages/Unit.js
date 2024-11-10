@@ -9,9 +9,9 @@ import { getNext } from "../Redux/thunk";
 const Unit = ({ dispatch, setUnitModal }) => {
   const listRef = useRef(null);
 
-  const next = useSelector((state) => state.unit.next);
-  const loadingNext = useSelector((state) => state.unit.loadingNext);
-  const units = useSelector((state) => state.unit.units);
+  const { next, loadingNext, units } = useSelector((state) => state.unit);
+  // const loadingNext = useSelector((state) => state.unit.loadingNext);
+  // const units = useSelector((state) => state.unit.units);
   const scrollToEnd = (next) => {
     dispatch(getNext(next));
   };

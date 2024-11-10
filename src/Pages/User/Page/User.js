@@ -1,18 +1,13 @@
-
-
-
-
-
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import ColumnResize from "react-table-column-resizer";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
-import Status from "../../../Components/Status"; // Import Status component
-import { getNext, getSpecificUser } from "../Redux/thunk";
+
+import { getNext } from "../Redux/thunk";
 import { userEditSuccess } from "../Redux/userSlice";
 
-const UserListing = ({ dispatch, setShowUserModal }) => {
+const UserListing = ({ dispatch, setShowUserModal,postsPerPage }) => {
   const [page, setPage] = useState(1);
   const listRef = useRef(null);
   const next = useSelector((state) => state.user.next);
@@ -24,8 +19,9 @@ const UserListing = ({ dispatch, setShowUserModal }) => {
     dispatch(getNext({ postsPerPage, page: page + 1 }));
   };
 
+
   const handleScroll = (event) => {
-    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight === event.currentTarget.scrollHeight) {
+    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight <= event.currentTarget.scrollHeight) {
       if (!loadingNext && next !== null) {
         scrollToEnd(next);
       }
@@ -54,8 +50,7 @@ const UserListing = ({ dispatch, setShowUserModal }) => {
                   <th>User Type</th>
                   <ColumnResize id={4} className="columnResizer" minWidth={120} />
                   <th>Phone</th>
-                  <ColumnResize id={5} className="columnResizer" minWidth={120} />
-                  <th>Status</th>
+                  
                   <ColumnResize id={6} className="columnResizer" minWidth={120} />
                   <th>Action</th>
                 </tr>
@@ -89,9 +84,6 @@ const UserListing = ({ dispatch, setShowUserModal }) => {
                       <td>{phone}</td>
                       <td className="column_resizer_body" />
 
-                      {/* Status */}
-                      <td><Status active={isActive} /></td> {/* Updated status cell */}
-                      <td className="column_resizer_body" />
 
                       {/* Action Button */}
                       <td>

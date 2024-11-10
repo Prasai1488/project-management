@@ -3,7 +3,7 @@ import {
   createCategory as apiCreateCategory,
   updateCategory as apiUpdateCategory,
   getAllCategories,
-  getCategories,
+
   getNextCategory,
   handleCategorySearch,
   getSpecificCategory,
@@ -20,6 +20,8 @@ const initialState = {
   loadingUpdated: false,
   loadingCategory: false,
   loadingNext: false,
+  currentPage: 1,
+  totalPages: 1,
 };
 
 export const categories = createSlice({
@@ -93,6 +95,8 @@ export const categories = createSlice({
         state.next = action.payload.next;
         state.previous = action.payload.previous;
         state.count = action.payload.totalCount;
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(getNextCategory.rejected, (state) => {
         state.loadingNext = false;
@@ -100,21 +104,23 @@ export const categories = createSlice({
 
     // Use addMatcher for handling multiple actions with similar logic
     builder
-      .addMatcher(isAnyOf(getCategories.pending, handleCategorySearch.pending), (state) => {
+      .addMatcher(isAnyOf(getAllCategories.pending, handleCategorySearch.pending), (state) => {
         state.loadingCategory = true;
       })
       .addMatcher(
-        isAnyOf(getCategories.fulfilled, getAllCategories.fulfilled, handleCategorySearch.fulfilled),
+        isAnyOf( getAllCategories.fulfilled, handleCategorySearch.fulfilled),
         (state, action) => {
           state.loadingCategory = false;
-          state.categories = action.payload?.data || [];
-          state.count = action.payload?.totalCount || 0;
+          state.categories = action.payload?.results;
+          state.count = action.payload?.count;
+          state.currentPage = action.payload.currentPage;
+          state.totalPages = action.payload.totalPages
           state.previous = action.payload?.previous || null;
           state.next = action.payload?.next || null;
         }
       )
       .addMatcher(
-        isAnyOf(getCategories.rejected, getAllCategories.rejected, handleCategorySearch.rejected),
+        isAnyOf( getAllCategories.rejected, handleCategorySearch.rejected),
         (state) => {
           state.loadingCategory = false;
         }

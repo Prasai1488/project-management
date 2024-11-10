@@ -46,7 +46,7 @@ export const updateProduct = (id, formData) => {
 // Get specific user
 export const getSpecificProduct = (id) => axiosInstance.get(`auth/user/${id}`);
 
-// **Adjusted** Searching function
+//  Searching function
 export const handleSearch = (searchTerm, postsPerPage, page) =>
   axiosInstance.get(`${ProductModURL}?search=${encodeURIComponent(searchTerm)}&limit=${postsPerPage}&page=${page}`);
 // Checking redundant data

@@ -15,11 +15,12 @@ const ProductListing = ({ dispatch, setShowProductModal, postsPerPage }) => {
   console.log(next, loadingNext);
   console.log(postsPerPage, "postsPerPage");
   const scrollToEnd = () => {
+    console.log("srcoll");
     setPage((prevPage) => prevPage + 1);
     dispatch(getNext({ postsPerPage, page: page + 1 }));
   };
   const handleScroll = (event) => {
-    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight === event.currentTarget.scrollHeight) {
+    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight <= event.currentTarget.scrollHeight) {
       if (!loadingNext && next !== null) {
         scrollToEnd(next);
       }
