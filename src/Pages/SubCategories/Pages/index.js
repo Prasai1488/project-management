@@ -29,17 +29,11 @@ const SubCategory = () => {
   const [page, setPage] = useState(2);
 
   const debouncedSearch = useDebounce(search, 500);
-  console.log(subCategories);
   useEffect(() => {
-    if (search === "") {
-      dispatch(
-        getAllSubCategories({
-          page,
-          postsPerPage,
-        })
-      );
+    if (debouncedSearch === "") {
+      dispatch(getAllSubCategories({ postsPerPage, page }));
     } else {
-      dispatch(handleSubCategorySearch({ page, postsPerPage, search }));
+      dispatch(handleSubCategorySearch({ page, postsPerPage, search: debouncedSearch }));
     }
   }, [postsPerPage, debouncedSearch, page, dispatch]);
 
@@ -64,10 +58,7 @@ const SubCategory = () => {
           <SubCategoryListing
             dispatch={dispatch}
             setShowSubCategoryModal={setShowSubCategoryModal}
-            setPostsPerPage={setPostsPerPage}
-            setPage={setPage}
             postsPerPage={postsPerPage}
-            page={page}
           />
         )}
       </div>

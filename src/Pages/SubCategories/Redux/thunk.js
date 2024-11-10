@@ -30,16 +30,27 @@ export const getSpecificSubCategory = createAsyncThunk(
 
 // Get all subcategories
 export const getAllSubCategories = createAsyncThunk(
-  "subCategory/getAllSubCategories",
-  async ({ page, postsPerPage }, { rejectWithValue }) => {
+  "subCategory/getAllSubCategory",
+  async ({ postsPerPage, page }, { rejectWithValue }) => {
+  
     try {
-      const { data } = await API.getAllSubCategories(page, postsPerPage);
-      return data;
+      const response = await API.getAllSubCategories(postsPerPage, page);
+      const data = response.data;
+      const subCategoriesArray = data.data || [];
+      return {
+        results: subCategoriesArray,
+        count: data.pagination.count,
+        currentPage: data.pagination.currentPage,
+        totalPages: data.pagination.totalPages,
+        next: data.pagination.next,
+        previous: data.pagination.previous,
+      };
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
+      return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching Sub categories.");
     }
   }
 );
+
 
 // Get previous subcategory
 export const getPreviousSubCategory = createAsyncThunk(
@@ -57,16 +68,23 @@ export const getPreviousSubCategory = createAsyncThunk(
 // Get next subcategory
 export const getNextSubCategory = createAsyncThunk(
   "subCategory/getNextSubCategory",
-  async (next, { rejectWithValue }) => {
+  async ({ postsPerPage, page }, { rejectWithValue }) => {
     try {
-      const { data } = await API.getNextSubCategory(next);
-      console.log(data, "this is next subcategory data");
-      return data;
+      const response = await API.getAllSubCategories(postsPerPage, page);
+      const data = response.data;
+      const subCategoriesArray = data.data || [];
+      return {
+        results: subCategoriesArray,
+        count: data.pagination.count,
+        next: data.pagination.next,
+        previous: data.pagination.previous,
+      };
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
+      return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching next sub category.");
     }
   }
 );
+
 
 // Get page of subcategories
 export const getPageSubCategories = createAsyncThunk(
@@ -112,13 +130,23 @@ export const updateSubCategory = createAsyncThunk(
 
 // Handle search for subcategories
 export const handleSubCategorySearch = createAsyncThunk(
-  "subCategory/handleSubCategorySearch",
-  async ({ page, postsPerPage, search }, { rejectWithValue }) => {
+  "sub-category/handleSearch",
+  async ({ search, postsPerPage, page }, { rejectWithValue }) => {
     try {
-      const { data } = await API.handleSubCategorySearch(page, postsPerPage, search);
-      return data;
+      const response = await API.handleSubCategorySearch(search, postsPerPage, page);
+      const data = response.data;
+
+      const subCategoriesArray = data.data || [];
+      return {
+        results: subCategoriesArray,
+        count: data.pagination.count,
+        currentPage: data.pagination.currentPage,
+        totalPages: data.pagination.totalPages,
+        next: data.pagination.next,
+        previous: data.pagination.previous,
+      };
     } catch (error) {
-      return rejectWithValue(error?.response?.data?.errors?.[0]?.error || error.message);
+      return rejectWithValue(error?.response?.data?.message || "An error occurred while searching sub categories.");
     }
   }
 );

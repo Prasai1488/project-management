@@ -3,7 +3,7 @@ import {
   createSubCategory as apiCreateSubCategory,
   updateSubCategory as apiUpdateSubCategory,
   getAllSubCategories,
-  getSubCategories,
+
   getNextSubCategory,
   handleSubCategorySearch,
   getSpecificSubCategory,
@@ -20,6 +20,9 @@ const initialState = {
   loadingUpdated: false,
   loadingSubCategory: false,
   loadingNext: false,
+  currentPage: 1,
+  totalPages: 1,
+
 };
 
 export const subCategories = createSlice({
@@ -72,8 +75,12 @@ export const subCategories = createSlice({
       })
       .addCase(getNextSubCategory.fulfilled, (state, action) => {
         state.loadingNext = false;
-        state.subCategories = [...state.subCategories, ...action.payload?.subCategories];
+        state.subCategories = [...state.subCategories, ...action.payload.results];
         state.next = action.payload.next;
+        state.previous = action.payload.previous;
+        state.count = action.payload.count;
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(getNextSubCategory.rejected, (state) => {
         state.loading = false;
@@ -114,21 +121,23 @@ export const subCategories = createSlice({
 
     // Use addMatcher for handling multiple actions with similar logic
     builder
-      .addMatcher(isAnyOf(getSubCategories.pending, handleSubCategorySearch.pending), (state) => {
+      .addMatcher(isAnyOf(getAllSubCategories.pending, handleSubCategorySearch.pending), (state) => {
         state.loadingSubCategory = true;
       })
       .addMatcher(
-        isAnyOf(getSubCategories.fulfilled, getAllSubCategories.fulfilled, handleSubCategorySearch.fulfilled),
+        isAnyOf( getAllSubCategories.fulfilled, handleSubCategorySearch.fulfilled),
         (state, action) => {
           state.loadingSubCategory = false;
-          state.subCategories = action.payload?.data || [];
-          state.count = action.payload?.totalCount || 0;
+          state.subCategories = action.payload?.results;
+          state.count = action.payload?.count;
+          state.currentPage = action.payload.currentPage;
+          state.totalPages = action.payload.totalPages;
           state.previous = action.payload?.previous || null;
           state.next = action.payload?.next || null;
         }
       )
       .addMatcher(
-        isAnyOf(getSubCategories.rejected, getAllSubCategories.rejected, handleSubCategorySearch.rejected),
+        isAnyOf(getAllSubCategories.rejected, handleSubCategorySearch.rejected),
         (state) => {
           state.loadingSubCategory = false;
         }

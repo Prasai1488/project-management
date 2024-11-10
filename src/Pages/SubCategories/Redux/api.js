@@ -1,11 +1,12 @@
 import axiosInstance from "../../../Utils/axios";
-import axios from "axios";
+;
 
-const RANGER_URL = "api/v1/product";
+const RANGER_URL = "api/v1/product/sub-category/";
 
-// Get all subcategories
-export const getAllSubCategories = (page, postsPerPage) =>
-  axiosInstance.get(`${RANGER_URL}/sub-category/?offset=${page - 1}&limit=${postsPerPage}&orderby=-id`);
+
+export const getAllSubCategories = (postsPerPage, page) => {
+  return axiosInstance.get(`api/v1/product/sub-category/?limit=${postsPerPage}&page=${page}`);
+};
 
 export const getSpecificSubCategory = (id) => axiosInstance.get(`${RANGER_URL}/sub-category/${id}/`);
 
@@ -36,5 +37,7 @@ export const getPageSubCategories = (page, postsPerPage) =>
   );
 
 // Search subcategories with pagination
-export const handleSubCategorySearch = (page, postsPerPage, search) =>
-  axiosInstance.get(`${RANGER_URL}/api/v1/product/sub-category/?offset=${page-1}&limit=${postsPerPage}&search=${search}`);
+
+export const handleSubCategorySearch = (searchTerm, postsPerPage, page) =>
+  axiosInstance.get(`${RANGER_URL}?search=${encodeURIComponent(searchTerm)}&limit=${postsPerPage}&page=${page}`);
+

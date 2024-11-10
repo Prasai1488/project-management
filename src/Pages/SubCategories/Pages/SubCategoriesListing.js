@@ -1,15 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DetailActionButton from "../../../Components/Icons/DetailButtonIcon";
 import NoData from "../../../Components/NoData/NoData";
 import { getNextSubCategory, getAllSubCategories, getSpecificSubCategory } from "../Redux/thunk";
 import { subCategoriesEditSuccess } from "../Redux/subcategoriesSlice";
-import { useInfinteScroll } from "../../../Utils/useInfiniteScroll";
+
 import { getSpecificCategory } from "../../Category/Redux/thunk";
 
-const SubCategoryListing = ({ setShowSubCategoryModal, PostsPerPage, page }) => {
+const SubCategoryListing = ({ setShowSubCategoryModal, postsPerPage }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
+  const [page, setPage] = useState(1);
 
   // Redux selectors to get state
   const next = useSelector((state) => state?.subCategory?.next);
@@ -17,18 +18,24 @@ const SubCategoryListing = ({ setShowSubCategoryModal, PostsPerPage, page }) => 
   const subCategories = useSelector((state) => state?.subCategory?.subCategories || []);
 
   // Fetch all subcategories on component mount
-  useEffect(() => {
-    dispatch(getAllSubCategories({ PostsPerPage, page }));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAllSubCategories({ PostsPerPage, page }));
+  // }, [dispatch]);
 
   // Infinite Scroll logic
-  const { handleScroll } = useInfinteScroll({
-    loadingNext,
-    next,
-    getNext: getNextSubCategory,
-    PostsPerPage,
-    page,
-  });
+  const scrollToEnd = () => {
+
+    setPage((prevPage) => prevPage + 1);
+    dispatch(getNextSubCategory({ postsPerPage, page: page + 1 }));
+  };
+  const handleScroll = (event) => {
+    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight <= event.currentTarget.scrollHeight) {
+      if (!loadingNext && next !== null) {
+        scrollToEnd(next);
+      }
+    }
+  };
+
 
   // Handle edit button click
   const handleEdit = async (subCategory) => {

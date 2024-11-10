@@ -17,7 +17,7 @@ export const getSpecificCategory = createAsyncThunk("category/getSpecificCategor
 export const getAllCategories = createAsyncThunk(
   "category/getCategory",
   async ({ postsPerPage, page }, { rejectWithValue }) => {
-    console.log(postsPerPage, page, "pcateg");
+
     try {
       const response = await API.getAllCategories(postsPerPage, page);
       const data = response.data;
@@ -112,7 +112,7 @@ export const updateCategory = createAsyncThunk(
 
 // Handle search for categories
 export const handleCategorySearch = createAsyncThunk(
-  "product/handleSearch",
+  "category/handleSearch",
   async ({ search, postsPerPage, page }, { rejectWithValue }) => {
     try {
       const response = await API.handleCategorySearch(search, postsPerPage, page);
