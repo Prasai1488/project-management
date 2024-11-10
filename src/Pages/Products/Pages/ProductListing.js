@@ -12,8 +12,7 @@ const ProductListing = ({ dispatch, setShowProductModal, postsPerPage }) => {
   const next = useSelector((state) => state?.product?.next);
   const loadingNext = useSelector((state) => state?.product?.loadingNext);
   const products = useSelector((state) => state?.product?.products);
-  console.log(next, loadingNext);
-  console.log(postsPerPage, "postsPerPage");
+
   const scrollToEnd = () => {
     console.log("srcoll");
     setPage((prevPage) => prevPage + 1);

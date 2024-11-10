@@ -102,10 +102,10 @@ export const categories = createSlice({
       })
       .addCase(getNextCategory.fulfilled, (state, action) => {
         state.loadingNext = false;
-        state.categories = [...state.categories, ...action.payload.data];
+        state.categories = [...state.categories, ...action.payload.results];
         state.next = action.payload.next;
         state.previous = action.payload.previous;
-        state.count = action.payload.totalCount;
+        state.count = action.payload.count;
         state.currentPage = action.payload.currentPage;
         state.totalPages = action.payload.totalPages;
       })

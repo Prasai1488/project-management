@@ -8,7 +8,7 @@ import { clearEditCategory } from "../Redux/categorySlice"; // Adjust action to 
 import CreateCategory from "./CreateCategory";
 import "./category.css";
 import CategoryListing from "./CategoryListing";
-import { getAllCategories,handleCategorySearch } from "../Redux/thunk";
+import { getAllCategories, handleCategorySearch } from "../Redux/thunk";
 
 const Modal = lazy(() => import("../../../Components/Modal/Modal"));
 
@@ -45,9 +45,9 @@ const Category = () => {
 
   useEffect(() => {
     if (debouncedSearch === "") {
-      dispatch(getAllCategories({ postsPerPage,page }));
+      dispatch(getAllCategories({ postsPerPage, page }));
     } else {
-      dispatch(handleCategorySearch({ page, postsPerPage, search:debouncedSearch }));
+      dispatch(handleCategorySearch({ page, postsPerPage, search: debouncedSearch }));
     }
   }, [postsPerPage, debouncedSearch, page, dispatch]);
 
@@ -72,11 +72,7 @@ const Category = () => {
           <CategoryListing
             dispatch={dispatch}
             setShowCategoryModal={setShowCategoryModal}
-            setPostsPerPage={setPostsPerPage}
-            setPage={setPage}
             postsPerPage={postsPerPage}
-            page={page}
-            offset={page * postsPerPage}
           />
         )}
       </div>
