@@ -28,7 +28,7 @@ const User = () => {
   const [showUserModal, setShowUserModal] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(15);
+  const [postsPerPage, setPostsPerPage] = useState(20);
   const debouncedSearch = useDebounce(search, 500);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const User = () => {
         />
 
         {loadingUser && <ListingSkeleton />}
-        {!loadingUser && <UserListing dispatch={dispatch} setShowUserModal={setShowUserModal} />}
+        {!loadingUser && <UserListing dispatch={dispatch} setShowUserModal={setShowUserModal} postsPerPage={postsPerPage} />}
 
         <CommonCreateButton
           types={types}
