@@ -1,4 +1,4 @@
-import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { createSlice, current, isAnyOf } from "@reduxjs/toolkit";
 import {
   createOrders,
   getAllOrders,
@@ -21,6 +21,8 @@ const initialState = {
   loadingUpdated: false,
   loadingOrder: false,
   loadingNext: false,
+  currentPage: 1,
+  totalPages: 1,
 };
 
 export const orders = createSlice({
@@ -86,8 +88,12 @@ export const orders = createSlice({
       })
       .addCase(getNext.fulfilled, (state, action) => {
         state.loadingNext = false;
-        state.orders = [...state.orders, ...action.payload?.orders];
-        state.next = action.payload.nextPageUrl;
+        state.orders = [...state.orders, ...action.payload?.results];
+        state.next = action.payload.next;
+        state.previous = action.payload.previous;
+        state.count = action.payload.count;
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(getNext.rejected, (state) => {
         state.loadingNext = false;
@@ -107,17 +113,20 @@ export const orders = createSlice({
       .addCase(updateOrders.rejected, (state) => {
         state.loadingUpdated = false;
       })
-      .addMatcher(isAnyOf(getOrders.pending, handleSearch.pending), (state) => {
+      .addMatcher(isAnyOf(getAllOrders.pending, handleSearch.pending), (state) => {
         state.loadingOrder = true;
       })
-      .addMatcher(isAnyOf(getOrders.fulfilled, getAllOrders.fulfilled, handleSearch.fulfilled), (state, action) => {
+      .addMatcher(isAnyOf( getAllOrders.fulfilled, handleSearch.fulfilled), (state, action) => {
         state.loadingOrder = false;
-        state.orders = action.payload?.data || [];
-        state.count = action.payload?.totalCount || 0;
+        state.orders = action.payload?.results || [];
+        state.count = action.payload?.count || 0;
         state.previous = action.payload?.previous || null;
         state.next = action.payload?.next || null;
+        console.log("Next URL:", state.next);
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
       })
-      .addMatcher(isAnyOf(getOrders.rejected, getAllOrders.rejected, handleSearch.rejected), (state) => {
+      .addMatcher(isAnyOf( getAllOrders.rejected, handleSearch.rejected), (state) => {
         state.loadingOrder = false;
       });
   },

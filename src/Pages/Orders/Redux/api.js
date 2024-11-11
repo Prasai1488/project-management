@@ -1,10 +1,10 @@
 import axiosInstance from "../../../Utils/axios";
 
 const RANGER_URL = "/api/v1/product/order-admin";
-export const getAllOrders = (postsPerPage, startDate, endDate, status) => {
+export const getAllOrders = (postsPerPage, page, status) => {
   const statusQuery = status ? `&status=${status}` : "";
 
-  return axiosInstance.get(`${RANGER_URL}/?limit=${postsPerPage}${statusQuery}`);
+  return axiosInstance.get(`${RANGER_URL}/?limit=${postsPerPage}&page=${page}${statusQuery}`);
 };
 export const getOrders = (postsPerPage, startDate, endDate) =>
   axiosInstance.get(`${RANGER_URL}/?offset=0&limit=${postsPerPage}&startDate=${startDate}&endDate=${endDate}`);

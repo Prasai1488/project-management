@@ -35,7 +35,7 @@ const User = () => {
     if (debouncedSearch === "") {
       dispatch(getUser({ postsPerPage, page }));
     } else {
-      dispatch(handleSearch({ search: debouncedSearch, postsPerPage, page }));
+      dispatch(handleSearch({ page, postsPerPage, search: debouncedSearch }));
     }
     // eslint-disable-next-line
   }, [postsPerPage, debouncedSearch, page, dispatch]);

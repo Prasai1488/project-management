@@ -11,27 +11,34 @@ const OrdersListing = ({
   setShowOrderDetailsModal,
   showOrderDetailsModal,
   setPostsPerPage,
-  setPage,
-  page,
+  
   postsPerPage,
 }) => {
   const dispatch = useDispatch();
   const listRef = useRef(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [page, setPage] = useState(1);
 
   // Redux state selectors
   const next = useSelector((state) => state?.order?.next);
+  console.log("Next URL in component:", next);
   const loadingNext = useSelector((state) => state?.order?.loadingNext);
   const orders = useSelector((state) => state?.order?.orders || []);
 
   // Infinite scroll hook
-  const { handleScroll } = useInfinteScroll({
-    loadingNext,
-    next,
-    getNext,
-    setPostsPerPage,
-    setPage,
-  });
+  const scrollToEnd = () => {
+    console.log("srcoll");
+    setPage((prevPage) => prevPage + 1);
+    dispatch(getNext({ postsPerPage, page: page + 1 }));
+  };
+  const handleScroll = (event) => {
+    if (event.currentTarget.scrollTop + event.currentTarget.offsetHeight <= event.currentTarget.scrollHeight) {
+      if (!loadingNext && next !== null) {
+        scrollToEnd(next);
+      }
+    }
+  };
+
   const handleEdit = async (orders) => {
     dispatch(getSpecificOrders(orders));
     await setShowOrderDetailsModal(true);

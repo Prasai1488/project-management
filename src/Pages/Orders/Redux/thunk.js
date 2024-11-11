@@ -43,18 +43,34 @@ export const getSpecificOrders = createAsyncThunk("orders/getSpecificOrders", as
   }
 });
 
-// get all orders
-export const getAllOrders = createAsyncThunk("orders/getAllOrders", async (value, { rejectWithValue }) => {
-  const { postsPerPage, startDate, endDate, status } = value;
-  console.log(status, "status");
 
-  try {
-    const { data } = await API.getAllOrders(postsPerPage, startDate, endDate, status);
-    return data;
-  } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+// get all orders
+export const getAllOrders = createAsyncThunk(
+  "orders/getAllOrders",
+  async (value, { rejectWithValue }) => {
+    const { postsPerPage, page, status } = value;
+    console.log(status, "status");
+
+    try {
+      const response = await API.getAllOrders(postsPerPage, page, status);
+      const data = response.data;
+      const ordersArray = data.data || [];
+      return {
+        results: ordersArray,
+        count: data.pagination.count,
+        currentPage: data.pagination.currentPage,
+        totalPages: data.pagination.totalPages,
+        next: data.pagination.next,
+        previous: data.pagination.previous,
+      };
+    } catch (error) {
+      return rejectWithValue(
+        error?.response?.data?.errors[0]?.error || "An error occurred while fetching orders."
+      );
+    }
   }
-});
+);
+
 
 // get previous
 export const getPrevious = createAsyncThunk("orders/getPrevious", async (previous, { rejectWithValue }) => {
@@ -65,16 +81,31 @@ export const getPrevious = createAsyncThunk("orders/getPrevious", async (previou
     return rejectWithValue(error?.response?.data?.errors[0]?.error);
   }
 });
-// get next
-export const getNext = createAsyncThunk("orders/getNext", async (next, { rejectWithValue }) => {
-  try {
-    const { data } = await API.getNext(next);
 
-    return data;
-  } catch (error) {
-    return rejectWithValue(error?.response?.data?.errors[0]?.error);
+
+// get next
+export const getNext = createAsyncThunk(
+  "orders/getNext",
+  async ({postsPerPage, page}, { rejectWithValue }) => {
+    try {
+      const response = await API.getAllOrders(postsPerPage, page);
+      const data = response.data;
+      const ordersArray = data.data || [];
+      return {
+        results: ordersArray,
+        count: data.pagination.count,
+        next: data.pagination.next,
+        previous: data.pagination.previous,
+      };
+    } catch (error) {
+      return rejectWithValue(
+        error?.response?.data?.message || "An error occurred while fetching next order."
+      );
+    }
   }
-});
+);
+
+
 
 // get particular page
 export const getPageOrders = createAsyncThunk("orders/getPagePurchaseInvoice", async (data, { rejectWithValue }) => {
