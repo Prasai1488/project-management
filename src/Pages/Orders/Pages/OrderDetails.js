@@ -116,10 +116,11 @@ const OrderDetails = ({ edit, setShowModal, postsPerPage, setPostsPerPage, page 
                   <div className="d-flex justify-content-end align-items-center">
                     {status === "pending" && (
                       <div className="d-flex gap-2 align-items-center">
+                        
                         <Button
                           btnType="submit"
-                          className="btn bg-black  text-white"
-                          style={{ height: "48px", marginTop: " 10px" }}
+                          className="btn create-button"
+                          style={{ height: "48px", marginTop: " 10px", marginRight: "15px" }}
                           title="Cancel"
                           content="Cancel"
                           key="cancel"
@@ -127,6 +128,7 @@ const OrderDetails = ({ edit, setShowModal, postsPerPage, setPostsPerPage, page 
                             formik.setFieldValue("status", "cancelled");
                           }}
                         />
+                      
                         <Button
                           createButton={true}
                           btnType="submit"
@@ -144,8 +146,8 @@ const OrderDetails = ({ edit, setShowModal, postsPerPage, setPostsPerPage, page 
                       <div className="d-flex gap-2 align-items-center">
                         <Button
                           btnType="submit"
-                          className="btn bg-black  text-white"
-                          style={{ height: "48px", marginTop: " 10px" }}
+                          className="btn create-button"
+                          style={{ height: "48px", marginTop: " 10px", marginRight: "15px" }}
                           title="Cancel"
                           content="Cancel"
                           key="cancel"
@@ -170,8 +172,8 @@ const OrderDetails = ({ edit, setShowModal, postsPerPage, setPostsPerPage, page 
                       <div className="d-flex gap-2 align-items-center">
                         <Button
                           btnType="submit"
-                          className="btn bg-black  text-white"
-                          style={{ height: "48px", marginTop: " 10px" }}
+                          className="btn create-button"
+                          style={{ height: "48px", marginTop: " 10px", marginRight: "15px" }}
                           title="Self Pick"
                           content="Self Pick"
                           key="selfPick"

@@ -94,10 +94,10 @@ const OrdersListing = ({
                               : status === "approved"
                               ? "badge bg-primary"
                               : status === "dispatched"
-                              ? "badge bg-secondary"
+                              ? "badge bg-secondary text-white "
                               : status === "cancelled"
-                              ? "badge bg-danger"
-                              : "badge bg-dark" // Default for unknown statuses
+                              ? "badge bg-danger text-white"
+                              : "badge bg-dark text-white" // Default for unknown statuses
                           }
                         >
                           {capitalize(status)}
