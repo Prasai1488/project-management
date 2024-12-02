@@ -172,11 +172,11 @@ export const userSlice = createSlice({
         (state, action) => {
           state.loadingUser = false;
           state.users = action.payload.results;
-          state.count = action.payload?.count;
-          state.currentPage = action.payload.currentPage;
+          state.count = action.payload.count;   
+          state.currentPage = action.payload.currentPage; 
           state.totalPages = action.payload.totalPages;
           state.previous = action.payload.previous;
-          state.next = action.payload?.next;
+          state.next = action.payload.next;  
         }
       )
       .addMatcher(
@@ -191,3 +191,4 @@ export const userSlice = createSlice({
 export const { userEditSuccess, clearEditUser } = userSlice.actions;
 
 export default userSlice.reducer;
+

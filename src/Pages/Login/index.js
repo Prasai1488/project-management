@@ -11,7 +11,7 @@ import Checkbox from "../../Components/CommonCheckbox/Checkbox";
 import { login, checkSetup } from "../../Redux/Auth/thunk";
 import "./login.css";
 import main from "../../assets/main.png";
-import mlogo from "../../assets/mlogo.png";
+import pmlogo from "../../assets/pmlogo.png";
 
 const Login = () => {
   const [type, setType] = useState("password");
@@ -55,10 +55,16 @@ const Login = () => {
 
   return (
     <div className="login-wrapper">
-      <img src={mlogo} alt="logo" className="main-logo" />
+      {/* <img src={pmlogo} alt="logo" className="main-logo" /> */}
       <div className="login-section">
         <div className="login-container">
-          <h2>Login</h2>
+        <h5 className="my-3 ">
+             <strong>Welcome Back</strong> <span> 👋</span>
+            </h5>
+            <p className="welcome-text-small  ">
+              Today is a new day. It's your day. You shape it.<br></br>
+              <span>Sign in to start managing your projects.</span>
+            </p>
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {({ handleChange, values, touched, errors }) => (
               <Form className="login-form">
@@ -102,7 +108,11 @@ const Login = () => {
         </div>
       </div>
       <div className="image-section">
-        <img src={main} alt="Background" className="background-image" />
+        <img
+          src="https://cdn.prod.website-files.com/65c9d364707f20d739b9981f/65ce017e736b73b90897f255_65c9d364707f20d739b9991f_5469-1.jpeg"
+          alt="Background"
+          className="background-image"
+        />
       </div>
     </div>
   );

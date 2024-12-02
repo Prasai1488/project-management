@@ -101,6 +101,7 @@ const OrdersListing = ({
                           }
                         >
                           {capitalize(status)}
+                          
                         </span>
                       </td>
                       <td>

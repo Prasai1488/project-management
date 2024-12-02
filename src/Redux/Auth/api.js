@@ -3,7 +3,7 @@ import axiosInstance, { publicAxiosInstance } from "../../Utils/axios";
 const BASE_URL = "/auth";
 
 //for login
-export const login = (body) => publicAxiosInstance.post(`${BASE_URL}/login/`, body);
+export const login = (body) => publicAxiosInstance.post(`/user/login`, body);
 // for checking setup
 export const checkSetup = () => axiosInstance.get(`api/v1/organization/issetup`);
 //for logout

@@ -37,21 +37,23 @@ export const authSlice = createSlice({
 
     loginSuccess: (state, action) => {
       console.log("Login action payload:", action.payload);
-
+    
       const { tokens } = action.payload || {};
-      if (tokens && tokens.accessToken && tokens.refreshToken) {
+      if (tokens && tokens.accessToken) {
         setCookie("accessToken", tokens.accessToken, { "max-age": 36000000 });
-        setCookie("refreshToken", tokens.refreshToken, { "max-age": 36000000 });
+        // Comment out or remove the refreshToken handling since it's not provided
+        // setCookie("refreshToken", tokens.refreshToken, { "max-age": 36000000 });
         state.isAuthenticated = true;
       } else {
         state.isAuthenticated = false;
         state.authError = true;
         return; 
       }
-
+    
       state.loadingLogin = false;
       state.authError = false;
     },
+    
 
     logoutSuccess: (state, action) => {
       storage.removeItem("persist:root");

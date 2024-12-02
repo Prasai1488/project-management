@@ -6,32 +6,36 @@ import { errorFunction, successFunction } from "../../Components/Alert/Alert";
 
 //Login
 
-export const login = createAsyncThunk("auth/login", async (credentials, { rejectWithValue, dispatch }) => {
-  const { email, password } = credentials;
-  try {
-    const body = { email, password };
-    const { data } = await API.login(body);
-    console.log("Login data:", data);
+export const login = createAsyncThunk(
+  "auth/login",
+  async (credentials, { rejectWithValue, dispatch }) => {
+    const { email, password } = credentials;
+    try {
+      const body = { email, password };
+      const { data } = await API.login(body);
+      console.log("Login data:", data);
 
- 
-    if (data && data.access && data.refresh) {
-      const loginData = {
-        tokens: {
-          accessToken: data.access,
-          refreshToken: data.refresh,
-        },
-        message: data.message,
-      };
-      dispatch(loginSuccess(loginData));
-      return data;
-    } else {
-      throw new Error("Invalid login response structure.");
+      if (data && data.access_token) {
+        const loginData = {
+          tokens: {
+            accessToken: data.access_token,
+            
+          },
+          message: data.message,
+        };
+        dispatch(loginSuccess(loginData));
+        return data;
+      } else {
+        throw new Error("Invalid login response structure.");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to log in."
+      );
     }
-  } catch (error) {
-    console.error("Login failed:", error);
-    return rejectWithValue(error.response?.data?.message || "Failed to log in.");
   }
-});
+);
 
 // logout
 export const logout = createAsyncThunk("auth/logout", async (token, { rejectWithValue, dispatch }) => {

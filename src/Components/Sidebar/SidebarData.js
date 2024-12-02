@@ -5,13 +5,7 @@ import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { BsGrid } from "react-icons/bs";
 import { TfiUser } from "react-icons/tfi";
 export const sidebarData = [
-  {
-    menu: "Organization",
-    icon: <VscOrganization size={20} />,
-    key: "organization",
-    link: "/organization",
-    permissions: [""],
-  },
+  // 
   {
     menu: "User",
     icon: <TfiUser size={20} />,
@@ -26,48 +20,7 @@ export const sidebarData = [
     link: "/roles",
     permissions: [""],
   },
-  {
-    menu: "Offer",
-    icon: <IoBookmarksOutline size={20} />,
-    key: "offer",
-    link: "/offer",
-    permissions: [""],
-  },
+ 
 ];
 
-export const products = [
-  {
-    menu: "Products",
-    icon: <BsGrid size={20} />,
-    sub_menu: [
-      {
-        name: "Products",
-        link: "/products",
-        permissions: [""],
-      },
-      {
-        name: "Category",
-        link: "/category",
-        permissions: [""],
-      },
-      {
-        name: "SubCategory",
-        link: "/sub-category",
-        permissions: [""],
-      },
-    ],
-  },
-];
-export const orders = [
-  {
-    menu: "Orders",
-    icon: <HiOutlineClipboardDocumentList size={20} />,
-    sub_menu: [
-      {
-        name: "Orders",
-        link: "/orders",
-        permissions: ["view_orders"],
-      },
-    ],
-  },
-];
+

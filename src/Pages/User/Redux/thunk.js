@@ -3,25 +3,30 @@ import jwt_decode from "jwt-decode";
 import * as API from "./api";
 
 // get user
+
 export const getUser = createAsyncThunk("user/getUser", async ({ postsPerPage, page }, { rejectWithValue }) => {
   try {
+  
     const response = await API.getUser(postsPerPage, page);
     const data = response.data;
     console.log("getUser response data:", data);
-    const usersArray = data.data || [];
+    
+    const usersArray = data.data || []; 
     return {
       results: usersArray,
-      count: data.pagination.count,
-      currentPage: data.pagination.currentPage,
-      totalPages: data.pagination.totalPages,
-      next: data.pagination.next,
-      previous: data.pagination.previous,
+      count: data.totalCount, 
+      currentPage: page, 
+      totalPages: Math.ceil(data.totalCount / postsPerPage), 
+      next: data.hasNextPage ? page + 1 : null, 
+      previous: page > 1 ? page - 1 : null, 
     };
   } catch (error) {
     console.error("Error fetching users:", error);
+    // Handle error and reject with message
     return rejectWithValue(error?.response?.data?.message || "An error occurred while fetching users.");
   }
 });
+
 
 // get all users
 export const getAllUser = createAsyncThunk("user/getAllUser", async (_, { rejectWithValue }) => {

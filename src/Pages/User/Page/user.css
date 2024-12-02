@@ -1,7 +1,7 @@
 .create-department-wrapper {
   border-radius: 10px;
   padding: 20px;
-  height: 190px;
+
   background: var(--background-color);
 }
 
